@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="edc9ad26e9c24c14b905b415f305dd92" Name="Diagram1">
+        <EntityTypeShape EntityType="ObligatorioModel.Empleados" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObligatorioModel.Noticias" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObligatorioModel.Periodistas" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObligatorioModel.Secciones" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="ObligatorioModel.FK__Noticias__Nombre__1273C1CD" ManuallyRouted="false" />
+        <AssociationConnector Association="ObligatorioModel.FK__Noticias__Codigo__1367E606" ManuallyRouted="false" />
+        <AssociationConnector Association="ObligatorioModel.Escriben" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
