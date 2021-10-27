@@ -27,7 +27,7 @@ public class ServicioEF :System.Web.Services.WebService
     [WebMethod]
     public Empleados Logueo(string usu, string pass)
     {
-        Empleados emp = null;
+        ModeloEF.Empleados emp = null;
         try
         {
             emp = LogicaModeloEF.Logueo(usu, pass);
