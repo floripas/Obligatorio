@@ -11,7 +11,7 @@ using ModeloEF;
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 
-public class ServicioEF :System.Web.Services.WebService 
+public class ServicioEF : System.Web.Services.WebService
 {
     private void GeneroSoapException(Exception ex)
     {
