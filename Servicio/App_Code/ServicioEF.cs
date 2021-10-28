@@ -22,7 +22,6 @@ public class ServicioEF : System.Web.Services.WebService
         _NodoError.AppendChild(_NodoDetalle);
         SoapException _MiEx = new SoapException(ex.Message, SoapException.ClientFaultCode, Context.Request.Url.AbsoluteUri, _NodoError);
         throw _MiEx;
-        //asds
     }
 
     [WebMethod]
