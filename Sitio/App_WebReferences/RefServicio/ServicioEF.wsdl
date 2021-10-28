@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Logueo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usu" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogueoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LogueoResult" type="tns:Empleados" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Empleados">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NombreUsuario" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Contraseña" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Noticias" type="tns:ArrayOfNoticias" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfNoticias">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Noticias" nillable="true" type="tns:Noticias" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Noticias">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Codigo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NombreUsuario" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoSeccion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Titulo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cuerpo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Importancia" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaPublicacion" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Empleados" type="tns:Empleados" />
+          <s:element minOccurs="0" maxOccurs="1" name="Secciones" type="tns:Secciones" />
+          <s:element minOccurs="0" maxOccurs="1" name="Periodistas" type="tns:ArrayOfPeriodistas" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Secciones">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoSeccion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Noticias" type="tns:ArrayOfNoticias" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPeriodistas">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Periodistas" nillable="true" type="tns:Periodistas" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Periodistas">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Cedula" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Noticias" type="tns:ArrayOfNoticias" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="LogueoSoapIn">
+    <wsdl:part name="parameters" element="tns:Logueo" />
+  </wsdl:message>
+  <wsdl:message name="LogueoSoapOut">
+    <wsdl:part name="parameters" element="tns:LogueoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServicioEFSoap">
+    <wsdl:operation name="Logueo">
+      <wsdl:input message="tns:LogueoSoapIn" />
+      <wsdl:output message="tns:LogueoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioEFSoap" type="tns:ServicioEFSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Logueo">
+      <soap:operation soapAction="http://tempuri.org/Logueo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServicioEFSoap12" type="tns:ServicioEFSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Logueo">
+      <soap12:operation soapAction="http://tempuri.org/Logueo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioEF">
+    <wsdl:port name="ServicioEFSoap" binding="tns:ServicioEFSoap">
+      <soap:address location="http://localhost/ServicioObligatorio/ServicioEF.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServicioEFSoap12" binding="tns:ServicioEFSoap12">
+      <soap12:address location="http://localhost/ServicioObligatorio/ServicioEF.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

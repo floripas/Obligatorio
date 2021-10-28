@@ -31,6 +31,6 @@ namespace ModeloEF
         public virtual Empleados Empleados { get; set; }
         public virtual Secciones Secciones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Periodistas> Periodistas { get; set; }
+        public virtual HashSet<Periodistas> Periodistas { get; set; }
     }
 }
