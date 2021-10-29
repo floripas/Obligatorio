@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://localhost/ServicioObligatorio/ServicioEF.asmx?wsdl" docRef="http://localhost/ServicioObligatorio/ServicioEF.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://localhost/ServicioObligatorio/ServicioEF.asmx" xmlns:q1="http://tempuri.org/" binding="q1:ServicioEFSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://localhost/ServicioObligatorio/ServicioEF.asmx" xmlns:q2="http://tempuri.org/" binding="q2:ServicioEFSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://localhost/Servicio/ServicioEF.asmx?wsdl" docRef="http://localhost/Servicio/ServicioEF.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://localhost/Servicio/ServicioEF.asmx" xmlns:q1="http://tempuri.org/" binding="q1:ServicioEFSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://localhost/Servicio/ServicioEF.asmx" xmlns:q2="http://tempuri.org/" binding="q2:ServicioEFSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

@@ -18,10 +18,8 @@ public partial class Logueo : System.Web.UI.Page
     {
         try
         {
-            //Obtengo datos y consulto si existe
             Empleados emp = new ServicioEF().Logueo(txtNombreUsuario.Text, txtContraseña.Text);
 
-            //Si encontre paso al sistema
             if (emp != null)
             {
                 Session["Empleado"] = emp;
@@ -30,14 +28,12 @@ public partial class Logueo : System.Web.UI.Page
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
-            //Sino doy mensaje de error
             lblMensaje.Text = ex.Detail.InnerText;
             txtContraseña.Text = "";
             txtNombreUsuario.Text = "";
         }
         catch (Exception ex)
         {
-            //Sino doy mensaje de error
             lblMensaje.Text = ex.Message;
             txtContraseña.Text = "";
             txtNombreUsuario.Text = "";

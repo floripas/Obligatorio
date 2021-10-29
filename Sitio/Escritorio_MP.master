@@ -1,0 +1,60 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Escritorio_MP.master.cs" Inherits="Obligatorio" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <table style="text-align: right; margin-left: 80%; position:relative; width:20%;">
+                <tr>
+                    <td><p>Hola, </p>
+                        <asp:Label ID="lblNombreUsuario" runat="server" Text=""></asp:Label></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><asp:Label ID="Label1" runat="server" Text="Clica aquí para desloguearte"></asp:Label></td>
+                    <td style="right: 20px"><asp:Button ID="btnDeslogueo" runat="server" Text="Salir" OnClick="btnDeslogueo_Click" /></td>
+                </tr>
+            </table>
+        <table style="position:relative; width: 25%;">
+            <tr>
+                <td>
+                    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/ABMSecciones.aspx">Administrar secciones</asp:HyperLink>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/ABMPeriodistas.aspx">Administrar periodistas</asp:HyperLink>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/AltaEmpleado.aspx">Alta de empleados</asp:HyperLink>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/AltaModificacionNacionales.aspx">Alta y Modificación de Noticias</asp:HyperLink>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:HyperLink ID="HyperLink6" runat="server" NavigateUrl="~/Estadisticas.aspx">Estadísticas</asp:HyperLink>
+                </td>
+            </tr>
+            </table>
+        <div style="position:absolute; width: 73%; top: 110px;left: 26%;">
+            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+        </div>
+        
+    </div>
+    </form>
+</body>
+</html>
