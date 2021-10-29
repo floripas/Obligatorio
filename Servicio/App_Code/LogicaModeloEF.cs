@@ -23,7 +23,7 @@ public class LogicaModeloEF
         }
     }
 
-    //Operaciones USUARIOS
+    //Operaciones Usuarios
     public static Empleados Logueo(string usu, string pass)
     {
         Empleados emp = OEcontext.Empleados.Where(e => e.NombreUsuario == usu.Trim() && e.Contraseña == pass.Trim()).FirstOrDefault();
