@@ -44,7 +44,7 @@ namespace ModeloEF
                 throw new Exception("No se puede agregar noticias con fechas futuras.");
             }
         }
-        //asd
+        
         public void Validar(Secciones S)
         {
             if (S.CodigoSeccion.Trim().Length != 5)

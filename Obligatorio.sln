@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModeloEF", "ModeloEF\ModeloEF.csproj", "{54AD4345-2B79-4BDA-BD1B-6437823B073F}"
 EndProject
@@ -28,7 +28,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Servicio", "Servicio\", "{7
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Sitio", "Sitio\", "{E94995EE-0E42-4C24-9246-9ED31102C44A}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Sitio", "Sitio\", "{B5BF7FED-26D7-4BFC-91BE-87732324808C}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
 		ProjectReferences = "{54ad4345-2b79-4bda-bd1b-6437823b073f}|ModeloEF.dll;"
@@ -65,10 +65,10 @@ Global
 		{7C6F3F83-E4C6-40E0-A1E5-10626CD7AA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C6F3F83-E4C6-40E0-A1E5-10626CD7AA45}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{7C6F3F83-E4C6-40E0-A1E5-10626CD7AA45}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{E94995EE-0E42-4C24-9246-9ED31102C44A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E94995EE-0E42-4C24-9246-9ED31102C44A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E94995EE-0E42-4C24-9246-9ED31102C44A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{E94995EE-0E42-4C24-9246-9ED31102C44A}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B5BF7FED-26D7-4BFC-91BE-87732324808C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5BF7FED-26D7-4BFC-91BE-87732324808C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5BF7FED-26D7-4BFC-91BE-87732324808C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5BF7FED-26D7-4BFC-91BE-87732324808C}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
