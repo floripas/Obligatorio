@@ -22,7 +22,7 @@ public partial class Logueo : System.Web.UI.Page
 
             if (emp != null)
             {
-                Session["Empleado"] = emp;
+                Session["usuarioLogueado"] = emp;
                 Response.Redirect("~/Escritorio.aspx");
             }
         }
