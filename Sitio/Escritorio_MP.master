@@ -41,7 +41,7 @@
             </tr>
             <tr>
                 <td>
-                    <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/AltaModificacionNacionales.aspx">Alta y Modificación de Noticias</asp:HyperLink>
+                    <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/AltaModificacionNoticias.aspx">Alta / Modificar Noticias</asp:HyperLink>
                 </td>
             </tr>
             <tr>
