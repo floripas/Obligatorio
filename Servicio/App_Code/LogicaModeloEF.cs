@@ -23,7 +23,7 @@ public class LogicaModeloEF
         }
     }
 
-    //Operaciones Usuarios
+    #region OperacionesEmpleados
     public static Empleados Logueo(string usu, string pass)
     {
         Empleados emp = OEcontext.Empleados.Where(e => e.NombreUsuario == usu.Trim() && e.Contraseña == pass.Trim()).FirstOrDefault();
@@ -37,4 +37,20 @@ public class LogicaModeloEF
             throw new Exception("Usuario / Contraseña incorrectos");
         }
     }
+
+    public static void AltaEmpleado(Empleados E)
+    {
+        try
+        {
+            OEcontext.Empleados.Add(E);
+            OEcontext.SaveChanges();
+        }
+        catch(Exception ex)
+        {
+            OEcontext.Entry(E).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+    }
+    #endregion
 }

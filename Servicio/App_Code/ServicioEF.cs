@@ -24,6 +24,8 @@ public class ServicioEF : System.Web.Services.WebService
         throw _MiEx;
     }
 
+    #region Operaciones Empleados
+
     [WebMethod]
     public Empleados Logueo(string usu, string pass)
     {
@@ -39,4 +41,19 @@ public class ServicioEF : System.Web.Services.WebService
 
         return emp;
     }
+
+    [WebMethod]
+    public void AltaEmpleado(Empleados E)
+    {
+        try
+        {
+            LogicaModeloEF.AltaEmpleado(E);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    #endregion
 }
