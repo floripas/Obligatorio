@@ -38,17 +38,31 @@ public class LogicaModeloEF
         }
     }
 
-    public static void AltaEmpleado(Empleados E)
+    public static void AltaEmpleado(Empleados unE)
     {
+        Empleados E = null;
         try
         {
+            E = OEcontext.Empleados.Where(e => e.NombreUsuario == unE.NombreUsuario).FirstOrDefault();
+
+            if (E != null)
+            {
+                throw new Exception("Ya existe un empleado con ese nombre de usuario.");
+            }
+
+            E = new Empleados()
+            {
+                NombreUsuario = unE.NombreUsuario,
+                Contraseña = unE.Contraseña
+            };
+
+            new Validaciones().Validar(E);
+
             OEcontext.Empleados.Add(E);
             OEcontext.SaveChanges();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            OEcontext.Entry(E).State = System.Data.Entity.EntityState.Detached;
-
             throw ex;
         }
     }

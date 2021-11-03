@@ -17,45 +17,78 @@ public partial class AltaEmpleado : System.Web.UI.Page
     protected void btnCrear_Click(object sender, EventArgs e)
     {
         Empleados E = null;
-
         try
         {
+            if (txtContraseña.Text.Trim() != txtConfirmarContraseña.Text.Trim())
+            {
+                throw new Exception("Las contraseñas no coinciden.");
+            }
+
             E = new Empleados()
             {
-                NombreUsuario = txtNombreUsuario.Text,
-                Contraseña = txtContraseña.Text,
+                NombreUsuario = txtNombreUsuario.Text.Trim(),
+                Contraseña = txtContraseña.Text.Trim()
             };
-            if (txtContraseña.Text != txtConfirmarContraseña.Text)
-            {
-                throw new Exception("Las contraseñas no coinciden");
-            }
-            new Validaciones().Validar(E); //No logro ver la clase validaciones.
-        }
-        catch (Exception ex)
-        {
-            lblError.Text = ex.Message;
-            return;
-        }
 
-        try
-        {
             new ServicioEF().AltaEmpleado(E);
 
             lblError.Text = "Alta con Exito";
 
-            txtNombreUsuario.Text = "";
-            txtContraseña.Text = "";
             txtConfirmarContraseña.Text = "";
+            txtContraseña.Text = "";
+            txtNombreUsuario.Text = "";
 
             btnCrear.Enabled = false;
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
+            //Sino doy mensaje de error
             lblError.Text = ex.Detail.InnerText;
         }
         catch (Exception ex)
         {
             lblError.Text = ex.Message;
         }
+        //Empleados E = null;
+
+        //try
+        //{
+        //    E = new Empleados()
+        //    {
+        //        NombreUsuario = txtNombreUsuario.Text,
+        //        Contraseña = txtContraseña.Text,
+        //        Noticias = null
+        //    };
+        //    if (txtContraseña.Text != txtConfirmarContraseña.Text)
+        //    {
+        //        throw new Exception("Las contraseñas no coinciden");
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    lblError.Text = ex.Message;
+        //    return;
+        //}
+
+        //try
+        //{
+        //    new ServicioEF().AltaEmpleado(E);
+
+        //    lblError.Text = "Alta con Exito";
+
+        //    txtNombreUsuario.Text = "";
+        //    txtContraseña.Text = "";
+        //    txtConfirmarContraseña.Text = "";
+
+        //    btnCrear.Enabled = false;
+        //}
+        //catch (System.Web.Services.Protocols.SoapException ex)
+        //{
+        //    lblError.Text = ex.Detail.InnerText;
+        //}
+        //catch (Exception ex)
+        //{
+        //    lblError.Text = ex.Message;
+        //}
     }
 }
