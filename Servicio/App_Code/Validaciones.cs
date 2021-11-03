@@ -14,11 +14,11 @@ public class Validaciones
     {
         if (E.NombreUsuario.Trim().Length != 10)
         {
-            throw new Exception("El nombre de usuario debe tener exactamente 10 caracteres de extensión");
+            throw new Exception("El nombre de usuario debe tener exactamente 10 caracteres de extensión.");
         }
         if (E.Contraseña.Trim().Length != 7)
         {
-            throw new Exception("La contraseña del empleado debe tener 7 caracteres de extensión");
+            throw new Exception("La contraseña del empleado debe tener 7 caracteres de extensión.");
         }
         if (!Regex.IsMatch(E.Contraseña.Trim(), @"^[a-z]{4}[0-9]{3}|[0-9]{3}[a-z]{4}$", RegexOptions.Compiled | RegexOptions.IgnoreCase))
         {
@@ -50,7 +50,27 @@ public class Validaciones
     {
         if (S.CodigoSeccion.Trim().Length != 5)
         {
-            throw new Exception("El código de la sección debe tener 5 caracteres de extensión");
+            throw new Exception("El código de la sección debe tener 5 caracteres de extensión.");
+        }
+    }
+
+    public void Validar(Periodistas P)
+    {
+        if (!Regex.IsMatch(P.Email.Trim(), @"^[a-z0-9]+@[a-z0-9-]+\.[a-z0-9]{3}$", RegexOptions.Compiled | RegexOptions.IgnoreCase))
+        {
+            throw new Exception("La dirección de correo no tiene un formato válido.");
+        }
+        if (P.Cedula.Trim().Length != 8)
+        {
+            throw new Exception("La cédula ingresada no tiene un formato válido.");
+        }
+        try
+        {
+            Convert.ToInt32(P.Cedula.Trim());
+        }
+        catch
+        {
+            throw new Exception("La cédula ingresada no tiene un formato válido. Solo debe contener dígitos.");
         }
     }
 }
