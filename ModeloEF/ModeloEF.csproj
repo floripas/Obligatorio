@@ -89,6 +89,7 @@
     <Compile Include="Secciones.cs">
       <DependentUpon>Obligatorio.tt</DependentUpon>
     </Compile>
+    <Compile Include="Validaciones.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Obligatorio.edmx">
