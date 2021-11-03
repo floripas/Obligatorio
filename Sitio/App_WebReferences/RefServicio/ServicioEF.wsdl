@@ -75,6 +75,40 @@
       <s:element name="AltaEmpleadoResponse">
         <s:complexType />
       </s:element>
+      <s:element name="BuscarPeriodista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ced" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarPeriodistaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarPeriodistaResult" type="tns:Periodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaPeriodista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="P" type="tns:Periodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaPeriodistaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ModificarPeriodista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unP" type="tns:Periodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModificarPeriodistaResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LogueoSoapIn">
@@ -89,6 +123,24 @@
   <wsdl:message name="AltaEmpleadoSoapOut">
     <wsdl:part name="parameters" element="tns:AltaEmpleadoResponse" />
   </wsdl:message>
+  <wsdl:message name="BuscarPeriodistaSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarPeriodista" />
+  </wsdl:message>
+  <wsdl:message name="BuscarPeriodistaSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarPeriodistaResponse" />
+  </wsdl:message>
+  <wsdl:message name="AltaPeriodistaSoapIn">
+    <wsdl:part name="parameters" element="tns:AltaPeriodista" />
+  </wsdl:message>
+  <wsdl:message name="AltaPeriodistaSoapOut">
+    <wsdl:part name="parameters" element="tns:AltaPeriodistaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModificarPeriodistaSoapIn">
+    <wsdl:part name="parameters" element="tns:ModificarPeriodista" />
+  </wsdl:message>
+  <wsdl:message name="ModificarPeriodistaSoapOut">
+    <wsdl:part name="parameters" element="tns:ModificarPeriodistaResponse" />
+  </wsdl:message>
   <wsdl:portType name="ServicioEFSoap">
     <wsdl:operation name="Logueo">
       <wsdl:input message="tns:LogueoSoapIn" />
@@ -97,6 +149,18 @@
     <wsdl:operation name="AltaEmpleado">
       <wsdl:input message="tns:AltaEmpleadoSoapIn" />
       <wsdl:output message="tns:AltaEmpleadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarPeriodista">
+      <wsdl:input message="tns:BuscarPeriodistaSoapIn" />
+      <wsdl:output message="tns:BuscarPeriodistaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AltaPeriodista">
+      <wsdl:input message="tns:AltaPeriodistaSoapIn" />
+      <wsdl:output message="tns:AltaPeriodistaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModificarPeriodista">
+      <wsdl:input message="tns:ModificarPeriodistaSoapIn" />
+      <wsdl:output message="tns:ModificarPeriodistaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ServicioEFSoap" type="tns:ServicioEFSoap">
@@ -119,6 +183,33 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="BuscarPeriodista">
+      <soap:operation soapAction="http://tempuri.org/BuscarPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaPeriodista">
+      <soap:operation soapAction="http://tempuri.org/AltaPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarPeriodista">
+      <soap:operation soapAction="http://tempuri.org/ModificarPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="ServicioEFSoap12" type="tns:ServicioEFSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -133,6 +224,33 @@
     </wsdl:operation>
     <wsdl:operation name="AltaEmpleado">
       <soap12:operation soapAction="http://tempuri.org/AltaEmpleado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarPeriodista">
+      <soap12:operation soapAction="http://tempuri.org/BuscarPeriodista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaPeriodista">
+      <soap12:operation soapAction="http://tempuri.org/AltaPeriodista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarPeriodista">
+      <soap12:operation soapAction="http://tempuri.org/ModificarPeriodista" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -56,4 +56,49 @@ public class ServicioEF : System.Web.Services.WebService
     }
 
     #endregion
+
+    #region Operaciones Periodistas
+    [WebMethod]
+    public Periodistas BuscarPeriodista(string ced)
+    {
+        ModeloEF.Periodistas _periodista= null;
+        try
+        {
+            _periodista = LogicaModeloEF.BuscarPeriodista(ced);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+
+        return _periodista;
+    }
+
+    [WebMethod]
+    public void AltaPeriodista(Periodistas P)
+    {
+        try
+        {
+            LogicaModeloEF.AltaPeriodista(P);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    [WebMethod]
+    public void ModificarPeriodista(Periodistas unP)
+    {
+        try
+        {
+            LogicaModeloEF.ModificarPeriodista(unP);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    #endregion
 }

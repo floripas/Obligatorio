@@ -63,6 +63,67 @@ public class LogicaModeloEF
         }
         catch (Exception ex)
         {
+            OEcontext.Entry(unE).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+    }
+    #endregion
+
+    #region Operaciones Periodistas
+    public static Periodistas BuscarPeriodista(string ced)
+    {
+        return (OEcontext.Periodistas.Where(p => p.Cedula == ced).FirstOrDefault());
+    }
+
+    public static void AltaPeriodista(Periodistas unP)
+    {
+        Periodistas P = null;
+        try
+        {
+            P = OEcontext.Periodistas.Where(e => e.Cedula== unP.Cedula).FirstOrDefault();
+
+            if (P != null)
+            {
+                throw new Exception("Ya existe un periodista con esa cedula.");
+            }
+
+            P = new Periodistas()
+            {
+                Nombre = unP.Nombre,
+                Email = unP.Email,
+                Cedula = unP.Cedula
+            };
+
+            new Validaciones().Validar(P);
+
+            OEcontext.Periodistas.Add(P);
+            OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+    }
+
+    public static void ModificarPeriodista(Periodistas unP)
+    {
+        try
+        {
+            Periodistas P = OEcontext.Periodistas.Where(p => p.Cedula == unP.Cedula).FirstOrDefault();
+
+            P.Email = unP.Email;
+            P.Nombre = unP.Nombre;
+
+            //Ejecuto operacion de actualizar en BD
+            OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
+
             throw ex;
         }
     }
