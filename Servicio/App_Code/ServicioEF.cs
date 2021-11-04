@@ -100,5 +100,75 @@ public class ServicioEF : System.Web.Services.WebService
         }
     }
 
+    [WebMethod]
+    public void EliminarPeriodista(Periodistas unP)
+    {
+        try
+        {
+            LogicaModeloEF.EliminarPeriodista(unP);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    #endregion
+
+    #region Operaciones Secciones
+    [WebMethod]
+    public Secciones BuscarSeccion(string cod)
+    {
+        ModeloEF.Secciones _seccion = null;
+        try
+        {
+            _seccion = LogicaModeloEF.BuscarSeccion(cod);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+
+        return _seccion;
+    }
+
+    [WebMethod]
+    public void AltaSeccion(Secciones unaS)
+    {
+        try
+        {
+            LogicaModeloEF.AltaSeccion(unaS);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    [WebMethod]
+    public void ModificarSeccion(Secciones unaS)
+    {
+        try
+        {
+            LogicaModeloEF.ModificarSeccion(unaS);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    [WebMethod]
+    public void EliminarSeccion(Secciones unaS)
+    {
+        try
+        {
+            LogicaModeloEF.EliminarSeccion(unaS);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
     #endregion
 }

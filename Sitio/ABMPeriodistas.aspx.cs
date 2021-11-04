@@ -137,7 +137,30 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 
     protected void btnBaja_Click(object sender, EventArgs e)
     {
+        try
+        {
+            Periodistas _unPer = (Periodistas)Session["Periodista"];
 
+            new ServicioEF().EliminarPeriodista(_unPer);
+
+            LblError.Text = "Baja con Exito";
+
+            txtNombre.Text = "";
+            txtCedula.Text = "";
+            txtEmail.Text = "";
+
+            btnAlta.Enabled = false;
+            btnBaja.Enabled = false;
+            btnModificar.Enabled = false;
+        }
+        catch (System.Web.Services.Protocols.SoapException ex)
+        {
+            LblError.Text = ex.Detail.InnerText;
+        }
+        catch (Exception ex)
+        {
+            LblError.Text = ex.Message;
+        }
     }
 
     protected void btnModificar_Click(object sender, EventArgs e)

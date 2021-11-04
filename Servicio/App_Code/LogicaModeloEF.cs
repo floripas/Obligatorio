@@ -81,7 +81,7 @@ public class LogicaModeloEF
         Periodistas P = null;
         try
         {
-            P = OEcontext.Periodistas.Where(e => e.Cedula== unP.Cedula).FirstOrDefault();
+            P = OEcontext.Periodistas.Where(e => e.Cedula == unP.Cedula).FirstOrDefault();
 
             if (P != null)
             {
@@ -117,13 +117,117 @@ public class LogicaModeloEF
             P.Email = unP.Email;
             P.Nombre = unP.Nombre;
 
-            //Ejecuto operacion de actualizar en BD
             OEcontext.SaveChanges();
         }
         catch (Exception ex)
         {
             OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
 
+            throw ex;
+        }
+    }
+
+    public static void EliminarPeriodista(Periodistas unP)
+    {
+        try
+        {
+            SqlParameter _cedula = new SqlParameter("@Cedula", unP.Cedula);
+            SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
+
+            _retorno.Direction = System.Data.ParameterDirection.Output;
+
+            OEcontext.Database.ExecuteSqlCommand("exec EliminarPeriodista @Cedula, @ret output", _cedula, _retorno);
+
+            if ((int)_retorno.Value == -1)
+                throw new Exception("No existe un periodista con la cedula ingresada");
+            if ((int)_retorno.Value == -2)
+                throw new Exception("Hubo un error y no se pudo eliminar el periodista de la base de datos");
+            else
+                OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    #endregion
+
+    #region Operaciones Secciones
+    public static Secciones BuscarSeccion(string cod)
+    {
+        return (OEcontext.Secciones.Where(s => s.CodigoSeccion == cod).FirstOrDefault());
+    }
+
+    public static void AltaSeccion(Secciones unaS)
+    {
+        Secciones S = null;
+        try
+        {
+            S = OEcontext.Secciones.Where(s => s.CodigoSeccion == unaS.CodigoSeccion).FirstOrDefault();
+
+            if (S != null)
+            {
+                throw new Exception("Ya existe una seccion con ese codigo.");
+            }
+
+            S = new Secciones()
+            {
+                Nombre = unaS.Nombre,
+                CodigoSeccion = unaS.CodigoSeccion
+            };
+
+            new Validaciones().Validar(S);
+
+            OEcontext.Secciones.Add(S);
+            OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+    }
+
+    public static void ModificarSeccion(Secciones unaS)
+    {
+        try
+        {
+            Secciones S = OEcontext.Secciones.Where(s => s.CodigoSeccion == unaS.CodigoSeccion).FirstOrDefault();
+
+            S.CodigoSeccion = unaS.CodigoSeccion;
+            S.Nombre = unaS.Nombre;
+
+            OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+    }
+
+    public static void EliminarSeccion(Secciones unaS)
+    {
+        try
+        {
+            SqlParameter _codigo = new SqlParameter("@CodigoSeccion", unaS.CodigoSeccion);
+            SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
+
+            _retorno.Direction = System.Data.ParameterDirection.Output;
+
+            OEcontext.Database.ExecuteSqlCommand("exec EliminarPeriodista @Cedula, @ret output", _codigo, _retorno);
+
+            if ((int)_retorno.Value == -1)
+                throw new Exception("La sección ingresada no existe");
+            if ((int)_retorno.Value == -2)
+                throw new Exception("Hubo un error y no se pudo eliminar la seccion de la base de datos");
+            else
+                OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
             throw ex;
         }
     }
