@@ -21,6 +21,7 @@
             <td class="auto-style1" style="text-align: right"><p>Código de la sección:</p></td>
             <td>
                 <asp:TextBox ID="txtCodigoSeccion" runat="server"></asp:TextBox>
+                <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="boton" OnClick="btnBuscar_Click" />
             </td>
         </tr>
         <tr>
@@ -33,10 +34,9 @@
             <td class="auto-style1" style="text-align: right">
             </td>
             <td>
-                <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="boton" OnClick="btnBuscar_Click" />
-                <asp:Button ID="btnCrear" runat="server" Text="Crear" CssClass="boton"  Visible="False" OnClick="btnCrear_Click" />
-                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="boton" Visible="False" OnClick="btnModificar_Click" />
-                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="boton" Visible="False" OnClick="btnEliminar_Click" />
+                <asp:Button ID="btnCrear" runat="server" Text="Crear" CssClass="boton" OnClick="btnCrear_Click" Enabled="False" />
+                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="boton" OnClick="btnModificar_Click" Enabled="False" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="boton" OnClick="btnEliminar_Click" Enabled="False" />
                 <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" OnClick="btnLimpiar_Click" />
             </td>
         </tr>

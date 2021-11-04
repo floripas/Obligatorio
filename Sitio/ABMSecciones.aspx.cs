@@ -11,19 +11,7 @@ public partial class ABMSecciones : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            if (!IsPostBack)
-            {
-                Session["Seccion"] = null;
-                txtCodigoSeccion.Enabled = true;
-                txtCodigoSeccion.ReadOnly = false;
-            }
-        }
-        catch (Exception ex)
-        {
-            lblMensaje.Text = ex.Message;
-        }
+
     }
 
     protected void btnBuscar_Click(object sender, EventArgs e)

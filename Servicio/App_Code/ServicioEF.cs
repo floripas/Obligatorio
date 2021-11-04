@@ -170,5 +170,64 @@ public class ServicioEF : System.Web.Services.WebService
             this.GeneroSoapException(ex);
         }
     }
+
+    [WebMethod]
+    public List<Secciones> ListarSecciones()
+    {
+        List<Secciones> _lista = null;
+        try
+        {
+            _lista = LogicaModeloEF.ListarSecciones();
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+        return _lista;
+    }
+    #endregion
+
+    #region Operaciones Noticias
+    [WebMethod]
+    public Noticias BuscarNoticia(string cod)
+    {
+        ModeloEF.Noticias _noticia = null;
+        try
+        {
+            _noticia = LogicaModeloEF.BuscarNoticia(cod);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+
+        return _noticia;
+    }
+
+    [WebMethod]
+    public void ModificarNoticia(Noticias unaN)
+    {
+        try
+        {
+            LogicaModeloEF.ModificarNoticia(unaN);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    [WebMethod]
+    public void AltaNoticia(Noticias unaN)
+    {
+        try
+        {
+            LogicaModeloEF.AltaNoticia(unaN);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
     #endregion
 }

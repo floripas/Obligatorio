@@ -217,17 +217,94 @@ public class LogicaModeloEF
 
             _retorno.Direction = System.Data.ParameterDirection.Output;
 
-            OEcontext.Database.ExecuteSqlCommand("exec EliminarPeriodista @Cedula, @ret output", _codigo, _retorno);
+            OEcontext.Database.ExecuteSqlCommand("exec EliminarPeriodista @CodigoSeccion, @ret output", _codigo, _retorno);
 
             if ((int)_retorno.Value == -1)
                 throw new Exception("La sección ingresada no existe");
             if ((int)_retorno.Value == -2)
                 throw new Exception("Hubo un error y no se pudo eliminar la seccion de la base de datos");
             else
+            {
                 OEcontext.SaveChanges();
+            }
         }
         catch (Exception ex)
         {
+            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+    }
+
+    public static List<Secciones> ListarSecciones()
+    {
+        return (OEcontext.Secciones.ToList());
+    }
+    #endregion
+
+    #region Operaciones Noticias
+    public static Noticias BuscarNoticia(string cod)
+    {
+        return (OEcontext.Noticias.Where(n => n.Codigo == cod).FirstOrDefault());
+    }
+
+    public static void ModificarNoticia(Noticias unaN)
+    {
+        try
+        {
+
+            Noticias N = OEcontext.Noticias.Where(n => n.Codigo == unaN.Codigo).FirstOrDefault();
+
+            N.Codigo = unaN.Codigo;
+            N.Cuerpo = unaN.Cuerpo;
+            N.Titulo = unaN.Titulo;
+            N.FechaPublicacion = unaN.FechaPublicacion;
+            N.Importancia = unaN.Importancia;
+            N.Periodistas = unaN.Periodistas;
+            N.Secciones = unaN.Secciones;
+
+            OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unaN).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+    }
+
+    public static void AltaNoticia(Noticias unaN)
+    {
+        Noticias N = null;
+        try
+        {
+            N = OEcontext.Noticias.Where(n => n.Codigo == unaN.Codigo).FirstOrDefault();
+
+            if (N != null)
+            {
+                throw new Exception("Ya existe una noticia con ese codigo.");
+            }
+
+            N = new Noticias()
+            {
+                Codigo = unaN.Codigo,
+                Cuerpo = unaN.Cuerpo,
+                Titulo = unaN.Titulo,
+                FechaPublicacion = unaN.FechaPublicacion,
+                Importancia = unaN.Importancia,
+                Periodistas = unaN.Periodistas,
+                Secciones = unaN.Secciones
+            };
+
+            new Validaciones().Validar(N);
+
+            OEcontext.Noticias.Add(N);
+            OEcontext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unaN).State = System.Data.Entity.EntityState.Detached;
+
             throw ex;
         }
     }

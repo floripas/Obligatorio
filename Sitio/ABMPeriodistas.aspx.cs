@@ -11,21 +11,7 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            if (!IsPostBack)
-            {
-                Session["Periodista"] = null;
-                DesactivoBotones();
-                LimpioControles();
-                txtCedula.Enabled = true;
-                txtCedula.ReadOnly = false;
-            }
-        }
-        catch(Exception ex)
-        {
-            LblError.Text = ex.Message;
-        }
+
     }
 
     private void DesactivoBotones()
@@ -46,15 +32,6 @@ public partial class ABMPeriodistas : System.Web.UI.Page
         txtCedula.ReadOnly = true;
     }
 
-    private void LimpioControles2()
-    {
-        txtNombre.Text = "";
-        txtEmail.Text = "";
-        LblError.Text = "";
-
-        txtCedula.Enabled = false;
-        txtCedula.ReadOnly = true;
-    }
     protected void btnBuscar_Click(object sender, EventArgs e)
     {
         try
