@@ -150,6 +150,11 @@ public class LogicaModeloEF
             throw ex;
         }
     }
+
+    public static List<Periodistas> ListarPeriodistas()
+    {
+        return (OEcontext.Periodistas.ToList());
+    }
     #endregion
 
     #region Operaciones Secciones

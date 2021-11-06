@@ -113,6 +113,20 @@ public class ServicioEF : System.Web.Services.WebService
         }
     }
 
+    [WebMethod]
+    public List<Periodistas> ListarPeriodistas()
+    {
+        List<Periodistas> _lista = null;
+        try
+        {
+            _lista = LogicaModeloEF.ListarPeriodistas();
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+        return _lista;
+    }
     #endregion
 
     #region Operaciones Secciones

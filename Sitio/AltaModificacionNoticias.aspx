@@ -74,9 +74,9 @@
             </td>
             <td>
                 
-                <asp:ListBox ID="lstPeriodistas" runat="server" SelectionMode="Multiple" Visible="False"></asp:ListBox>
+                <asp:ListBox ID="lstPeriodistas" runat="server" SelectionMode="Multiple"></asp:ListBox>
                 
-                <asp:CheckBoxList ID="chkPeriodistas" runat="server" Visible="False">
+                <asp:CheckBoxList ID="chkPeriodistas" runat="server">
                 </asp:CheckBoxList>
                 
             </td>

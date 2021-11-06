@@ -11,24 +11,40 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            Session["ListaSecciones"] = new ServicioEF().ListarSecciones().ToList();
+            try
+            {
+                Session["Periodistas"] = null;
+                Session["Secciones"] = null;
 
-            ddlSecciones.DataValueField = "CodigoSeccion";
-            ddlSecciones.DataSource = ((Secciones)Session["ListaSecciones"]).Nombre;
-            ddlSecciones.DataBind();
-        }
-        catch (System.Web.Services.Protocols.SoapException ex)
-        {
-            lblMensaje.Text = ex.Detail.InnerText;
-        }
-        catch (Exception ex)
-        {
-            lblMensaje.Text = ex.Message;
+                CargarChkPeriodistas();
+                CargarDDLSecciones();
+            }
+            catch (System.Web.Services.Protocols.SoapException ex)
+            {
+                lblMensaje.Text = ex.Detail.InnerText;
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = ex.Message;
+            }
         }
     }
 
+    private void CargarDDLSecciones()
+    {
+        ddlSecciones.DataSource = new ServicioEF().ListarSecciones().ToList();
+        ddlSecciones.DataTextField = "Nombre";
+        ddlSecciones.DataBind();
+    }
+    private void CargarChkPeriodistas()
+    {
+        chkPeriodistas.DataSource = new ServicioEF().ListarPeriodistas().ToList();
+        chkPeriodistas.DataValueField = "Cedula";
+        chkPeriodistas.DataTextField = "Nombre";
+        chkPeriodistas.DataBind();
+    }
     private void DesactivoBotones()
     {
         btnCrear.Enabled = false;
@@ -40,7 +56,6 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         ddlImportancia.Enabled = false;
         lstPeriodistas.Enabled = false;
     }
-
     private void LimpioControles()
     {
         txtCodigo.Text = "";
@@ -75,7 +90,6 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 ddlSecciones.Enabled = true;
                 ddlImportancia.Enabled = true;
                 lstPeriodistas.Enabled = true;
-                btnCrear.Visible = true;
                 btnBuscar.Enabled= false;
 
                 lblMensaje.Text = "No hay ninguna una noticia con ese codigo. Puede ingresarla.";
@@ -161,7 +175,16 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
     protected void btnCrear_Click(object sender, EventArgs e)
     {
+
         Noticias N = null;
+        List<Periodistas> lista = new List<Periodistas>();
+        foreach(ListItem item in chkPeriodistas.Items)
+        {
+            if(item.Selected)
+            {
+                lista.Add(new ServicioEF().BuscarPeriodista(chkPeriodistas.SelectedItem.Value.ToString()));
+            }
+        }
 
         try
         {
@@ -173,7 +196,8 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 FechaPublicacion = Convert.ToDateTime(txtFecha.Text.Trim()),
                 Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value),
                 Empleados = (Empleados)Session["usuarioLogueado"],
-                Secciones = new ServicioEF().BuscarSeccion(ddlSecciones.SelectedItem.Value)
+                Secciones = new ServicioEF().BuscarSeccion(ddlSecciones.SelectedItem.Value),
+                Periodistas = lista
             };
         }
         catch (Exception ex)

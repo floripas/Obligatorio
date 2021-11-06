@@ -119,6 +119,16 @@
       <s:element name="EliminarPeriodistaResponse">
         <s:complexType />
       </s:element>
+      <s:element name="ListarPeriodistas">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListarPeriodistasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListarPeriodistasResult" type="tns:ArrayOfPeriodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="BuscarSeccion">
         <s:complexType>
           <s:sequence>
@@ -250,6 +260,12 @@
   <wsdl:message name="EliminarPeriodistaSoapOut">
     <wsdl:part name="parameters" element="tns:EliminarPeriodistaResponse" />
   </wsdl:message>
+  <wsdl:message name="ListarPeriodistasSoapIn">
+    <wsdl:part name="parameters" element="tns:ListarPeriodistas" />
+  </wsdl:message>
+  <wsdl:message name="ListarPeriodistasSoapOut">
+    <wsdl:part name="parameters" element="tns:ListarPeriodistasResponse" />
+  </wsdl:message>
   <wsdl:message name="BuscarSeccionSoapIn">
     <wsdl:part name="parameters" element="tns:BuscarSeccion" />
   </wsdl:message>
@@ -322,6 +338,10 @@
     <wsdl:operation name="EliminarPeriodista">
       <wsdl:input message="tns:EliminarPeriodistaSoapIn" />
       <wsdl:output message="tns:EliminarPeriodistaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarPeriodistas">
+      <wsdl:input message="tns:ListarPeriodistasSoapIn" />
+      <wsdl:output message="tns:ListarPeriodistasSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="BuscarSeccion">
       <wsdl:input message="tns:BuscarSeccionSoapIn" />
@@ -405,6 +425,15 @@
     </wsdl:operation>
     <wsdl:operation name="EliminarPeriodista">
       <soap:operation soapAction="http://tempuri.org/EliminarPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarPeriodistas">
+      <soap:operation soapAction="http://tempuri.org/ListarPeriodistas" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -534,6 +563,15 @@
     </wsdl:operation>
     <wsdl:operation name="EliminarPeriodista">
       <soap12:operation soapAction="http://tempuri.org/EliminarPeriodista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarPeriodistas">
+      <soap12:operation soapAction="http://tempuri.org/ListarPeriodistas" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
