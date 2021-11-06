@@ -9,11 +9,11 @@ begin
 end
 GO
 
-CREATE DATABASE Obligatorio ON
-(
-	NAME=Obligatorio,
-	FILENAME='C:\BD\Obligatorio.mdf'
-)
+CREATE DATABASE Obligatorio 
+--ON(
+--	NAME=Obligatorio,
+--	FILENAME='C:\BD\Obligatorio.mdf'
+--)
 GO
 
 USE Obligatorio
@@ -321,6 +321,7 @@ EXEC AltaSeccion 'depor','Deportes'
 EXEC AltaSeccion 'cultu','Cultural'
 EXEC AltaSeccion 'viaje','Viajes'
 EXEC ModificarSeccion 'cultu','Cultura'
+EXEC AltaSeccion 'inter','Internacionales'
 GO
 
 EXEC AltaPeriodista '44259772', 'Periodista 1', 'period1@gmail.com'
@@ -332,18 +333,39 @@ EXEC ModificarPeriodista '67839025', 'Periodista 6', 'period6@gmail.com'
 GO
 
 
+INSERT INTO Noticias(Codigo, Titulo, Cuerpo, Importancia, FechaPublicacion, CodigoSeccion, NombreUsuario)
+Values('codnot1', 'Titulo Noticia 1','Cuerpo Noticia 1', 4,'20211017', 'polic', 'Empleado10'),
+('codnot2', 'Titulo Noticia 2','Cuerpo Noticia 2', 3,'20201013', 'econo', 'Empleado10'),
+('codnot3', 'Titulo Noticia 3','Cuerpo Noticia 3', 4,'20211027', 'polic', 'Empleado30'),
+('codnot4', 'Titulo Noticia 4','Cuerpo Noticia 4', 1,'20201013', 'cultu', 'Empleado30'),
+('codnot5', 'Titulo Noticia 5','Cuerpo Noticia 5', 4,'20211028', 'polic', 'Empleado10'),
+('codnot6', 'Titulo Noticia 6','Cuerpo Noticia 6', 5,'20211029', 'econo', 'Empleado10'),
+('codnot7', 'Titulo Noticia 7','Cuerpo Noticia 7', 2,'20210820', 'cultu', 'Empleado20'),
+('codnot8', 'Titulo Noticia 8','Cuerpo Noticia 8', 2,'20210821', 'econo', 'Empleado30'),
+('codnot9', 'Titulo Noticia 9','Cuerpo Noticia 9', 5,'20211029', 'inter', 'Empleado10'),
+('codnot10', 'Titulo Noticia 10','Cuerpo Noticia 10', 3,'20191012', 'inter', 'Empleado40'),
+('codnot11', 'Titulo Noticia 11','Cuerpo Noticia 11', 4,'20211029', 'inter', 'Empleado20'),
+('codnot12', 'Titulo Noticia 12','Cuerpo Noticia 12', 3,'20191012', 'inter', 'Empleado40'),
+('codnot13', 'Titulo Noticia 13','Cuerpo Noticia 13', 1,'20210809', 'inter', 'Empleado30'),
+('codnot14', 'Titulo Noticia 14','Cuerpo Noticia 14', 3,'20211104', 'inter', 'Empleado20'),
+('codnot15', 'Titulo Noticia 15','Cuerpo Noticia 15', 3,'20211105', 'inter', 'Empleado20'),
+('codnot16', 'Titulo Noticia 16','Cuerpo Noticia 16', 3,'20211106', 'inter', 'Empleado40')
+GO
+
 SELECT * FROM Empleados
 SELECT * FROM Secciones
 SELECT * FROM Periodistas
 SELECT * FROM Noticias
 SELECT * FROM Escriben
 
+/*
 ALTER TABLE Noticias WITH NOCHECK
 	ADD CONSTRAINT VerificarAño
 	-- si FechaPublicacion es menor a GETDATE()
 	-- DATEDIFF producirá un valor menor a 0
 	CHECK(DATEDIFF(day,GETDATE(),FechaPublicacion) >= 0) 
 GO
+*/
 
 --Creacion de usuario IIS para que el sitio pueda acceder a la BD-------------------------------------------
 USE master
