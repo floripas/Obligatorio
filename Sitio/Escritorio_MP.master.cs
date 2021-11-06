@@ -28,7 +28,7 @@ public partial class Obligatorio : System.Web.UI.MasterPage
 
             lblNombreUsuario.Text = quizasUsuarioLogueado.NombreUsuario;
         }
-        catch (Exception ex)
+        catch
         {
             DesloguearUsuario();
         }

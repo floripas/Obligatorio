@@ -65,6 +65,163 @@
           <s:element minOccurs="0" maxOccurs="1" name="Noticias" type="tns:ArrayOfNoticias" />
         </s:sequence>
       </s:complexType>
+      <s:element name="AltaEmpleado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="E" type="tns:Empleados" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaEmpleadoResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="BuscarPeriodista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ced" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarPeriodistaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarPeriodistaResult" type="tns:Periodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaPeriodista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="P" type="tns:Periodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaPeriodistaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ModificarPeriodista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unP" type="tns:Periodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModificarPeriodistaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="EliminarPeriodista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unP" type="tns:Periodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EliminarPeriodistaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListarPeriodistas">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListarPeriodistasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListarPeriodistasResult" type="tns:ArrayOfPeriodistas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarSeccion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cod" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarSeccionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarSeccionResult" type="tns:Secciones" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaSeccion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unaS" type="tns:Secciones" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaSeccionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ModificarSeccion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unaS" type="tns:Secciones" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModificarSeccionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="EliminarSeccion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unaS" type="tns:Secciones" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EliminarSeccionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListarSecciones">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListarSeccionesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListarSeccionesResult" type="tns:ArrayOfSecciones" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSecciones">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Secciones" nillable="true" type="tns:Secciones" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BuscarNoticia">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cod" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarNoticiaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarNoticiaResult" type="tns:Noticias" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModificarNoticia">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unaN" type="tns:Noticias" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModificarNoticiaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="AltaNoticia">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unaN" type="tns:Noticias" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AltaNoticiaResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LogueoSoapIn">
@@ -73,10 +230,150 @@
   <wsdl:message name="LogueoSoapOut">
     <wsdl:part name="parameters" element="tns:LogueoResponse" />
   </wsdl:message>
+  <wsdl:message name="AltaEmpleadoSoapIn">
+    <wsdl:part name="parameters" element="tns:AltaEmpleado" />
+  </wsdl:message>
+  <wsdl:message name="AltaEmpleadoSoapOut">
+    <wsdl:part name="parameters" element="tns:AltaEmpleadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarPeriodistaSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarPeriodista" />
+  </wsdl:message>
+  <wsdl:message name="BuscarPeriodistaSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarPeriodistaResponse" />
+  </wsdl:message>
+  <wsdl:message name="AltaPeriodistaSoapIn">
+    <wsdl:part name="parameters" element="tns:AltaPeriodista" />
+  </wsdl:message>
+  <wsdl:message name="AltaPeriodistaSoapOut">
+    <wsdl:part name="parameters" element="tns:AltaPeriodistaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModificarPeriodistaSoapIn">
+    <wsdl:part name="parameters" element="tns:ModificarPeriodista" />
+  </wsdl:message>
+  <wsdl:message name="ModificarPeriodistaSoapOut">
+    <wsdl:part name="parameters" element="tns:ModificarPeriodistaResponse" />
+  </wsdl:message>
+  <wsdl:message name="EliminarPeriodistaSoapIn">
+    <wsdl:part name="parameters" element="tns:EliminarPeriodista" />
+  </wsdl:message>
+  <wsdl:message name="EliminarPeriodistaSoapOut">
+    <wsdl:part name="parameters" element="tns:EliminarPeriodistaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListarPeriodistasSoapIn">
+    <wsdl:part name="parameters" element="tns:ListarPeriodistas" />
+  </wsdl:message>
+  <wsdl:message name="ListarPeriodistasSoapOut">
+    <wsdl:part name="parameters" element="tns:ListarPeriodistasResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarSeccionSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarSeccion" />
+  </wsdl:message>
+  <wsdl:message name="BuscarSeccionSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarSeccionResponse" />
+  </wsdl:message>
+  <wsdl:message name="AltaSeccionSoapIn">
+    <wsdl:part name="parameters" element="tns:AltaSeccion" />
+  </wsdl:message>
+  <wsdl:message name="AltaSeccionSoapOut">
+    <wsdl:part name="parameters" element="tns:AltaSeccionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModificarSeccionSoapIn">
+    <wsdl:part name="parameters" element="tns:ModificarSeccion" />
+  </wsdl:message>
+  <wsdl:message name="ModificarSeccionSoapOut">
+    <wsdl:part name="parameters" element="tns:ModificarSeccionResponse" />
+  </wsdl:message>
+  <wsdl:message name="EliminarSeccionSoapIn">
+    <wsdl:part name="parameters" element="tns:EliminarSeccion" />
+  </wsdl:message>
+  <wsdl:message name="EliminarSeccionSoapOut">
+    <wsdl:part name="parameters" element="tns:EliminarSeccionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListarSeccionesSoapIn">
+    <wsdl:part name="parameters" element="tns:ListarSecciones" />
+  </wsdl:message>
+  <wsdl:message name="ListarSeccionesSoapOut">
+    <wsdl:part name="parameters" element="tns:ListarSeccionesResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarNoticiaSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarNoticia" />
+  </wsdl:message>
+  <wsdl:message name="BuscarNoticiaSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarNoticiaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModificarNoticiaSoapIn">
+    <wsdl:part name="parameters" element="tns:ModificarNoticia" />
+  </wsdl:message>
+  <wsdl:message name="ModificarNoticiaSoapOut">
+    <wsdl:part name="parameters" element="tns:ModificarNoticiaResponse" />
+  </wsdl:message>
+  <wsdl:message name="AltaNoticiaSoapIn">
+    <wsdl:part name="parameters" element="tns:AltaNoticia" />
+  </wsdl:message>
+  <wsdl:message name="AltaNoticiaSoapOut">
+    <wsdl:part name="parameters" element="tns:AltaNoticiaResponse" />
+  </wsdl:message>
   <wsdl:portType name="ServicioEFSoap">
     <wsdl:operation name="Logueo">
       <wsdl:input message="tns:LogueoSoapIn" />
       <wsdl:output message="tns:LogueoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AltaEmpleado">
+      <wsdl:input message="tns:AltaEmpleadoSoapIn" />
+      <wsdl:output message="tns:AltaEmpleadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarPeriodista">
+      <wsdl:input message="tns:BuscarPeriodistaSoapIn" />
+      <wsdl:output message="tns:BuscarPeriodistaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AltaPeriodista">
+      <wsdl:input message="tns:AltaPeriodistaSoapIn" />
+      <wsdl:output message="tns:AltaPeriodistaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModificarPeriodista">
+      <wsdl:input message="tns:ModificarPeriodistaSoapIn" />
+      <wsdl:output message="tns:ModificarPeriodistaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminarPeriodista">
+      <wsdl:input message="tns:EliminarPeriodistaSoapIn" />
+      <wsdl:output message="tns:EliminarPeriodistaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarPeriodistas">
+      <wsdl:input message="tns:ListarPeriodistasSoapIn" />
+      <wsdl:output message="tns:ListarPeriodistasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarSeccion">
+      <wsdl:input message="tns:BuscarSeccionSoapIn" />
+      <wsdl:output message="tns:BuscarSeccionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AltaSeccion">
+      <wsdl:input message="tns:AltaSeccionSoapIn" />
+      <wsdl:output message="tns:AltaSeccionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModificarSeccion">
+      <wsdl:input message="tns:ModificarSeccionSoapIn" />
+      <wsdl:output message="tns:ModificarSeccionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminarSeccion">
+      <wsdl:input message="tns:EliminarSeccionSoapIn" />
+      <wsdl:output message="tns:EliminarSeccionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarSecciones">
+      <wsdl:input message="tns:ListarSeccionesSoapIn" />
+      <wsdl:output message="tns:ListarSeccionesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarNoticia">
+      <wsdl:input message="tns:BuscarNoticiaSoapIn" />
+      <wsdl:output message="tns:BuscarNoticiaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModificarNoticia">
+      <wsdl:input message="tns:ModificarNoticiaSoapIn" />
+      <wsdl:output message="tns:ModificarNoticiaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AltaNoticia">
+      <wsdl:input message="tns:AltaNoticiaSoapIn" />
+      <wsdl:output message="tns:AltaNoticiaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ServicioEFSoap" type="tns:ServicioEFSoap">
@@ -90,11 +387,263 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="AltaEmpleado">
+      <soap:operation soapAction="http://tempuri.org/AltaEmpleado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarPeriodista">
+      <soap:operation soapAction="http://tempuri.org/BuscarPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaPeriodista">
+      <soap:operation soapAction="http://tempuri.org/AltaPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarPeriodista">
+      <soap:operation soapAction="http://tempuri.org/ModificarPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminarPeriodista">
+      <soap:operation soapAction="http://tempuri.org/EliminarPeriodista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarPeriodistas">
+      <soap:operation soapAction="http://tempuri.org/ListarPeriodistas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarSeccion">
+      <soap:operation soapAction="http://tempuri.org/BuscarSeccion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaSeccion">
+      <soap:operation soapAction="http://tempuri.org/AltaSeccion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarSeccion">
+      <soap:operation soapAction="http://tempuri.org/ModificarSeccion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminarSeccion">
+      <soap:operation soapAction="http://tempuri.org/EliminarSeccion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarSecciones">
+      <soap:operation soapAction="http://tempuri.org/ListarSecciones" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarNoticia">
+      <soap:operation soapAction="http://tempuri.org/BuscarNoticia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarNoticia">
+      <soap:operation soapAction="http://tempuri.org/ModificarNoticia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaNoticia">
+      <soap:operation soapAction="http://tempuri.org/AltaNoticia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="ServicioEFSoap12" type="tns:ServicioEFSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Logueo">
       <soap12:operation soapAction="http://tempuri.org/Logueo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaEmpleado">
+      <soap12:operation soapAction="http://tempuri.org/AltaEmpleado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarPeriodista">
+      <soap12:operation soapAction="http://tempuri.org/BuscarPeriodista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaPeriodista">
+      <soap12:operation soapAction="http://tempuri.org/AltaPeriodista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarPeriodista">
+      <soap12:operation soapAction="http://tempuri.org/ModificarPeriodista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminarPeriodista">
+      <soap12:operation soapAction="http://tempuri.org/EliminarPeriodista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarPeriodistas">
+      <soap12:operation soapAction="http://tempuri.org/ListarPeriodistas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarSeccion">
+      <soap12:operation soapAction="http://tempuri.org/BuscarSeccion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaSeccion">
+      <soap12:operation soapAction="http://tempuri.org/AltaSeccion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarSeccion">
+      <soap12:operation soapAction="http://tempuri.org/ModificarSeccion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminarSeccion">
+      <soap12:operation soapAction="http://tempuri.org/EliminarSeccion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarSecciones">
+      <soap12:operation soapAction="http://tempuri.org/ListarSecciones" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarNoticia">
+      <soap12:operation soapAction="http://tempuri.org/BuscarNoticia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarNoticia">
+      <soap12:operation soapAction="http://tempuri.org/ModificarNoticia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AltaNoticia">
+      <soap12:operation soapAction="http://tempuri.org/AltaNoticia" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
