@@ -37,4 +37,15 @@ public class LogicaModeloEF
             throw new Exception("Usuario / Contraseña incorrectos");
         }
     }
+
+    internal static List<Noticias> MostrarNoticiasUltimosCincoDias()
+    {
+        DateTime hoy = DateTime.Now;
+
+        DateTime haceCincoDias = hoy.AddDays(-5);
+
+        return OEcontext.Noticias
+            .Where(noticia => noticia.FechaPublicacion >= haceCincoDias)
+            .ToList<Noticias>();
+    }
 }

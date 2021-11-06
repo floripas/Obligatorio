@@ -39,4 +39,21 @@ public class ServicioEF : System.Web.Services.WebService
 
         return emp;
     }
+
+    [WebMethod]
+    public List<Noticias> MostrarNoticiasUltimosCincoDias()
+    {
+        List <Noticias> resultado = null;
+
+        try
+        {
+            resultado = LogicaModeloEF.MostrarNoticiasUltimosCincoDias();
+        }
+        catch (Exception ex)
+        {
+            GeneroSoapException(ex);
+        }
+
+        return resultado;
+    }
 }
