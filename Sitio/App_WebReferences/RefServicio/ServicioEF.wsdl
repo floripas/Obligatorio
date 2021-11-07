@@ -222,6 +222,16 @@
       <s:element name="AltaNoticiaResponse">
         <s:complexType />
       </s:element>
+      <s:element name="MostrarNoticiasUltimosCincoDias">
+        <s:complexType />
+      </s:element>
+      <s:element name="MostrarNoticiasUltimosCincoDiasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MostrarNoticiasUltimosCincoDiasResult" type="tns:ArrayOfNoticias" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LogueoSoapIn">
@@ -314,6 +324,12 @@
   <wsdl:message name="AltaNoticiaSoapOut">
     <wsdl:part name="parameters" element="tns:AltaNoticiaResponse" />
   </wsdl:message>
+  <wsdl:message name="MostrarNoticiasUltimosCincoDiasSoapIn">
+    <wsdl:part name="parameters" element="tns:MostrarNoticiasUltimosCincoDias" />
+  </wsdl:message>
+  <wsdl:message name="MostrarNoticiasUltimosCincoDiasSoapOut">
+    <wsdl:part name="parameters" element="tns:MostrarNoticiasUltimosCincoDiasResponse" />
+  </wsdl:message>
   <wsdl:portType name="ServicioEFSoap">
     <wsdl:operation name="Logueo">
       <wsdl:input message="tns:LogueoSoapIn" />
@@ -374,6 +390,10 @@
     <wsdl:operation name="AltaNoticia">
       <wsdl:input message="tns:AltaNoticiaSoapIn" />
       <wsdl:output message="tns:AltaNoticiaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MostrarNoticiasUltimosCincoDias">
+      <wsdl:input message="tns:MostrarNoticiasUltimosCincoDiasSoapIn" />
+      <wsdl:output message="tns:MostrarNoticiasUltimosCincoDiasSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ServicioEFSoap" type="tns:ServicioEFSoap">
@@ -506,6 +526,15 @@
     </wsdl:operation>
     <wsdl:operation name="AltaNoticia">
       <soap:operation soapAction="http://tempuri.org/AltaNoticia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarNoticiasUltimosCincoDias">
+      <soap:operation soapAction="http://tempuri.org/MostrarNoticiasUltimosCincoDias" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -651,13 +680,22 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="MostrarNoticiasUltimosCincoDias">
+      <soap12:operation soapAction="http://tempuri.org/MostrarNoticiasUltimosCincoDias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ServicioEF">
     <wsdl:port name="ServicioEFSoap" binding="tns:ServicioEFSoap">
-      <soap:address location="http://localhost/Servicio/ServicioEF.asmx" />
+      <soap:address location="http://localhost/obligatorio2/ServicioEF.asmx" />
     </wsdl:port>
     <wsdl:port name="ServicioEFSoap12" binding="tns:ServicioEFSoap12">
-      <soap12:address location="http://localhost/Servicio/ServicioEF.asmx" />
+      <soap12:address location="http://localhost/obligatorio2/ServicioEF.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

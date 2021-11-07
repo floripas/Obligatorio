@@ -26,6 +26,11 @@ public partial class _Default : System.Web.UI.Page
 
     protected void grdNoticias_SelectedIndexChanged(object sender, EventArgs e)
     {
+        List<Noticias> noticias = (List<Noticias>)Session["noticias"];
 
+        Noticias noticiaSeleccionada = noticias[grdNoticias.SelectedIndex];
+
+        Session["noticiaSeleccionada"] = noticiaSeleccionada;
+        Response.Redirect("~/ConsultaNoticia.aspx");
     }
 }

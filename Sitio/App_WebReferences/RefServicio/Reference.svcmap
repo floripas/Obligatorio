@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5aec847f-0d92-46eb-a2d8-d8cd8c38b061" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="8baf9402-cd86-406b-b21c-4126661aa4d2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,8 +22,8 @@
     <MetadataSource Address="http://localhost/obligatorio2/ServicioEF.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ServicioEF.disco" MetadataType="Disco" ID="ea1d2f26-11fb-4036-884f-12d060259dfa" SourceId="1" SourceUrl="http://localhost/obligatorio2/ServicioEF.asmx?disco" />
-    <MetadataFile FileName="ServicioEF.wsdl" MetadataType="Wsdl" ID="5e4aa567-6228-409f-a33c-8faeb9386b4d" SourceId="1" SourceUrl="http://localhost/obligatorio2/ServicioEF.asmx?wsdl" />
+    <MetadataFile FileName="ServicioEF.disco" MetadataType="Disco" ID="7c9faa1b-80dd-4340-92c3-c0d62503acfa" SourceId="1" SourceUrl="http://localhost/obligatorio2/ServicioEF.asmx?disco" />
+    <MetadataFile FileName="ServicioEF.wsdl" MetadataType="Wsdl" ID="164dea68-4cc7-4ad6-8aa0-430e16e82576" SourceId="1" SourceUrl="http://localhost/obligatorio2/ServicioEF.asmx?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
