@@ -10,7 +10,13 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:GridView ID="grdNoticias" runat="server"></asp:GridView>
+            <asp:GridView ID="grdNoticias" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="grdNoticias_SelectedIndexChanged">
+                <Columns>
+                    <asp:BoundField AccessibleHeaderText="Titulo" DataField="Titulo" HeaderText="Titulo" />
+                    <asp:BoundField AccessibleHeaderText="Fecha de publicación" DataField="FechaPublicacion" HeaderText="Fecha de publicación" />
+                    <asp:CommandField ShowSelectButton="True" />
+                </Columns>
+            </asp:GridView>
         </div>
     </form>
 </body>

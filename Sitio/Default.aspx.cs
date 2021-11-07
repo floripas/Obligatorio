@@ -23,4 +23,9 @@ public partial class _Default : System.Web.UI.Page
             grdNoticias.DataBind();
         }
     }
+
+    protected void grdNoticias_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
 }
