@@ -14,17 +14,8 @@ namespace ModeloEF
     
     public partial class Secciones
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Secciones()
-        {
-            this.Noticias = new HashSet<Noticias>();
-        }
-    
         public string CodigoSeccion { get; set; }
         public string Nombre { get; set; }
         public bool Activo { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual HashSet<Noticias> Noticias { get; set; }
     }
 }

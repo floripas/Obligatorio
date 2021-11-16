@@ -14,16 +14,7 @@ namespace ModeloEF
     
     public partial class Empleados
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Empleados()
-        {
-            this.Noticias = new HashSet<Noticias>();
-        }
-    
         public string NombreUsuario { get; set; }
         public string Contraseña { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual HashSet<Noticias> Noticias { get; set; }
     }
 }

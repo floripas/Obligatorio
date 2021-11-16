@@ -164,7 +164,6 @@
           </Key>
           <Property Name="NombreUsuario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contraseña" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Noticias" Relationship="Self.FK__Noticias__Nombre__1273C1CD" FromRole="Empleados" ToRole="Noticias" />
         </EntityType>
         <EntityType Name="Noticias">
           <Key>
@@ -189,7 +188,6 @@
           <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Noticias" Relationship="Self.Escriben" FromRole="Periodistas" ToRole="Noticias" />
         </EntityType>
         <EntityType Name="Secciones">
           <Key>
@@ -198,7 +196,6 @@
           <Property Name="CodigoSeccion" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Noticias" Relationship="Self.FK__Noticias__Codigo__1367E606" FromRole="Secciones" ToRole="Noticias" />
         </EntityType>
         <Association Name="FK__Noticias__Nombre__1273C1CD">
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />

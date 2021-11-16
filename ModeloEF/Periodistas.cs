@@ -14,18 +14,9 @@ namespace ModeloEF
     
     public partial class Periodistas
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Periodistas()
-        {
-            this.Noticias = new HashSet<Noticias>();
-        }
-    
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         public string Email { get; set; }
         public bool Activo { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual HashSet<Noticias> Noticias { get; set; }
     }
 }

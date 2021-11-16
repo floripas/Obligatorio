@@ -21,48 +21,6 @@
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="1" name="NombreUsuario" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Contraseña" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Noticias" type="tns:ArrayOfNoticias" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfNoticias">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="Noticias" nillable="true" type="tns:Noticias" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="Noticias">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="Codigo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="NombreUsuario" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="CodigoSeccion" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Titulo" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Cuerpo" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Importancia" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="FechaPublicacion" type="s:dateTime" />
-          <s:element minOccurs="0" maxOccurs="1" name="Empleados" type="tns:Empleados" />
-          <s:element minOccurs="0" maxOccurs="1" name="Secciones" type="tns:Secciones" />
-          <s:element minOccurs="0" maxOccurs="1" name="Periodistas" type="tns:ArrayOfPeriodistas" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="Secciones">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="CodigoSeccion" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
-          <s:element minOccurs="0" maxOccurs="1" name="Noticias" type="tns:ArrayOfNoticias" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="ArrayOfPeriodistas">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="Periodistas" nillable="true" type="tns:Periodistas" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="Periodistas">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="Cedula" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
-          <s:element minOccurs="0" maxOccurs="1" name="Noticias" type="tns:ArrayOfNoticias" />
         </s:sequence>
       </s:complexType>
       <s:element name="AltaEmpleado">
@@ -89,6 +47,14 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="Periodistas">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Cedula" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="AltaPeriodista">
         <s:complexType>
           <s:sequence>
@@ -129,6 +95,11 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="ArrayOfPeriodistas">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Periodistas" nillable="true" type="tns:Periodistas" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="BuscarSeccion">
         <s:complexType>
           <s:sequence>
@@ -143,6 +114,13 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="Secciones">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoSeccion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="AltaSeccion">
         <s:complexType>
           <s:sequence>
@@ -202,6 +180,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="Noticias">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Codigo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NombreUsuario" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CodigoSeccion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Titulo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cuerpo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Importancia" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaPublicacion" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Empleados" type="tns:Empleados" />
+          <s:element minOccurs="0" maxOccurs="1" name="Secciones" type="tns:Secciones" />
+          <s:element minOccurs="0" maxOccurs="1" name="Periodistas" type="tns:ArrayOfPeriodistas" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="ModificarNoticia">
         <s:complexType>
           <s:sequence>
@@ -232,6 +224,11 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="ArrayOfNoticias">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Noticias" nillable="true" type="tns:Noticias" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LogueoSoapIn">
