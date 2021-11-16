@@ -18,6 +18,7 @@
                 </Columns>
             </asp:GridView>
         </div>
+        <asp:Label ID="lblMensaje" runat="server" Text=""></asp:Label>
     </form>
 </body>
 </html>

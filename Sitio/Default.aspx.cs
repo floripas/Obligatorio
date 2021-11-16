@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Services.Protocols;
 using RefServicio;
 
 
@@ -11,26 +12,48 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        try
         {
-            ServicioEFSoapClient servicio = new ServicioEFSoapClient();
+            if (!IsPostBack)
+            {
+                ServicioEFSoapClient servicio = new ServicioEFSoapClient();
 
-            List<Noticias> noticias = servicio.MostrarNoticiasUltimosCincoDias().ToList<Noticias>();
+                List<Noticias> noticias = servicio.MostrarNoticiasUltimosCincoDias().ToList<Noticias>();
 
-            Session["noticias"] = noticias;
+                Session["noticias"] = noticias;
 
-            grdNoticias.DataSource = noticias;
-            grdNoticias.DataBind();
+                grdNoticias.DataSource = noticias;
+                grdNoticias.DataBind();
+            }
+        }
+        catch (SoapException ex)
+        {
+            lblMensaje.Text = ex.Detail.InnerText;
+        }
+        catch (Exception ex)
+        {
+            lblMensaje.Text = ex.Message;
         }
     }
 
     protected void grdNoticias_SelectedIndexChanged(object sender, EventArgs e)
     {
-        List<Noticias> noticias = (List<Noticias>)Session["noticias"];
+        try
+        {
+            List<Noticias> noticias = (List<Noticias>)Session["noticias"];
 
-        Noticias noticiaSeleccionada = noticias[grdNoticias.SelectedIndex];
+            Noticias noticiaSeleccionada = noticias[grdNoticias.SelectedIndex];
 
-        Session["noticiaSeleccionada"] = noticiaSeleccionada;
-        Response.Redirect("~/ConsultaNoticia.aspx");
+            Session["noticiaSeleccionada"] = noticiaSeleccionada;
+            Response.Redirect("~/ConsultaNoticia.aspx");
+        }
+        catch (SoapException ex)
+        {
+            lblMensaje.Text = ex.Detail.InnerText;
+        }
+        catch (Exception ex)
+        {
+            lblMensaje.Text = ex.Message;
+        }
     }
 }

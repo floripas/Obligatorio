@@ -24,38 +24,38 @@
             <tr>
                 <td class="label-container"><label>Código: </label></td>
                 <td>
-                    <asp:TextBox ID="TxtCodigo" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TxtCodigo" runat="server" ReadOnly="True"></asp:TextBox>
                 </td>
             </tr>
             <tr>
                 <td class="label-container">
                     <label>Sección:</label>
                 </td>
-                <td><asp:TextBox ID="TxtSeccion" runat="server"></asp:TextBox></td>
+                <td><asp:TextBox ID="TxtSeccion" runat="server" ReadOnly="True"></asp:TextBox></td>
             </tr>
             <tr>
                 <td class="label-container">
                     <label>Título: </label>
                 </td>
-                <td><asp:TextBox ID="TxtTitulo" runat="server"></asp:TextBox></td>
+                <td><asp:TextBox ID="TxtTitulo" runat="server" ReadOnly="True"></asp:TextBox></td>
             </tr>
             <tr>
                 <td class="label-container">
                     <label>Cuerpo: </label>
                 </td>
-                <td><asp:TextBox ID="TxtCuerpo" runat="server"></asp:TextBox></td>
+                <td><asp:TextBox ID="TxtCuerpo" runat="server" ReadOnly="True"></asp:TextBox></td>
             </tr>
             <tr>
                 <td class="label-container">
                     <label>Importancia: </label>
                 </td>
-                <td><asp:TextBox ID="TxtImportancia" runat="server"></asp:TextBox></td>
+                <td><asp:TextBox ID="TxtImportancia" runat="server" ReadOnly="True"></asp:TextBox></td>
             </tr>
             <tr>
                 <td class="label-container">
                     <label>FechaPublicación: </label>
                 </td>
-                <td><asp:TextBox ID="TxtFecha" runat="server"></asp:TextBox></td>
+                <td><asp:TextBox ID="TxtFecha" runat="server" ReadOnly="True"></asp:TextBox></td>
             </tr>
             <tr>
                 <td class="label-container">
@@ -65,6 +65,7 @@
                     <asp:ListBox ID="LstPeriodistas" runat="server"></asp:ListBox></td>
             </tr>
         </table>
+        <asp:Label ID="lblMensaje" runat="server" Text=""></asp:Label>
     </form>
 </body>
 </html>
