@@ -18,7 +18,7 @@ public partial class Logueo : System.Web.UI.Page
     {
         try
         {
-            Empleados emp = new ServicioEF().Logueo(txtNombreUsuario.Text, txtContraseña.Text);
+            Empleados emp = new ServicioEFSoapClient().Logueo(txtNombreUsuario.Text, txtContraseña.Text);
 
             if (emp != null)
             {

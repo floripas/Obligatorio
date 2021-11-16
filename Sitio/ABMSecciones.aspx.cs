@@ -18,7 +18,7 @@ public partial class ABMSecciones : System.Web.UI.Page
     {
         try
         {
-            Secciones _unaSeccion = new ServicioEF().BuscarSeccion(txtCodigoSeccion.Text.Trim());
+            Secciones _unaSeccion = new ServicioEFSoapClient().BuscarSeccion(txtCodigoSeccion.Text.Trim());
 
             if (_unaSeccion == null)
             {
@@ -81,7 +81,7 @@ public partial class ABMSecciones : System.Web.UI.Page
 
         try
         {
-            new ServicioEF().AltaSeccion(S);
+            new ServicioEFSoapClient().AltaSeccion(S);
 
             lblMensaje.Text = "Alta con Exito";
 
@@ -108,7 +108,7 @@ public partial class ABMSecciones : System.Web.UI.Page
         {
             Secciones _unaS = (Secciones)Session["Seccion"];
 
-            new ServicioEF().EliminarSeccion(_unaS);
+            new ServicioEFSoapClient().EliminarSeccion(_unaS);
 
             lblMensaje.Text = "Baja con Exito";
 
@@ -137,7 +137,7 @@ public partial class ABMSecciones : System.Web.UI.Page
             _unaS.CodigoSeccion = txtCodigoSeccion.Text.Trim();
             _unaS.Nombre = txtNombreSeccion.Text.Trim();
 
-            new ServicioEF().ModificarSeccion(_unaS);
+            new ServicioEFSoapClient().ModificarSeccion(_unaS);
 
             lblMensaje.Text = "Modificación con Exito";
 

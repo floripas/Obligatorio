@@ -30,7 +30,7 @@ public partial class AltaEmpleado : System.Web.UI.Page
                 Contraseña = txtContraseña.Text.Trim()
             };
 
-            new ServicioEF().AltaEmpleado(E);
+            new ServicioEFSoapClient().AltaEmpleado(E);
 
             lblError.Text = "Alta con Exito";
 
@@ -72,7 +72,7 @@ public partial class AltaEmpleado : System.Web.UI.Page
 
         //try
         //{
-        //    new ServicioEF().AltaEmpleado(E);
+        //    new ServicioEFSoapClient().AltaEmpleado(E);
 
         //    lblError.Text = "Alta con Exito";
 

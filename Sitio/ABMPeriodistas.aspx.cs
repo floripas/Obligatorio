@@ -36,7 +36,7 @@ public partial class ABMPeriodistas : System.Web.UI.Page
     {
         try
         {
-            Periodistas _unPeriodista = new ServicioEF().BuscarPeriodista(txtCedula.Text);
+            Periodistas _unPeriodista = new ServicioEFSoapClient().BuscarPeriodista(txtCedula.Text);
 
             if (_unPeriodista == null)
             {
@@ -90,7 +90,7 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 
         try
         {
-            new ServicioEF().AltaPeriodista(P);
+            new ServicioEFSoapClient().AltaPeriodista(P);
 
             LblError.Text = "Alta con Exito";
 
@@ -118,7 +118,7 @@ public partial class ABMPeriodistas : System.Web.UI.Page
         {
             Periodistas _unPer = (Periodistas)Session["Periodista"];
 
-            new ServicioEF().EliminarPeriodista(_unPer);
+            new ServicioEFSoapClient().EliminarPeriodista(_unPer);
 
             LblError.Text = "Baja con Exito";
 
@@ -149,7 +149,7 @@ public partial class ABMPeriodistas : System.Web.UI.Page
             _unP.Nombre = txtNombre.Text.Trim();
             _unP.Email = txtEmail.Text.Trim();
 
-            new ServicioEF().ModificarPeriodista(_unP);
+            new ServicioEFSoapClient().ModificarPeriodista(_unP);
 
             LblError.Text = "Modificación con Exito";
 

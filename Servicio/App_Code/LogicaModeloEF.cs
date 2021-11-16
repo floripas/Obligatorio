@@ -314,4 +314,34 @@ public class LogicaModeloEF
         }
     }
     #endregion
+
+    internal static List<Noticias> MostrarNoticiasUltimosCincoDias()
+    {
+        DateTime hoy = DateTime.Now;
+
+        DateTime haceCincoDias = hoy.AddDays(-5);
+
+        /**
+         * Aquí la operación Include se utiliza para indicar al contexto
+         * que se carguen los datos de las Noticias de forma diligente,
+         * tal como se explica en el siguiente enlace: 
+         * 
+         * https://docs.microsoft.com/en-us/ef/ef6/querying/related-data#eagerly-loading
+         * 
+         * Debido a que se eliminó la doble navegabilidad del modelo para
+         * evitar referencias circulares, esta es la única forma de forzar
+         * al contexto de cargar las Noticias con los Periodistas
+         * 
+         * Luego utilicé Include para Empleados y Secciones para seguir
+         * el mismo criterio.
+         * 
+         * Rafael, 16/11/2021
+         */
+        return OEcontext.Noticias
+            .Include("Periodistas")
+            .Include("Empleados")
+            .Include("Secciones")
+            .Where(noticia => noticia.FechaPublicacion >= haceCincoDias)
+            .ToList<Noticias>();
+    }
 }
