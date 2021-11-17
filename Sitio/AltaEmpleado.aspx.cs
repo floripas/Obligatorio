@@ -30,7 +30,7 @@ public partial class AltaEmpleado : System.Web.UI.Page
                 Contraseña = txtContraseña.Text.Trim()
             };
 
-            new ServicioEFSoapClient().AltaEmpleado(E);
+            new ServicioEF().AltaEmpleado(E);
 
             lblError.Text = "Alta con Exito";
 
@@ -49,46 +49,5 @@ public partial class AltaEmpleado : System.Web.UI.Page
         {
             lblError.Text = ex.Message;
         }
-        //Empleados E = null;
-
-        //try
-        //{
-        //    E = new Empleados()
-        //    {
-        //        NombreUsuario = txtNombreUsuario.Text,
-        //        Contraseña = txtContraseña.Text,
-        //        Noticias = null
-        //    };
-        //    if (txtContraseña.Text != txtConfirmarContraseña.Text)
-        //    {
-        //        throw new Exception("Las contraseñas no coinciden");
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    lblError.Text = ex.Message;
-        //    return;
-        //}
-
-        //try
-        //{
-        //    new ServicioEFSoapClient().AltaEmpleado(E);
-
-        //    lblError.Text = "Alta con Exito";
-
-        //    txtNombreUsuario.Text = "";
-        //    txtContraseña.Text = "";
-        //    txtConfirmarContraseña.Text = "";
-
-        //    btnCrear.Enabled = false;
-        //}
-        //catch (System.Web.Services.Protocols.SoapException ex)
-        //{
-        //    lblError.Text = ex.Detail.InnerText;
-        //}
-        //catch (Exception ex)
-        //{
-        //    lblError.Text = ex.Message;
-        //}
     }
 }

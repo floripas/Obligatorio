@@ -34,13 +34,13 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
     private void CargarDDLSecciones()
     {
-        ddlSecciones.DataSource = new ServicioEFSoapClient().ListarSecciones().ToList();
+        ddlSecciones.DataSource = new ServicioEF().ListarSecciones().ToList();
         ddlSecciones.DataTextField = "Nombre";
         ddlSecciones.DataBind();
     }
     private void CargarChkPeriodistas()
     {
-        chkPeriodistas.DataSource = new ServicioEFSoapClient().ListarPeriodistas().ToList();
+        chkPeriodistas.DataSource = new ServicioEF().ListarPeriodistas().ToList();
         chkPeriodistas.DataValueField = "Cedula";
         chkPeriodistas.DataTextField = "Nombre";
         chkPeriodistas.DataBind();
@@ -75,7 +75,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             if (txtCodigo.Text.Length == 0)
                 throw new Exception("El codigo de la noticia no puede ser vacio.");
 
-            Noticias _unaNoticia = new ServicioEFSoapClient().BuscarNoticia(txtCodigo.Text.Trim());
+            Noticias _unaNoticia = new ServicioEF().BuscarNoticia(txtCodigo.Text.Trim());
 
             if (_unaNoticia == null)
             {
@@ -151,7 +151,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             _unaN.FechaPublicacion = Convert.ToDateTime(txtFecha);
             
 
-            new ServicioEFSoapClient().ModificarNoticia(_unaN);
+            new ServicioEF().ModificarNoticia(_unaN);
 
             lblMensaje.Text = "Modificación con Exito";
 
@@ -182,7 +182,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             if(item.Selected)
             {
-                lista.Add(new ServicioEFSoapClient().BuscarPeriodista(chkPeriodistas.SelectedItem.Value.ToString()));
+                lista.Add(new ServicioEF().BuscarPeriodista(chkPeriodistas.SelectedItem.Value.ToString()));
             }
         }
 
@@ -196,7 +196,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 FechaPublicacion = Convert.ToDateTime(txtFecha.Text.Trim()),
                 Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value),
                 Empleados = (Empleados)Session["usuarioLogueado"],
-                Secciones = new ServicioEFSoapClient().BuscarSeccion(ddlSecciones.SelectedItem.Value),
+                Secciones = new ServicioEF().BuscarSeccion(ddlSecciones.SelectedItem.Value),
                 Periodistas = lista.ToArray<Periodistas>()
             };
         }
@@ -208,7 +208,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
         try
         {
-            new ServicioEFSoapClient().AltaNoticia(N);
+            new ServicioEF().AltaNoticia(N);
 
             lblMensaje.Text = "Alta con Exito";
 

@@ -16,7 +16,7 @@ public partial class _Default : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                ServicioEFSoapClient servicio = new ServicioEFSoapClient();
+                ServicioEF servicio = new ServicioEF();
 
                 List<Noticias> noticias = servicio.MostrarNoticiasUltimosCincoDias().ToList<Noticias>();
 
