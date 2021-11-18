@@ -10,6 +10,12 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <p style="display: inline;">Filtra las noticias por secciones usando este menú desplegable: </p>
+            <asp:DropDownList ID="ddlFiltroSeccion" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlFiltroSeccion_SelectedIndexChanged">
+                <asp:ListItem Selected="True">Sin filtro</asp:ListItem>
+            </asp:DropDownList>
+        </div>
+        <div>
             <asp:GridView ID="grdNoticias" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="grdNoticias_SelectedIndexChanged">
                 <Columns>
                     <asp:BoundField AccessibleHeaderText="Titulo" DataField="Titulo" HeaderText="Titulo" />

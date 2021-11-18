@@ -18,12 +18,9 @@ public partial class _Default : System.Web.UI.Page
             {
                 ServicioEF servicio = new ServicioEF();
 
-                List<Noticias> noticias = servicio.MostrarNoticiasUltimosCincoDias().ToList<Noticias>();
+                CargarDdlFiltroSeccion(servicio);
 
-                Session["noticias"] = noticias;
-
-                grdNoticias.DataSource = noticias;
-                grdNoticias.DataBind();
+                CargarNoticiasEnGrilla(servicio);
             }
         }
         catch (SoapException ex)
@@ -34,6 +31,31 @@ public partial class _Default : System.Web.UI.Page
         {
             lblMensaje.Text = ex.Message;
         }
+    }
+
+    private void CargarDdlFiltroSeccion(ServicioEF servicio)
+    {
+        List<Secciones> secciones = servicio.ListarSecciones().ToList<Secciones>();
+
+        Session["secciones"] = secciones;
+
+        ListItem item;
+
+        foreach (Secciones seccion in secciones)
+        {
+            item = new ListItem(seccion.Nombre, seccion.CodigoSeccion);
+            ddlFiltroSeccion.Items.Add(item);
+        }
+    }
+
+    private void CargarNoticiasEnGrilla(ServicioEF servicio)
+    {
+        List<Noticias> noticias = servicio.MostrarNoticiasUltimosCincoDias().ToList<Noticias>();
+
+        Session["noticias"] = noticias;
+
+        grdNoticias.DataSource = noticias;
+        grdNoticias.DataBind();
     }
 
     protected void grdNoticias_SelectedIndexChanged(object sender, EventArgs e)
@@ -50,6 +72,40 @@ public partial class _Default : System.Web.UI.Page
         catch (SoapException ex)
         {
             lblMensaje.Text = ex.Detail.InnerText;
+        }
+        catch (Exception ex)
+        {
+            lblMensaje.Text = ex.Message;
+        }
+    }
+
+    protected void ddlFiltroSeccion_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            List<Noticias> noticias = (List<Noticias>)Session["noticias"];
+
+            string codigoSeccionSeleccionada = ddlFiltroSeccion.SelectedValue;
+
+            if (codigoSeccionSeleccionada.ToLower() == "sin filtro")
+            {
+                grdNoticias.DataSource = noticias;
+                lblMensaje.Text = "";
+            }
+            else
+            {
+                List<Noticias> noticiasFiltradas = noticias
+                .Where(noticia => noticia.Secciones.CodigoSeccion == codigoSeccionSeleccionada)
+                .ToList<Noticias>();
+
+                grdNoticias.DataSource = noticiasFiltradas;
+
+                lblMensaje.Text = noticiasFiltradas.Count > 0
+                    ? "" 
+                    : "Ninguna noticia reciente se publicó en la sección " + ddlFiltroSeccion.SelectedItem.Text;
+            }
+            
+            grdNoticias.DataBind();
         }
         catch (Exception ex)
         {
