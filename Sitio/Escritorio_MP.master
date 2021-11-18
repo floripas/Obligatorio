@@ -44,11 +44,6 @@
                     <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/AltaModificacionNoticias.aspx">Alta / Modificar Noticias</asp:HyperLink>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <asp:HyperLink ID="HyperLink6" runat="server" NavigateUrl="~/Estadisticas.aspx">Estadísticas</asp:HyperLink>
-                </td>
-            </tr>
             </table>
         <div style="position:absolute; width: 73%; top: 110px;left: 26%;">
             <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>

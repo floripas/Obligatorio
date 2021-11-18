@@ -243,12 +243,11 @@ public class ServicioEF : System.Web.Services.WebService
             this.GeneroSoapException(ex);
         }
     }
-    #endregion
 
     [WebMethod]
     public List<Noticias> MostrarNoticiasUltimosCincoDias()
     {
-        List <Noticias> resultado = null;
+        List<Noticias> resultado = null;
 
         try
         {
@@ -261,4 +260,5 @@ public class ServicioEF : System.Web.Services.WebService
 
         return resultado;
     }
+    #endregion
 }

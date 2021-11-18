@@ -49,7 +49,6 @@
             </td>
             <td>
                 <asp:DropDownList ID="ddlImportancia" runat="server" Enabled="False">
-                    <asp:ListItem Selected="True"></asp:ListItem>
                     <asp:ListItem>1</asp:ListItem>
                     <asp:ListItem>2</asp:ListItem>
                     <asp:ListItem>3</asp:ListItem>
@@ -73,8 +72,6 @@
                 <label>Autores de la noticia:</label>
             </td>
             <td>
-                
-                <asp:ListBox ID="lstPeriodistas" runat="server" SelectionMode="Multiple"></asp:ListBox>
                 
                 <asp:CheckBoxList ID="chkPeriodistas" runat="server">
                 </asp:CheckBoxList>

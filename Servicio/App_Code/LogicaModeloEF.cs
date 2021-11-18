@@ -296,6 +296,7 @@ public class LogicaModeloEF
                 Cuerpo = unaN.Cuerpo,
                 Titulo = unaN.Titulo,
                 FechaPublicacion = unaN.FechaPublicacion,
+                Empleados = unaN.Empleados,
                 Importancia = unaN.Importancia,
                 Periodistas = unaN.Periodistas,
                 Secciones = unaN.Secciones
@@ -313,7 +314,6 @@ public class LogicaModeloEF
             throw ex;
         }
     }
-    #endregion
 
     internal static List<Noticias> MostrarNoticiasUltimosCincoDias()
     {
@@ -344,4 +344,6 @@ public class LogicaModeloEF
             .Where(noticia => noticia.FechaPublicacion >= haceCincoDias)
             .ToList<Noticias>();
     }
+
+    #endregion
 }

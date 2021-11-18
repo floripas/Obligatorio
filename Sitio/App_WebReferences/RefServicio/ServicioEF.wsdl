@@ -689,10 +689,10 @@
   </wsdl:binding>
   <wsdl:service name="ServicioEF">
     <wsdl:port name="ServicioEFSoap" binding="tns:ServicioEFSoap">
-      <soap:address location="http://localhost/obligatorio2/ServicioEF.asmx" />
+      <soap:address location="http://localhost/Servicio/ServicioEF.asmx" />
     </wsdl:port>
     <wsdl:port name="ServicioEFSoap12" binding="tns:ServicioEFSoap12">
-      <soap12:address location="http://localhost/obligatorio2/ServicioEF.asmx" />
+      <soap12:address location="http://localhost/Servicio/ServicioEF.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
