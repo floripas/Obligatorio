@@ -178,6 +178,8 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
         Noticias N = null;
         List<Periodistas> lista = new List<Periodistas>();
+
+        //No funciona correctamente, arma la lista de periodistas pero siempre con el mismo.
         foreach(ListItem item in chkPeriodistas.Items)
         {
             if(item.Selected)
