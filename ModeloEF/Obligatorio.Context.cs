@@ -135,5 +135,31 @@ namespace ModeloEF
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ModificarSeccion", codigoSeccionParameter, nuevoNombreParameter);
         }
+    
+        public virtual int EliminarEmpleado(string nombreUsuario, string contraseña)
+        {
+            var nombreUsuarioParameter = nombreUsuario != null ?
+                new ObjectParameter("nombreUsuario", nombreUsuario) :
+                new ObjectParameter("nombreUsuario", typeof(string));
+    
+            var contraseñaParameter = contraseña != null ?
+                new ObjectParameter("contraseña", contraseña) :
+                new ObjectParameter("contraseña", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarEmpleado", nombreUsuarioParameter, contraseñaParameter);
+        }
+    
+        public virtual int ModificarEmpleado(string nombreUsuario, string contraseña)
+        {
+            var nombreUsuarioParameter = nombreUsuario != null ?
+                new ObjectParameter("nombreUsuario", nombreUsuario) :
+                new ObjectParameter("nombreUsuario", typeof(string));
+    
+            var contraseñaParameter = contraseña != null ?
+                new ObjectParameter("contraseña", contraseña) :
+                new ObjectParameter("contraseña", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ModificarEmpleado", nombreUsuarioParameter, contraseñaParameter);
+        }
     }
 }
