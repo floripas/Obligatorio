@@ -242,6 +242,30 @@ BEGIN
 END
 GO
 
+-- sp creado únicamente para satisfacer al Entity Framework
+-- y mapearlo en el modelo como update function de Empleados
+CREATE PROCEDURE ModificarEmpleado
+--ALTER PROCEDURE ModificarEmpleado
+  @nombreUsuario VARCHAR(10),
+  @contraseña VARCHAR(7)
+AS
+BEGIN
+	RETURN
+END
+GO
+
+-- sp creado únicamente para satisfacer al Entity Framework
+-- y mapearlo en el modelo como update function de Empleados
+CREATE PROCEDURE EliminarEmpleado
+--ALTER PROCEDURE EliminarEmpleado
+  @nombreUsuario VARCHAR(10),
+  @contraseña VARCHAR(7)
+AS
+BEGIN
+	RETURN 
+END
+GO
+
 -- ===============================================
 CREATE PROCEDURE AltaSeccion
 --ALTER PROCEDURE AltaSeccion
