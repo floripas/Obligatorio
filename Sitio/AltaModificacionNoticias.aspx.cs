@@ -72,8 +72,8 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
     {
         try
         {
-            if (txtCodigo.Text.Length == 0)
-                throw new Exception("El codigo de la noticia no puede ser vacio.");
+            if (txtCodigo.Text.Trim().Length == 0)
+                throw new Exception("El codigo de la noticia no puede estar vacío.");
 
             Noticias _unaNoticia = new ServicioEF().BuscarNoticia(txtCodigo.Text.Trim());
 
@@ -107,6 +107,14 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 btnCrear.Enabled = false;
                 btnModificar.Enabled = true;
                 btnModificar.Visible = true;
+
+                txtTitulo.Enabled = true;
+                txtCuerpo.Enabled = true;
+                txtFecha.Enabled = true;
+                ddlSecciones.Enabled = true;
+                ddlImportancia.Enabled = true;
+
+
                 Session["Noticia"] = _unaNoticia;
             }
         }
@@ -143,12 +151,14 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             Noticias _unaN = (Noticias)Session["Noticia"];
 
-            _unaN.Codigo = txtCodigo.Text.Trim();
+            DateTime fecha = DateTime.Parse(txtFecha.Text.Trim());
+
+            //no se debe modificar el código de la noticia
             _unaN.Secciones.Nombre = ddlSecciones.Text.Trim();
             _unaN.Titulo = txtTitulo.Text.Trim();
             _unaN.Cuerpo = txtCuerpo.Text.Trim();
             _unaN.Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value);
-            _unaN.FechaPublicacion = Convert.ToDateTime(txtFecha);
+            _unaN.FechaPublicacion = Convert.ToDateTime(fecha);
             
 
             new ServicioEF().ModificarNoticia(_unaN);
