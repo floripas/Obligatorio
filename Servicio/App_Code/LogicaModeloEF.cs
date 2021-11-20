@@ -272,16 +272,21 @@ public class LogicaModeloEF
              * hacerse cambiando el valor de cada una de sus propiedades
              * 
              * **NO** puede reemplazarse el objeto Sección en la Noticia
-             * porque producirá una DuplicateKeyException en el Entity Framework:
-             * EF detectará que en el contexto hay un objeto diferente al que
-             * tiene en memoria con la misma clave primaria de un 
-             * objeto preexistente
+             * porque producirá una DuplicateKeyException en el Entity Framework
+             * al ejecutar la operación DbContext.SaveChanges:
+             * EF detectará que en el contexto ya hay un objeto Sección 
+             * con una cierta clave primaria y que se intenta agregar
+             * un objeto Sección diferente con la misma clave primaria 
+             * que el objeto Sección anterior
              * 
              * Rafael 20/11/2021
              */
             N.Secciones.CodigoSeccion = unaN.Secciones.CodigoSeccion;
             N.Secciones.Nombre = unaN.Secciones.Nombre;
             N.Secciones.Activo = unaN.Secciones.Activo;
+
+            N.Empleados.NombreUsuario = unaN.Empleados.NombreUsuario;
+            N.Empleados.Contraseña = unaN.Empleados.Contraseña;
 
             OEcontext.SaveChanges();
         }
