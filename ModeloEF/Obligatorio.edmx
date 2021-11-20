@@ -110,6 +110,10 @@
           <Parameter Name="codigoSeccion" Type="varchar" Mode="In" />
           <Parameter Name="nombre" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="EliminarEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombreUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="contraseña" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="EliminarPeriodista" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
           <Parameter Name="ret" Type="int" Mode="InOut" />
@@ -119,6 +123,10 @@
           <Parameter Name="ret" Type="int" Mode="InOut" />
         </Function>
         <Function Name="Logueo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombreUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="contraseña" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ModificarEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nombreUsuario" Type="varchar" Mode="In" />
           <Parameter Name="contraseña" Type="varchar" Mode="In" />
         </Function>
@@ -276,6 +284,14 @@
             <Parameter Name="codigoSeccion" Mode="In" Type="String" />
             <Parameter Name="nuevoNombre" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="EliminarEmpleado">
+            <Parameter Name="nombreUsuario" Mode="In" Type="String" />
+            <Parameter Name="contraseña" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ModificarEmpleado">
+            <Parameter Name="nombreUsuario" Mode="In" Type="String" />
+            <Parameter Name="contraseña" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Logueo_Result">
           <Property Type="String" Name="NombreUsuario" Nullable="false" MaxLength="10" />
@@ -300,6 +316,10 @@
                   <ScalarProperty Name="Contraseña" ParameterName="contraseña" />
                   <ScalarProperty Name="NombreUsuario" ParameterName="nombreUsuario" />
                 </InsertFunction>
+                <UpdateFunction FunctionName="ObligatorioModel.Store.ModificarEmpleado" >
+                  <ScalarProperty Name="Contraseña" ParameterName="contraseña" Version="Current" />
+                  <ScalarProperty Name="NombreUsuario" ParameterName="nombreUsuario" Version="Current" />
+                </UpdateFunction>
               </ModificationFunctionMapping>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -384,6 +404,8 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ModificarPeriodista" FunctionName="ObligatorioModel.Store.ModificarPeriodista" />
           <FunctionImportMapping FunctionImportName="ModificarSeccion" FunctionName="ObligatorioModel.Store.ModificarSeccion" />
+          <FunctionImportMapping FunctionImportName="EliminarEmpleado" FunctionName="ObligatorioModel.Store.EliminarEmpleado" />
+          <FunctionImportMapping FunctionImportName="ModificarEmpleado" FunctionName="ObligatorioModel.Store.ModificarEmpleado" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
