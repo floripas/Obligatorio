@@ -356,7 +356,6 @@ EXEC AltaPeriodista '00000000', 'Periodista 5', 'period5@gmail.com'
 EXEC ModificarPeriodista '67839025', 'Periodista 6', 'period6@gmail.com'
 GO
 
-
 INSERT INTO Noticias(Codigo, Titulo, Cuerpo, Importancia, FechaPublicacion, CodigoSeccion, NombreUsuario)
 Values('codnot1', 'Titulo Noticia 1','Cuerpo Noticia 1', 4,'20211017', 'polic', 'Empleado10'),
 ('codnot2', 'Titulo Noticia 2','Cuerpo Noticia 2', 3,'20201013', 'econo', 'Empleado10'),
@@ -366,14 +365,18 @@ Values('codnot1', 'Titulo Noticia 1','Cuerpo Noticia 1', 4,'20211017', 'polic', 
 ('codnot6', 'Titulo Noticia 6','Cuerpo Noticia 6', 5,'20211029', 'econo', 'Empleado10'),
 ('codnot7', 'Titulo Noticia 7','Cuerpo Noticia 7', 2,'20210820', 'cultu', 'Empleado20'),
 ('codnot8', 'Titulo Noticia 8','Cuerpo Noticia 8', 2,'20210821', 'econo', 'Empleado30'),
-('codnot9', 'Titulo Noticia 9','Cuerpo Noticia 9', 5,'20211029', 'inter', 'Empleado10'),
-('codnot10', 'Titulo Noticia 10','Cuerpo Noticia 10', 3,'20191012', 'inter', 'Empleado40'),
-('codnot11', 'Titulo Noticia 11','Cuerpo Noticia 11', 4,'20211029', 'inter', 'Empleado20'),
-('codnot12', 'Titulo Noticia 12','Cuerpo Noticia 12', 3,'20191012', 'inter', 'Empleado40'),
-('codnot13', 'Titulo Noticia 13','Cuerpo Noticia 13', 1,'20210809', 'inter', 'Empleado30'),
-('codnot14', 'Titulo Noticia 14','Cuerpo Noticia 14', 3,'20211104', 'inter', 'Empleado20'),
-('codnot15', 'Titulo Noticia 15','Cuerpo Noticia 15', 3,'20211105', 'inter', 'Empleado20'),
-('codnot16', 'Titulo Noticia 16','Cuerpo Noticia 16', 3,'20211106', 'inter', 'Empleado40')
+('codnot9', 'Titulo Noticia 9','Cuerpo Noticia 9', 5,'20211029', 'inter', 'Empleado10')
+GO 
+
+-- para actualizar automáticamente las fechas de las noticias a mostrar
+INSERT INTO Noticias(Codigo, Titulo, Cuerpo, Importancia, FechaPublicacion, CodigoSeccion, NombreUsuario)
+Values ('codnot10', 'Titulo Noticia 10','Cuerpo Noticia 10', 3,DATEADD(DAY, -5, GETDATE()), 'inter', 'Empleado40'),
+('codnot11', 'Titulo Noticia 11','Cuerpo Noticia 11', 4,DATEADD(DAY, -5, GETDATE()), 'inter', 'Empleado20'),
+('codnot12', 'Titulo Noticia 12','Cuerpo Noticia 12', 3,DATEADD(DAY, -3, GETDATE()), 'inter', 'Empleado10'),
+('codnot13', 'Titulo Noticia 13','Cuerpo Noticia 13', 1,DATEADD(DAY, -1, GETDATE()), 'inter', 'Empleado30'),
+('codnot14', 'Titulo Noticia 14','Cuerpo Noticia 14', 3,DATEADD(DAY, -1, GETDATE()), 'inter', 'Empleado20'),
+('codnot15', 'Titulo Noticia 15','Cuerpo Noticia 15', 3,GETDATE(), 'inter', 'Empleado10'),
+('codnot16', 'Titulo Noticia 16','Cuerpo Noticia 16', 3,GETDATE(), 'inter', 'Empleado40')
 GO
 
 SELECT * FROM Empleados
