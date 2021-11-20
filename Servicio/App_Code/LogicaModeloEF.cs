@@ -260,13 +260,28 @@ public class LogicaModeloEF
 
             Noticias N = OEcontext.Noticias.Where(n => n.Codigo == unaN.Codigo).FirstOrDefault();
 
-            N.Codigo = unaN.Codigo;
+            // no se debe modificar el código de la noticia
             N.Cuerpo = unaN.Cuerpo;
             N.Titulo = unaN.Titulo;
             N.FechaPublicacion = unaN.FechaPublicacion;
             N.Importancia = unaN.Importancia;
             N.Periodistas = unaN.Periodistas;
-            N.Secciones = unaN.Secciones;
+
+            /**
+             * La actualización de los datos de la Sección de la Noticia debe 
+             * hacerse cambiando el valor de cada una de sus propiedades
+             * 
+             * **NO** puede reemplazarse el objeto Sección en la Noticia
+             * porque producirá una DuplicateKeyException en el Entity Framework:
+             * EF detectará que en el contexto hay un objeto diferente al que
+             * tiene en memoria con la misma clave primaria de un 
+             * objeto preexistente
+             * 
+             * Rafael 20/11/2021
+             */
+            N.Secciones.CodigoSeccion = unaN.Secciones.CodigoSeccion;
+            N.Secciones.Nombre = unaN.Secciones.Nombre;
+            N.Secciones.Activo = unaN.Secciones.Activo;
 
             OEcontext.SaveChanges();
         }
