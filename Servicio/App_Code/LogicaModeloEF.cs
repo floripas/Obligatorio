@@ -250,7 +250,13 @@ public class LogicaModeloEF
     #region Operaciones Noticias
     public static Noticias BuscarNoticia(string cod)
     {
-        return (OEcontext.Noticias.Where(n => n.Codigo == cod).FirstOrDefault());
+        // los Include se colocaron para que los objetos
+        // asociados a una Noticia se carguen de forma diligente
+        return OEcontext.Noticias
+            .Include("Periodistas")
+            .Include("Empleados")
+            .Include("Secciones")
+            .Where(n => n.Codigo == cod).FirstOrDefault();
     }
 
     public static void ModificarNoticia(Noticias unaN)
@@ -310,16 +316,49 @@ public class LogicaModeloEF
                 throw new Exception("Ya existe una noticia con ese codigo.");
             }
 
+            /**
+             * hay que recuperar el empleado, la sección y los periodistas
+             * que viven en el contexto para cargarlos con la nueva noticia.
+             * De lo contrario, EF producirá un error, tal como se documenta
+             * en LogicaModelo.ModificarNoticia
+             */
+            Empleados empleado = OEcontext.Empleados.Where(emp => emp.NombreUsuario == unaN.Empleados.NombreUsuario).FirstOrDefault();
+
+            if (empleado == null)
+            {
+                throw new Exception("No se reconocen los datos del empleado que carga la noticia");
+            }
+
+            Secciones seccion = OEcontext.Secciones.Where(sec => sec.CodigoSeccion == unaN.Secciones.CodigoSeccion).FirstOrDefault();
+
+            if (seccion == null)
+            {
+                throw new Exception("No se reconocen los datos de la sección de la noticia");
+            }
+
+            // la definición de Noticia en el modelo consume un HashSet
+            HashSet<Periodistas> periodistas = new HashSet<Periodistas>();
+
+            foreach (Periodistas periodista in unaN.Periodistas)
+            {
+                Periodistas p = OEcontext.Periodistas.Where(per => per.Cedula == periodista.Cedula).FirstOrDefault();
+
+                if (p != null)
+                {
+                    periodistas.Add(p);
+                }
+            }
+
             N = new Noticias()
             {
                 Codigo = unaN.Codigo,
                 Cuerpo = unaN.Cuerpo,
                 Titulo = unaN.Titulo,
                 FechaPublicacion = unaN.FechaPublicacion,
-                Empleados = unaN.Empleados,
+                Empleados = empleado,
                 Importancia = unaN.Importancia,
-                Periodistas = unaN.Periodistas,
-                Secciones = unaN.Secciones
+                Periodistas = periodistas,
+                Secciones = seccion
             };
 
             new Validaciones().Validar(N);
