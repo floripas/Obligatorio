@@ -47,7 +47,11 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
     }
     private void CargarChkPeriodistas()
     {
-        chkPeriodistas.DataSource = new ServicioEF().ListarPeriodistas().ToList();
+        List<Periodistas> periodistas = new ServicioEF().ListarPeriodistas().ToList();
+
+        Session["Periodistas"] = periodistas;
+
+        chkPeriodistas.DataSource = periodistas;
         chkPeriodistas.DataValueField = "Cedula";
         chkPeriodistas.DataTextField = "Nombre";
         chkPeriodistas.DataBind();
@@ -230,7 +234,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             _unaN.Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value);
             _unaN.FechaPublicacion = cldFechaPublicacion.SelectedDate;
             _unaN.Periodistas = ObtenerPeriodistasSeleccionados(servicio);
-            
+
 
             servicio.ModificarNoticia(_unaN);
 
@@ -262,18 +266,22 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             throw new Exception("Tienes que marcar al menos un periodista como autor de la noticia");
         }
 
-        List<Periodistas> resultado= new List<Periodistas>();
-
-        Periodistas periodistaSeleccionado;
+        List<Periodistas> periodistasEnSesion = (List<Periodistas>)Session["Periodistas"];
+        
+        List<Periodistas> resultado = new List<Periodistas>();
 
         foreach (ListItem item in chkPeriodistas.Items)
         {
             if (item.Selected)
             {
-                periodistaSeleccionado = servicio.BuscarPeriodista(item.Value);
-                resultado.Add(periodistaSeleccionado);
+                Periodistas periodistaSeleccionado = periodistasEnSesion.Where(periodista => periodista.Cedula == item.Value).FirstOrDefault();
+
+                if (periodistaSeleccionado != null)
+                {
+                    resultado.Add(periodistaSeleccionado); 
+                }
             }
-        }        
+        }
 
         return resultado.ToArray<Periodistas>();
     }
@@ -286,9 +294,21 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
         try
         {
-            // ObtenerPeriodistasSeleccionados tiene que estar dentro
-            // del bloque try porque puede lanzar una excepción
-            List<Periodistas> lista = ObtenerPeriodistasSeleccionados(servicio);
+            List<Secciones> listaSecciones = (List<Secciones>)Session["Secciones"];
+
+            Secciones seccionSeleccionada = listaSecciones.Where(seccion => seccion.CodigoSeccion == ddlSecciones.SelectedItem.Value).FirstOrDefault();
+
+            if (seccionSeleccionada == null)
+            {
+                throw new Exception("No se puede crear una noticia sin seleccionar una sección");
+            }
+
+            int importanciaSeleccionada = Convert.ToInt32(ddlImportancia.SelectedValue);
+
+            if (importanciaSeleccionada < 0)
+            {
+                throw new Exception("No se puede crear una notiica sin elegir su importancia");
+            }
 
             N = new Noticias()
             {
@@ -296,9 +316,9 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 Cuerpo = txtCuerpo.Text.Trim(),
                 Titulo = txtTitulo.Text.Trim(),
                 FechaPublicacion = cldFechaPublicacion.SelectedDate,
-                Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value),
+                Importancia = importanciaSeleccionada,
                 Empleados = (Empleados)Session["usuarioLogueado"],
-                Secciones = servicio.BuscarSeccion(ddlSecciones.SelectedItem.Value),
+                Secciones = seccionSeleccionada,
                 Periodistas = ObtenerPeriodistasSeleccionados(servicio)
             };
         }
