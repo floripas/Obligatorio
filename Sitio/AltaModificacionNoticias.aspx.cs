@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using RefServicio;
@@ -87,7 +85,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         try
         {
             if (txtCodigo.Text.Length == 0)
-                throw new Exception("El codigo de la noticia no puede ser vacio.");
+                throw new Exception("La casilla con el codigo de la noticia no puede estar vacía.");
 
             Noticias _unaNoticia = new ServicioEF().BuscarNoticia(txtCodigo.Text.Trim());
 
@@ -103,7 +101,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 txtCuerpo.Enabled = true;
                 ddlSecciones.Enabled = true;
                 ddlImportancia.Enabled = true;
-                btnBuscar.Enabled= false;
+                btnBuscar.Enabled = false;
 
                 lblMensaje.Text = "No hay ninguna una noticia con ese codigo. Puede ingresarla.";
 
@@ -116,17 +114,35 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 txtCodigo.Text = _unaNoticia.Codigo;
                 txtTitulo.Text = _unaNoticia.Titulo;
                 txtCuerpo.Text = _unaNoticia.Cuerpo;
+
+                /**
+                 * si no se elimina la selección previa de los menús 
+                 * desplegables, se producirá la excepción:
+                 * System.Web.HttpException: No puede haber varios elementos 
+                 * seleccionados en DropDownList
+                 * 
+                 * @see https://stackoverflow.com/a/8853523/6951887
+                 */
+                ddlSecciones.ClearSelection();
+                ddlImportancia.ClearSelection();
+
+                // cargar datos en menú desplegable de secciones
+                SeleccionarElementosEnListControl(_unaNoticia, ddlSecciones, (noticia, item) => noticia.Secciones.CodigoSeccion == item.Value);
+
+                // cargar datos en menú desplegable de importancia
+                SeleccionarElementosEnListControl(_unaNoticia, ddlImportancia, (noticia, item) => noticia.Importancia.ToString() == item.Value);
+
+                // cargar datos en checkboxes
+                SeleccionarElementosEnListControl(_unaNoticia, chkPeriodistas, (noticia, item) => noticia.Periodistas.Where(periodista => periodista.Cedula == item.Value).Any());
+
+                // cargar datos en el calendario
                 cldFechaPublicacion.SelectedDate = _unaNoticia.FechaPublicacion;
                 cldFechaPublicacion.VisibleDate = _unaNoticia.FechaPublicacion;
 
-                foreach (ListItem item in chkPeriodistas.Items)
-                {
-                    if (_unaNoticia.Periodistas.Where(periodista => periodista.Cedula == item.Value).Any())
-                    {
-                        item.Selected = true;
-                    }
-                }
-
+                txtTitulo.Enabled = true;
+                txtCuerpo.Enabled = true;
+                ddlSecciones.Enabled = true;
+                ddlImportancia.Enabled = true;
                 HabilitarCalendario();
 
                 btnCrear.Enabled = false;
@@ -142,6 +158,28 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         catch (Exception ex)
         {
             lblMensaje.Text = ex.Message;
+        }
+    }
+
+    /// <summary>
+    /// Carga datos en un ListControl, un control web que contiene 
+    /// una lista de ListItems.
+    /// 
+    /// El predicado es una expresión lambda que consume una noticia y un ListItem, y los compara. 
+    /// 
+    /// El resultado de esa comparación debe producir un booleano: si es true, el ListItem será seleccionado
+    /// </summary>
+    /// <param name="unaNoticia">La noticia que se usará para seleccionar datos en el control </param>
+    /// <param name="control">El control con una lista de objetos ListItem</param>
+    /// <param name="predicado">Es una expresión lambda que consume una noticia y un ListItem, y debe producir un booleano</param>
+    private void SeleccionarElementosEnListControl(Noticias unaNoticia, ListControl control, Func<Noticias, ListItem, bool> predicado)
+    {
+        foreach (ListItem item in control.Items)
+        {
+            if (predicado(unaNoticia, item))
+            {
+                item.Selected = true;
+            }
         }
     }
 
