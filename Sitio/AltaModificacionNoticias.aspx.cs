@@ -20,6 +20,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
                 CargarChkPeriodistas();
                 CargarDDLSecciones();
+                InhabilitarCalendario();
             }
             catch (System.Web.Services.Protocols.SoapException ex)
             {
@@ -53,16 +54,22 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         txtTitulo.Enabled = false;
         txtCuerpo.Enabled = false;
         ddlSecciones.Enabled = false;
-        txtFecha.Enabled = false;
+        cldFechaPublicacion.Enabled = false;
         ddlImportancia.Enabled = false;
+    }
+
+    private void LimpiarCalendario()
+    {
+        cldFechaPublicacion.VisibleDate = DateTime.Today;
+        cldFechaPublicacion.SelectedDate = new DateTime(1970, 1, 1);
     }
     private void LimpioControles()
     {
         txtCodigo.Text = "";
         txtCuerpo.Text = "";
-        txtFecha.Text = "";
         txtTitulo.Text = "";
         lblMensaje.Text = "";
+        InhabilitarCalendario();
 
         txtCodigo.Enabled = false;
         txtCodigo.ReadOnly = true;
@@ -81,12 +88,12 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             {
                 txtCodigo.Enabled = false;
                 txtCuerpo.Text = "";
-                txtFecha.Text = "";
                 txtTitulo.Text = "";
+                LimpiarCalendario();
 
+                HabilitarCalendario();
                 txtTitulo.Enabled = true;
                 txtCuerpo.Enabled = true;
-                txtFecha.Enabled = true;
                 ddlSecciones.Enabled = true;
                 ddlImportancia.Enabled = true;
                 btnBuscar.Enabled= false;
@@ -102,7 +109,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 txtCodigo.Text = _unaNoticia.Codigo;
                 txtTitulo.Text = _unaNoticia.Titulo;
                 txtCuerpo.Text = _unaNoticia.Cuerpo;
-                txtFecha.Text = _unaNoticia.FechaPublicacion.ToString();
+                //txtFecha.Text = _unaNoticia.FechaPublicacion.ToString();
 
                 btnCrear.Enabled = false;
                 btnModificar.Enabled = true;
@@ -118,6 +125,22 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             lblMensaje.Text = ex.Message;
         }
+    }
+
+    private void HabilitarCalendario()
+    {
+        cldFechaPublicacion.Enabled = true;
+        cldFechaPublicacion.Visible = true;
+    }
+
+    /// <summary>
+    /// Inhabilita y limpia el calendario del formulario
+    /// </summary>
+    private void InhabilitarCalendario()
+    {
+        cldFechaPublicacion.Enabled = false;
+        cldFechaPublicacion.Visible = false;
+        LimpiarCalendario();
     }
 
     protected void btnLimpiar_Click(object sender, EventArgs e)
@@ -139,6 +162,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
     protected void btnModificar_Click(object sender, EventArgs e)
     {
+        ServicioEF servicio = new ServicioEF();
         try
         {
             Noticias _unaN = (Noticias)Session["Noticia"];
@@ -148,17 +172,18 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             _unaN.Titulo = txtTitulo.Text.Trim();
             _unaN.Cuerpo = txtCuerpo.Text.Trim();
             _unaN.Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value);
-            _unaN.FechaPublicacion = Convert.ToDateTime(txtFecha);
+            _unaN.FechaPublicacion = cldFechaPublicacion.SelectedDate;
+            _unaN.Periodistas = ObtenerPeriodistasSeleccionados(servicio);
             
 
-            new ServicioEF().ModificarNoticia(_unaN);
+            servicio.ModificarNoticia(_unaN);
 
             lblMensaje.Text = "Modificación con Exito";
 
             txtCodigo.Text = "";
             txtCuerpo.Text = "";
-            txtFecha.Text = "";
             txtTitulo.Text = "";
+            InhabilitarCalendario();
 
             btnCrear.Enabled = false;
             btnModificar.Enabled = false;
@@ -173,7 +198,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         }
     }
 
-    protected void btnCrear_Click(object sender, EventArgs e)
+    private Periodistas[] ObtenerPeriodistasSeleccionados(ServicioEF servicio)
     {
 
         Noticias N = null;
@@ -184,10 +209,13 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             if(item.Selected)
             {
-                Periodistas periodista = new ServicioEF().BuscarPeriodista(chkPeriodistas.SelectedItem.Value.ToString());
-                lista.Add(periodista);
+                periodistaSeleccionado = servicio.BuscarPeriodista(item.Value);
+                resultado.Add(periodistaSeleccionado);
             }
-        }
+        }        
+
+        return resultado.ToArray<Periodistas>();
+    }
 
         try
         {
@@ -196,11 +224,11 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 Codigo = txtCodigo.Text.Trim(),
                 Cuerpo = txtCuerpo.Text.Trim(),
                 Titulo = txtTitulo.Text.Trim(),
-                FechaPublicacion = Convert.ToDateTime(txtFecha.Text.Trim()),
+                FechaPublicacion = cldFechaPublicacion.SelectedDate,
                 Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value),
                 Empleados = (Empleados)Session["usuarioLogueado"],
-                Secciones = new ServicioEF().BuscarSeccion(ddlSecciones.SelectedItem.Value),
-                Periodistas = lista.ToArray<Periodistas>()
+                Secciones = servicio.BuscarSeccion(ddlSecciones.SelectedItem.Value),
+                Periodistas = ObtenerPeriodistasSeleccionados(servicio)
             };
         }
         catch (Exception ex)
@@ -218,7 +246,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             txtCodigo.Text = "";
             txtCuerpo.Text = "";
             txtTitulo.Text = "";
-            txtFecha.Text = "";
+            InhabilitarCalendario();
 
             btnCrear.Enabled = false;
             btnModificar.Enabled = false;
