@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using RefServicio;
@@ -20,6 +18,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
                 CargarChkPeriodistas();
                 CargarDDLSecciones();
+                InhabilitarCalendario();
             }
             catch (System.Web.Services.Protocols.SoapException ex)
             {
@@ -34,14 +33,25 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
     private void CargarDDLSecciones()
     {
-        ddlSecciones.DataSource = new ServicioEF().ListarSecciones().ToList();
+        List<Secciones> secciones = new ServicioEF().ListarSecciones().ToList();
+
+        Session["Secciones"] = secciones;
+
+        ddlSecciones.DataSource = secciones;
         ddlSecciones.DataValueField = "CodigoSeccion";
         ddlSecciones.DataTextField = "Nombre";
         ddlSecciones.DataBind();
+
+        // se selecciona el elemento vacío 
+        ddlSecciones.SelectedIndex = 0;
     }
     private void CargarChkPeriodistas()
     {
-        chkPeriodistas.DataSource = new ServicioEF().ListarPeriodistas().ToList();
+        List<Periodistas> periodistas = new ServicioEF().ListarPeriodistas().ToList();
+
+        Session["Periodistas"] = periodistas;
+
+        chkPeriodistas.DataSource = periodistas;
         chkPeriodistas.DataValueField = "Cedula";
         chkPeriodistas.DataTextField = "Nombre";
         chkPeriodistas.DataBind();
@@ -53,16 +63,22 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         txtTitulo.Enabled = false;
         txtCuerpo.Enabled = false;
         ddlSecciones.Enabled = false;
-        txtFecha.Enabled = false;
+        cldFechaPublicacion.Enabled = false;
         ddlImportancia.Enabled = false;
+    }
+
+    private void LimpiarCalendario()
+    {
+        cldFechaPublicacion.VisibleDate = DateTime.Today;
+        cldFechaPublicacion.SelectedDate = new DateTime(1970, 1, 1);
     }
     private void LimpioControles()
     {
         txtCodigo.Text = "";
         txtCuerpo.Text = "";
-        txtFecha.Text = "";
         txtTitulo.Text = "";
         lblMensaje.Text = "";
+        InhabilitarCalendario();
 
         txtCodigo.Enabled = false;
         txtCodigo.ReadOnly = true;
@@ -73,7 +89,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         try
         {
             if (txtCodigo.Text.Length == 0)
-                throw new Exception("El codigo de la noticia no puede ser vacio.");
+                throw new Exception("La casilla con el codigo de la noticia no puede estar vacía.");
 
             Noticias _unaNoticia = new ServicioEF().BuscarNoticia(txtCodigo.Text.Trim());
 
@@ -81,15 +97,15 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             {
                 txtCodigo.Enabled = false;
                 txtCuerpo.Text = "";
-                txtFecha.Text = "";
                 txtTitulo.Text = "";
+                LimpiarCalendario();
 
+                HabilitarCalendario();
                 txtTitulo.Enabled = true;
                 txtCuerpo.Enabled = true;
-                txtFecha.Enabled = true;
                 ddlSecciones.Enabled = true;
                 ddlImportancia.Enabled = true;
-                btnBuscar.Enabled= false;
+                btnBuscar.Enabled = false;
 
                 lblMensaje.Text = "No hay ninguna una noticia con ese codigo. Puede ingresarla.";
 
@@ -102,7 +118,36 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 txtCodigo.Text = _unaNoticia.Codigo;
                 txtTitulo.Text = _unaNoticia.Titulo;
                 txtCuerpo.Text = _unaNoticia.Cuerpo;
-                txtFecha.Text = _unaNoticia.FechaPublicacion.ToString();
+
+                /**
+                 * si no se elimina la selección previa de los menús 
+                 * desplegables, se producirá la excepción:
+                 * System.Web.HttpException: No puede haber varios elementos 
+                 * seleccionados en DropDownList
+                 * 
+                 * @see https://stackoverflow.com/a/8853523/6951887
+                 */
+                ddlSecciones.ClearSelection();
+                ddlImportancia.ClearSelection();
+
+                // cargar datos en menú desplegable de secciones
+                SeleccionarElementosEnListControl(_unaNoticia, ddlSecciones, (noticia, item) => noticia.Secciones.CodigoSeccion == item.Value);
+
+                // cargar datos en menú desplegable de importancia
+                SeleccionarElementosEnListControl(_unaNoticia, ddlImportancia, (noticia, item) => noticia.Importancia.ToString() == item.Value);
+
+                // cargar datos en checkboxes
+                SeleccionarElementosEnListControl(_unaNoticia, chkPeriodistas, (noticia, item) => noticia.Periodistas.Where(periodista => periodista.Cedula == item.Value).Any());
+
+                // cargar datos en el calendario
+                cldFechaPublicacion.SelectedDate = _unaNoticia.FechaPublicacion;
+                cldFechaPublicacion.VisibleDate = _unaNoticia.FechaPublicacion;
+
+                txtTitulo.Enabled = true;
+                txtCuerpo.Enabled = true;
+                ddlSecciones.Enabled = true;
+                ddlImportancia.Enabled = true;
+                HabilitarCalendario();
 
                 btnCrear.Enabled = false;
                 btnModificar.Enabled = true;
@@ -118,6 +163,44 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             lblMensaje.Text = ex.Message;
         }
+    }
+
+    /// <summary>
+    /// Carga datos en un ListControl, un control web que contiene 
+    /// una lista de ListItems.
+    /// 
+    /// El predicado es una expresión lambda que consume una noticia y un ListItem, y los compara. 
+    /// 
+    /// El resultado de esa comparación debe producir un booleano: si es true, el ListItem será seleccionado
+    /// </summary>
+    /// <param name="unaNoticia">La noticia que se usará para seleccionar datos en el control </param>
+    /// <param name="control">El control con una lista de objetos ListItem</param>
+    /// <param name="predicado">Es una expresión lambda que consume una noticia y un ListItem, y debe producir un booleano</param>
+    private void SeleccionarElementosEnListControl(Noticias unaNoticia, ListControl control, Func<Noticias, ListItem, bool> predicado)
+    {
+        foreach (ListItem item in control.Items)
+        {
+            if (predicado(unaNoticia, item))
+            {
+                item.Selected = true;
+            }
+        }
+    }
+
+    private void HabilitarCalendario()
+    {
+        cldFechaPublicacion.Enabled = true;
+        cldFechaPublicacion.Visible = true;
+    }
+
+    /// <summary>
+    /// Inhabilita y limpia el calendario del formulario
+    /// </summary>
+    private void InhabilitarCalendario()
+    {
+        cldFechaPublicacion.Enabled = false;
+        cldFechaPublicacion.Visible = false;
+        LimpiarCalendario();
     }
 
     protected void btnLimpiar_Click(object sender, EventArgs e)
@@ -139,6 +222,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
     protected void btnModificar_Click(object sender, EventArgs e)
     {
+        ServicioEF servicio = new ServicioEF();
         try
         {
             Noticias _unaN = (Noticias)Session["Noticia"];
@@ -148,17 +232,18 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             _unaN.Titulo = txtTitulo.Text.Trim();
             _unaN.Cuerpo = txtCuerpo.Text.Trim();
             _unaN.Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value);
-            _unaN.FechaPublicacion = Convert.ToDateTime(txtFecha);
-            
+            _unaN.FechaPublicacion = cldFechaPublicacion.SelectedDate;
+            _unaN.Periodistas = ObtenerPeriodistasSeleccionados(servicio);
 
-            new ServicioEF().ModificarNoticia(_unaN);
+
+            servicio.ModificarNoticia(_unaN);
 
             lblMensaje.Text = "Modificación con Exito";
 
             txtCodigo.Text = "";
             txtCuerpo.Text = "";
-            txtFecha.Text = "";
             txtTitulo.Text = "";
+            InhabilitarCalendario();
 
             btnCrear.Enabled = false;
             btnModificar.Enabled = false;
@@ -173,34 +258,68 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         }
     }
 
+    private Periodistas[] ObtenerPeriodistasSeleccionados(ServicioEF servicio)
+    {
+        // si no se eligió ningún periodista, lanza una excepción
+        if (chkPeriodistas.SelectedIndex < 0)
+        {
+            throw new Exception("Tienes que marcar al menos un periodista como autor de la noticia");
+        }
+
+        List<Periodistas> periodistasEnSesion = (List<Periodistas>)Session["Periodistas"];
+        
+        List<Periodistas> resultado = new List<Periodistas>();
+
+        foreach (ListItem item in chkPeriodistas.Items)
+        {
+            if (item.Selected)
+            {
+                Periodistas periodistaSeleccionado = periodistasEnSesion.Where(periodista => periodista.Cedula == item.Value).FirstOrDefault();
+
+                if (periodistaSeleccionado != null)
+                {
+                    resultado.Add(periodistaSeleccionado); 
+                }
+            }
+        }
+
+        return resultado.ToArray<Periodistas>();
+    }
+
     protected void btnCrear_Click(object sender, EventArgs e)
     {
 
         Noticias N = null;
-        List<Periodistas> lista = new List<Periodistas>();
-
-        //No funciona correctamente, arma la lista de periodistas pero siempre con el mismo.
-        foreach(ListItem item in chkPeriodistas.Items)
-        {
-            if(item.Selected)
-            {
-                Periodistas periodista = new ServicioEF().BuscarPeriodista(chkPeriodistas.SelectedItem.Value.ToString());
-                lista.Add(periodista);
-            }
-        }
+        ServicioEF servicio = new ServicioEF();
 
         try
         {
+            List<Secciones> listaSecciones = (List<Secciones>)Session["Secciones"];
+
+            Secciones seccionSeleccionada = listaSecciones.Where(seccion => seccion.CodigoSeccion == ddlSecciones.SelectedItem.Value).FirstOrDefault();
+
+            if (seccionSeleccionada == null)
+            {
+                throw new Exception("No se puede crear una noticia sin seleccionar una sección");
+            }
+
+            int importanciaSeleccionada = Convert.ToInt32(ddlImportancia.SelectedValue);
+
+            if (importanciaSeleccionada < 0)
+            {
+                throw new Exception("No se puede crear una notiica sin elegir su importancia");
+            }
+
             N = new Noticias()
             {
                 Codigo = txtCodigo.Text.Trim(),
                 Cuerpo = txtCuerpo.Text.Trim(),
                 Titulo = txtTitulo.Text.Trim(),
-                FechaPublicacion = Convert.ToDateTime(txtFecha.Text.Trim()),
-                Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value),
+                FechaPublicacion = cldFechaPublicacion.SelectedDate,
+                Importancia = importanciaSeleccionada,
                 Empleados = (Empleados)Session["usuarioLogueado"],
-                Secciones = new ServicioEF().BuscarSeccion(ddlSecciones.SelectedItem.Value),
-                Periodistas = lista.ToArray<Periodistas>()
+                Secciones = seccionSeleccionada,
+                Periodistas = ObtenerPeriodistasSeleccionados(servicio)
             };
         }
         catch (Exception ex)
@@ -211,14 +330,14 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
         try
         {
-            new ServicioEF().AltaNoticia(N);
+            servicio.AltaNoticia(N);
 
             lblMensaje.Text = "Alta con Exito";
 
             txtCodigo.Text = "";
             txtCuerpo.Text = "";
             txtTitulo.Text = "";
-            txtFecha.Text = "";
+            InhabilitarCalendario();
 
             btnCrear.Enabled = false;
             btnModificar.Enabled = false;

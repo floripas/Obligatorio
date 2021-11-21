@@ -32,7 +32,8 @@
                 <label>Sección: </label>
             </td>
             <td>
-                <asp:DropDownList ID="ddlSecciones" runat="server" Enabled="False"></asp:DropDownList>
+                <asp:DropDownList ID="ddlSecciones" runat="server" Enabled="False">
+                </asp:DropDownList>
             </td>
         </tr>
         <tr>
@@ -40,7 +41,14 @@
                 <label>Fecha de publicación: </label>
             </td>
             <td>
-                <asp:TextBox ID="txtFecha" runat="server" TextMode="Date" Enabled="False"></asp:TextBox>
+                <asp:Calendar ID="cldFechaPublicacion" runat="server" BackColor="White" BorderColor="White" BorderWidth="1px" Enabled="True" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" SelectedDate="1970-01-01" Width="350px" Visible="True">
+                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
+                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
+                    <OtherMonthDayStyle ForeColor="#999999" />
+                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
+                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
+                    <TodayDayStyle BackColor="#CCCCCC" />
+                </asp:Calendar>
             </td>
         </tr>
         <tr>
@@ -49,6 +57,7 @@
             </td>
             <td>
                 <asp:DropDownList ID="ddlImportancia" runat="server" Enabled="False">
+                    <asp:ListItem Selected="True"></asp:ListItem>
                     <asp:ListItem>1</asp:ListItem>
                     <asp:ListItem>2</asp:ListItem>
                     <asp:ListItem>3</asp:ListItem>
