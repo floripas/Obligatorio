@@ -35,10 +35,17 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
     private void CargarDDLSecciones()
     {
-        ddlSecciones.DataSource = new ServicioEF().ListarSecciones().ToList();
+        List<Secciones> secciones = new ServicioEF().ListarSecciones().ToList();
+
+        Session["Secciones"] = secciones;
+
+        ddlSecciones.DataSource = secciones;
         ddlSecciones.DataValueField = "CodigoSeccion";
         ddlSecciones.DataTextField = "Nombre";
         ddlSecciones.DataBind();
+
+        // se selecciona el elemento vacío 
+        ddlSecciones.SelectedIndex = 0;
     }
     private void CargarChkPeriodistas()
     {

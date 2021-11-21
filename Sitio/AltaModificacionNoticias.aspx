@@ -32,7 +32,8 @@
                 <label>Sección: </label>
             </td>
             <td>
-                <asp:DropDownList ID="ddlSecciones" runat="server" Enabled="False"></asp:DropDownList>
+                <asp:DropDownList ID="ddlSecciones" runat="server" Enabled="False">
+                </asp:DropDownList>
             </td>
         </tr>
         <tr>
@@ -56,6 +57,7 @@
             </td>
             <td>
                 <asp:DropDownList ID="ddlImportancia" runat="server" Enabled="False">
+                    <asp:ListItem Selected="True"></asp:ListItem>
                     <asp:ListItem>1</asp:ListItem>
                     <asp:ListItem>2</asp:ListItem>
                     <asp:ListItem>3</asp:ListItem>
