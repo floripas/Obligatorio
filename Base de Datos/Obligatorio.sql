@@ -379,6 +379,34 @@ Values ('codnot10', 'Titulo Noticia 10','Cuerpo Noticia 10', 3,DATEADD(DAY, -5, 
 ('codnot16', 'Titulo Noticia 16','Cuerpo Noticia 16', 3,GETDATE(), 'inter', 'Empleado40')
 GO
 
+INSERT INTO Escriben(Codigo, Cedula)
+VALUES('codnot1', '44259772'),
+('codnot2', '51237687'),
+('codnot3', '44259772'),
+('codnot3', '51237687'),
+('codnot3', '00000000'),
+('codnot4', '67839025'),
+('codnot5', '00000000'),
+('codnot6', '44259772'),
+('codnot7', '51237687'),
+('codnot8', '00000000'),
+('codnot8', '51237687'),
+('codnot9', '00000000'),
+('codnot10', '44259772'),
+('codnot11', '39867291'),
+('codnot11', '67839025'),
+('codnot12', '44259772'),
+('codnot13', '67839025'),
+('codnot13', '39867291'),
+('codnot13', '44259772'),
+('codnot14', '00000000'),
+('codnot15', '67839025'),
+('codnot16', '44259772'),
+('codnot16', '00000000'),
+('codnot16', '39867291'),
+('codnot16', '51237687')
+GO
+
 SELECT * FROM Empleados
 SELECT * FROM Secciones
 SELECT * FROM Periodistas
