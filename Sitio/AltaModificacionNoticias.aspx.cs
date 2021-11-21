@@ -109,7 +109,18 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
                 txtCodigo.Text = _unaNoticia.Codigo;
                 txtTitulo.Text = _unaNoticia.Titulo;
                 txtCuerpo.Text = _unaNoticia.Cuerpo;
-                //txtFecha.Text = _unaNoticia.FechaPublicacion.ToString();
+                cldFechaPublicacion.SelectedDate = _unaNoticia.FechaPublicacion;
+                cldFechaPublicacion.VisibleDate = _unaNoticia.FechaPublicacion;
+
+                foreach (ListItem item in chkPeriodistas.Items)
+                {
+                    if (_unaNoticia.Periodistas.Where(periodista => periodista.Cedula == item.Value).Any())
+                    {
+                        item.Selected = true;
+                    }
+                }
+
+                HabilitarCalendario();
 
                 btnCrear.Enabled = false;
                 btnModificar.Enabled = true;
@@ -200,14 +211,19 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
     private Periodistas[] ObtenerPeriodistasSeleccionados(ServicioEF servicio)
     {
-
-        Noticias N = null;
-        List<Periodistas> lista = new List<Periodistas>();
-
-        //No funciona correctamente, arma la lista de periodistas pero siempre con el mismo.
-        foreach(ListItem item in chkPeriodistas.Items)
+        // si no se eligió ningún periodista, lanza una excepción
+        if (chkPeriodistas.SelectedIndex < 0)
         {
-            if(item.Selected)
+            throw new Exception("Tienes que marcar al menos un periodista como autor de la noticia");
+        }
+
+        List<Periodistas> resultado= new List<Periodistas>();
+
+        Periodistas periodistaSeleccionado;
+
+        foreach (ListItem item in chkPeriodistas.Items)
+        {
+            if (item.Selected)
             {
                 periodistaSeleccionado = servicio.BuscarPeriodista(item.Value);
                 resultado.Add(periodistaSeleccionado);
@@ -217,8 +233,18 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         return resultado.ToArray<Periodistas>();
     }
 
+    protected void btnCrear_Click(object sender, EventArgs e)
+    {
+
+        Noticias N = null;
+        ServicioEF servicio = new ServicioEF();
+
         try
         {
+            // ObtenerPeriodistasSeleccionados tiene que estar dentro
+            // del bloque try porque puede lanzar una excepción
+            List<Periodistas> lista = ObtenerPeriodistasSeleccionados(servicio);
+
             N = new Noticias()
             {
                 Codigo = txtCodigo.Text.Trim(),
@@ -239,7 +265,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
         try
         {
-            new ServicioEF().AltaNoticia(N);
+            servicio.AltaNoticia(N);
 
             lblMensaje.Text = "Alta con Exito";
 
