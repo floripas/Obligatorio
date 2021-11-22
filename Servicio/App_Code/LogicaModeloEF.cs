@@ -271,28 +271,26 @@ public class LogicaModeloEF
             N.Titulo = unaN.Titulo;
             N.FechaPublicacion = unaN.FechaPublicacion;
             N.Importancia = unaN.Importancia;
-            N.Periodistas = unaN.Periodistas;
+
 
             /**
-             * La actualización de los datos de la Sección de la Noticia debe 
-             * hacerse cambiando el valor de cada una de sus propiedades
+             * La actualización de los datos de los objetos asociados a la Noticia
+             * (Empleado, Sección, Periodistas) debe hacerse localizando
+             * el objeto original que habita en el DbContext y posea los datos
+             * que nos interesan. Una vez localizado el objeto deseado,
+             * se reemplaza el objeto correspondiente en la Noticia
              * 
-             * **NO** puede reemplazarse el objeto Sección en la Noticia
-             * porque producirá una DuplicateKeyException en el Entity Framework
-             * al ejecutar la operación DbContext.SaveChanges:
-             * EF detectará que en el contexto ya hay un objeto Sección 
-             * con una cierta clave primaria y que se intenta agregar
-             * un objeto Sección diferente con la misma clave primaria 
-             * que el objeto Sección anterior
+             * No tomar esta precaución producirá una excepción al ejecutar
+             * la operación DbContext.SaveChanges: EF detectará que en el contexto
+             * ya hay un objeto con una cierta clave primaria y que se
+             * intenta agregar un objeto diferente con la misma clave primaria
+             * que el objeto anterior
              * 
              * Rafael 20/11/2021
              */
-            N.Secciones.CodigoSeccion = unaN.Secciones.CodigoSeccion;
-            N.Secciones.Nombre = unaN.Secciones.Nombre;
-            N.Secciones.Activo = unaN.Secciones.Activo;
-
-            N.Empleados.NombreUsuario = unaN.Empleados.NombreUsuario;
-            N.Empleados.Contraseña = unaN.Empleados.Contraseña;
+            N.Empleados = RecuperarEmpleadoDesdeContexto(unaN);
+            N.Secciones = RecuperarSeccionDesdeContexto(unaN);
+            N.Periodistas = RecuperarPeriodistasDesdeContexto(unaN);
 
             OEcontext.SaveChanges();
         }
@@ -302,6 +300,48 @@ public class LogicaModeloEF
 
             throw ex;
         }
+    }
+
+    private static HashSet<Periodistas> RecuperarPeriodistasDesdeContexto(Noticias unaN)
+    {
+        // la definición de Noticia en el modelo consume un HashSet
+        HashSet<Periodistas> periodistas = new HashSet<Periodistas>();
+
+        foreach (Periodistas periodista in unaN.Periodistas)
+        {
+            Periodistas p = OEcontext.Periodistas.Where(per => per.Cedula == periodista.Cedula).FirstOrDefault();
+
+            if (p != null)
+            {
+                periodistas.Add(p);
+            }
+        }
+
+        return periodistas;
+    }
+
+    private static Secciones RecuperarSeccionDesdeContexto(Noticias unaN)
+    {
+        Secciones seccion = OEcontext.Secciones.Where(sec => sec.CodigoSeccion == unaN.Secciones.CodigoSeccion).FirstOrDefault();
+
+        if (seccion == null)
+        {
+            throw new Exception("No se reconocen los datos de la sección de la noticia");
+        }
+
+        return seccion;
+    }
+
+    private static Empleados RecuperarEmpleadoDesdeContexto(Noticias unaN)
+    {
+        Empleados empleado = OEcontext.Empleados.Where(emp => emp.NombreUsuario == unaN.Empleados.NombreUsuario).FirstOrDefault();
+
+        if (empleado == null)
+        {
+            throw new Exception("No se reconocen los datos del empleado que carga la noticia");
+        }
+
+        return empleado;
     }
 
     public static void AltaNoticia(Noticias unaN)
@@ -322,32 +362,12 @@ public class LogicaModeloEF
              * De lo contrario, EF producirá un error, tal como se documenta
              * en LogicaModelo.ModificarNoticia
              */
-            Empleados empleado = OEcontext.Empleados.Where(emp => emp.NombreUsuario == unaN.Empleados.NombreUsuario).FirstOrDefault();
+            Empleados empleado = RecuperarEmpleadoDesdeContexto(unaN);
 
-            if (empleado == null)
-            {
-                throw new Exception("No se reconocen los datos del empleado que carga la noticia");
-            }
-
-            Secciones seccion = OEcontext.Secciones.Where(sec => sec.CodigoSeccion == unaN.Secciones.CodigoSeccion).FirstOrDefault();
-
-            if (seccion == null)
-            {
-                throw new Exception("No se reconocen los datos de la sección de la noticia");
-            }
+            Secciones seccion = RecuperarSeccionDesdeContexto(unaN);
 
             // la definición de Noticia en el modelo consume un HashSet
-            HashSet<Periodistas> periodistas = new HashSet<Periodistas>();
-
-            foreach (Periodistas periodista in unaN.Periodistas)
-            {
-                Periodistas p = OEcontext.Periodistas.Where(per => per.Cedula == periodista.Cedula).FirstOrDefault();
-
-                if (p != null)
-                {
-                    periodistas.Add(p);
-                }
-            }
+            HashSet<Periodistas> periodistas = RecuperarPeriodistasDesdeContexto(unaN);
 
             N = new Noticias()
             {
