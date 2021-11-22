@@ -93,67 +93,78 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
             Noticias _unaNoticia = new ServicioEF().BuscarNoticia(txtCodigo.Text.Trim());
 
+            LimpiarCalendario();
+            HabilitarCalendario();
+
+            txtTitulo.Enabled = true;
+            txtCuerpo.Enabled = true;
+            ddlSecciones.Enabled = true;
+            ddlImportancia.Enabled = true;
+            chkPeriodistas.Enabled = true;
+            chkPeriodistas.Visible = true;
+
             if (_unaNoticia == null)
             {
+                // para evitar que el código de la nueva noticia sea modificado
                 txtCodigo.Enabled = false;
                 txtCuerpo.Text = "";
                 txtTitulo.Text = "";
-                LimpiarCalendario();
 
-                HabilitarCalendario();
-                txtTitulo.Enabled = true;
-                txtCuerpo.Enabled = true;
-                ddlSecciones.Enabled = true;
-                ddlImportancia.Enabled = true;
+                lblMensaje.Text = "No hay ninguna una noticia con ese codigo. Puede ingresar los datos.";
+
                 btnBuscar.Enabled = false;
-
-                lblMensaje.Text = "No hay ninguna una noticia con ese codigo. Puede ingresarla.";
+                btnBuscar.Visible = false;
 
                 btnCrear.Enabled = true;
                 btnCrear.Visible = true;
+
                 btnModificar.Enabled = false;
+                btnModificar.Visible = false;
+
+                return;
             }
-            else
-            {
-                txtCodigo.Text = _unaNoticia.Codigo;
-                txtTitulo.Text = _unaNoticia.Titulo;
-                txtCuerpo.Text = _unaNoticia.Cuerpo;
 
-                /**
-                 * si no se elimina la selección previa de los menús 
-                 * desplegables, se producirá la excepción:
-                 * System.Web.HttpException: No puede haber varios elementos 
-                 * seleccionados en DropDownList
-                 * 
-                 * @see https://stackoverflow.com/a/8853523/6951887
-                 */
-                ddlSecciones.ClearSelection();
-                ddlImportancia.ClearSelection();
+            txtCodigo.Text = _unaNoticia.Codigo;
+            // para evitar que el código de la noticia existente sea modificado
+            txtCodigo.Enabled = false;
 
-                // cargar datos en menú desplegable de secciones
-                SeleccionarElementosEnListControl(_unaNoticia, ddlSecciones, (noticia, item) => noticia.Secciones.CodigoSeccion == item.Value);
+            txtTitulo.Text = _unaNoticia.Titulo;
+            txtCuerpo.Text = _unaNoticia.Cuerpo;
 
-                // cargar datos en menú desplegable de importancia
-                SeleccionarElementosEnListControl(_unaNoticia, ddlImportancia, (noticia, item) => noticia.Importancia.ToString() == item.Value);
+            /**
+            * si no se elimina la selección previa de los menús
+            * desplegables, se producirá la excepción:
+            * System.Web.HttpException: No puede haber varios elementos
+            * seleccionados en DropDownList
+            *
+            * @see https://stackoverflow.com/a/8853523/6951887
+            */
+            ddlSecciones.ClearSelection();
+            ddlImportancia.ClearSelection();
 
-                // cargar datos en checkboxes
-                SeleccionarElementosEnListControl(_unaNoticia, chkPeriodistas, (noticia, item) => noticia.Periodistas.Where(periodista => periodista.Cedula == item.Value).Any());
+            // selecciona sección en menú desplegable
+            SeleccionarElementosEnListControl(_unaNoticia, ddlSecciones, (noticia, item) => noticia.Secciones.CodigoSeccion == item.Value);
 
-                // cargar datos en el calendario
-                cldFechaPublicacion.SelectedDate = _unaNoticia.FechaPublicacion;
-                cldFechaPublicacion.VisibleDate = _unaNoticia.FechaPublicacion;
+            // selecciona importancia en menú desplegable
+            SeleccionarElementosEnListControl(_unaNoticia, ddlImportancia, (noticia, item) => noticia.Importancia.ToString() == item.Value);
 
-                txtTitulo.Enabled = true;
-                txtCuerpo.Enabled = true;
-                ddlSecciones.Enabled = true;
-                ddlImportancia.Enabled = true;
-                HabilitarCalendario();
+            // marca checkboxes
+            SeleccionarElementosEnListControl(_unaNoticia, chkPeriodistas, (noticia, item) => noticia.Periodistas.Where(periodista => periodista.Cedula == item.Value).Any());
 
-                btnCrear.Enabled = false;
-                btnModificar.Enabled = true;
-                btnModificar.Visible = true;
-                Session["Noticia"] = _unaNoticia;
-            }
+            // cargar datos en el calendario
+            cldFechaPublicacion.SelectedDate = _unaNoticia.FechaPublicacion;
+            cldFechaPublicacion.VisibleDate = _unaNoticia.FechaPublicacion;
+
+            btnCrear.Enabled = false;
+            btnCrear.Visible = false;
+
+            btnBuscar.Enabled = false;
+            btnBuscar.Visible = false;
+
+            btnModificar.Enabled = true;
+            btnModificar.Visible = true;
+
+            Session["Noticia"] = _unaNoticia;
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -227,14 +238,31 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             Noticias _unaN = (Noticias)Session["Noticia"];
 
-            _unaN.Codigo = txtCodigo.Text.Trim();
-            _unaN.Secciones.Nombre = ddlSecciones.Text.Trim();
+            // el código de la noticia es inmodificable
             _unaN.Titulo = txtTitulo.Text.Trim();
             _unaN.Cuerpo = txtCuerpo.Text.Trim();
-            _unaN.Importancia = Convert.ToInt32(ddlImportancia.SelectedItem.Value);
             _unaN.FechaPublicacion = cldFechaPublicacion.SelectedDate;
             _unaN.Periodistas = ObtenerPeriodistasSeleccionados(servicio);
 
+            List<Secciones> listaSecciones = (List<Secciones>)Session["Secciones"];
+
+            Secciones seccionSeleccionada = listaSecciones.Where(seccion => seccion.CodigoSeccion == ddlSecciones.SelectedItem.Value).FirstOrDefault();
+
+            if (seccionSeleccionada == null)
+            {
+                throw new Exception("No hay sección seleccionada para la noticia");
+            }
+
+            _unaN.Secciones = seccionSeleccionada;
+
+            int importanciaSeleccionada = Convert.ToInt32(ddlImportancia.SelectedValue);
+
+            if (importanciaSeleccionada < 0)
+            {
+                throw new Exception("No hay importancia seleccionada para la noticia");
+            }
+
+            _unaN.Importancia = importanciaSeleccionada;
 
             servicio.ModificarNoticia(_unaN);
 
@@ -307,7 +335,7 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
             if (importanciaSeleccionada < 0)
             {
-                throw new Exception("No se puede crear una notiica sin elegir su importancia");
+                throw new Exception("No se puede crear una noticia sin elegir su importancia");
             }
 
             N = new Noticias()
