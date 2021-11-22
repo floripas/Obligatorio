@@ -81,9 +81,9 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Limpia los controles del formulario y regresa al formulario 
-    /// en su estado inicial. 
-    /// 
+    /// Limpia los controles del formulario y regresa al formulario
+    /// en su estado inicial.
+    ///
     /// La operación limpia lblMensaje, por lo que debe invocarse antes
     /// de mostrar un mensaje de éxito
     /// </summary>
@@ -243,17 +243,41 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
     {
         try
         {
-            Session["Periodista"] = null;
-            DesactivoBotones();
-            LimpioControles();
-            btnBuscar.Enabled = true;
-            txtCodigo.Enabled = true;
-            txtCodigo.ReadOnly = false;
+            Session["Periodistas"] = null;
+            RegresarFormularioEstadoInicial();
         }
         catch (Exception ex)
         {
             lblMensaje.Text = ex.Message;
         }
+    }
+
+    /// <summary>
+    /// Pone al formulario en su estado inicial,
+    /// como si recién se cargara la página
+    ///
+    /// Debe invocarse antes de mostrar un mensaje de éxito, porque
+    /// la operación limpia el contenido de lblMensaje
+    /// </summary>
+    private void RegresarFormularioEstadoInicial()
+    {
+        DesactivoBotones();
+        LimpioControles();
+
+        chkPeriodistas.Enabled = false;
+        chkPeriodistas.Visible = false;
+
+        txtCodigo.Enabled = true;
+        txtCodigo.ReadOnly = false;
+
+        btnBuscar.Enabled = true;
+        btnBuscar.Visible = true;
+
+        btnCrear.Enabled = false;
+        btnCrear.Visible = false;
+
+        btnModificar.Enabled = false;
+        btnModificar.Visible = false;
     }
 
     protected void btnModificar_Click(object sender, EventArgs e)
@@ -275,10 +299,9 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
             LimpioControles();
 
-            lblMensaje.Text = "Modificación con Exito";
+            RegresarFormularioEstadoInicial();
 
-            btnCrear.Enabled = false;
-            btnModificar.Enabled = false;
+            lblMensaje.Text = "Modificación con Exito";
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -362,10 +385,9 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
             LimpioControles();
 
-            lblMensaje.Text = "Alta con Exito";
+            RegresarFormularioEstadoInicial();
 
-            btnCrear.Enabled = false;
-            btnModificar.Enabled = false;
+            lblMensaje.Text = "Alta con Exito";
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
