@@ -37,9 +37,16 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
         Session["Secciones"] = secciones;
 
-        ddlSecciones.DataSource = secciones;
-        ddlSecciones.DataValueField = "CodigoSeccion";
-        ddlSecciones.DataTextField = "Nombre";
+        List<ListItem> items = new List<ListItem>() { new ListItem("", "")};
+
+        foreach (Secciones seccion in secciones)
+        {
+            items.Add(new ListItem(seccion.Nombre, seccion.CodigoSeccion));
+        }
+
+        ddlSecciones.DataSource = items;
+        ddlSecciones.DataValueField = "Value";
+        ddlSecciones.DataTextField = "Text";
         ddlSecciones.DataBind();
 
         // se selecciona el elemento vacío 
@@ -72,6 +79,14 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         cldFechaPublicacion.VisibleDate = DateTime.Today;
         cldFechaPublicacion.SelectedDate = new DateTime(1970, 1, 1);
     }
+
+    /// <summary>
+    /// Limpia los controles del formulario y regresa al formulario 
+    /// en su estado inicial. 
+    /// 
+    /// La operación limpia lblMensaje, por lo que debe invocarse antes
+    /// de mostrar un mensaje de éxito
+    /// </summary>
     private void LimpioControles()
     {
         txtCodigo.Text = "";
@@ -79,6 +94,16 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         txtTitulo.Text = "";
         lblMensaje.Text = "";
         InhabilitarCalendario();
+        ddlImportancia.SelectedIndex = 0;
+        ddlSecciones.SelectedIndex = 0;
+
+        foreach (ListItem item in chkPeriodistas.Items)
+        {
+            if (item.Selected)
+            {
+                item.Selected = false;
+            }
+        }
 
         txtCodigo.Enabled = false;
         txtCodigo.ReadOnly = true;
@@ -242,36 +267,15 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
             _unaN.Titulo = txtTitulo.Text.Trim();
             _unaN.Cuerpo = txtCuerpo.Text.Trim();
             _unaN.FechaPublicacion = cldFechaPublicacion.SelectedDate;
-            _unaN.Periodistas = ObtenerPeriodistasSeleccionados(servicio);
-
-            List<Secciones> listaSecciones = (List<Secciones>)Session["Secciones"];
-
-            Secciones seccionSeleccionada = listaSecciones.Where(seccion => seccion.CodigoSeccion == ddlSecciones.SelectedItem.Value).FirstOrDefault();
-
-            if (seccionSeleccionada == null)
-            {
-                throw new Exception("No hay sección seleccionada para la noticia");
-            }
-
-            _unaN.Secciones = seccionSeleccionada;
-
-            int importanciaSeleccionada = Convert.ToInt32(ddlImportancia.SelectedValue);
-
-            if (importanciaSeleccionada < 0)
-            {
-                throw new Exception("No hay importancia seleccionada para la noticia");
-            }
-
-            _unaN.Importancia = importanciaSeleccionada;
+            _unaN.Periodistas = ObtenerPeriodistasSeleccionados();
+            _unaN.Secciones = ObtenerSeccionSeleccionada();
+            _unaN.Importancia = ObtenerImportanciaSeleccionada();
 
             servicio.ModificarNoticia(_unaN);
 
-            lblMensaje.Text = "Modificación con Exito";
+            LimpioControles();
 
-            txtCodigo.Text = "";
-            txtCuerpo.Text = "";
-            txtTitulo.Text = "";
-            InhabilitarCalendario();
+            lblMensaje.Text = "Modificación con Exito";
 
             btnCrear.Enabled = false;
             btnModificar.Enabled = false;
@@ -286,7 +290,19 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         }
     }
 
-    private Periodistas[] ObtenerPeriodistasSeleccionados(ServicioEF servicio)
+    private int ObtenerImportanciaSeleccionada()
+    {
+        int importanciaSeleccionada = Convert.ToInt32(ddlImportancia.SelectedValue != "" ? ddlImportancia.SelectedValue : "0");
+
+        if (importanciaSeleccionada < 1)
+        {
+            throw new Exception("No hay importancia seleccionada para la noticia");
+        }
+
+        return importanciaSeleccionada;
+    }
+
+    private Periodistas[] ObtenerPeriodistasSeleccionados()
     {
         // si no se eligió ningún periodista, lanza una excepción
         if (chkPeriodistas.SelectedIndex < 0)
@@ -322,32 +338,16 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
 
         try
         {
-            List<Secciones> listaSecciones = (List<Secciones>)Session["Secciones"];
-
-            Secciones seccionSeleccionada = listaSecciones.Where(seccion => seccion.CodigoSeccion == ddlSecciones.SelectedItem.Value).FirstOrDefault();
-
-            if (seccionSeleccionada == null)
-            {
-                throw new Exception("No se puede crear una noticia sin seleccionar una sección");
-            }
-
-            int importanciaSeleccionada = Convert.ToInt32(ddlImportancia.SelectedValue);
-
-            if (importanciaSeleccionada < 0)
-            {
-                throw new Exception("No se puede crear una noticia sin elegir su importancia");
-            }
-
             N = new Noticias()
             {
                 Codigo = txtCodigo.Text.Trim(),
                 Cuerpo = txtCuerpo.Text.Trim(),
                 Titulo = txtTitulo.Text.Trim(),
                 FechaPublicacion = cldFechaPublicacion.SelectedDate,
-                Importancia = importanciaSeleccionada,
+                Importancia = ObtenerImportanciaSeleccionada(),
                 Empleados = (Empleados)Session["usuarioLogueado"],
-                Secciones = seccionSeleccionada,
-                Periodistas = ObtenerPeriodistasSeleccionados(servicio)
+                Secciones = ObtenerSeccionSeleccionada(),
+                Periodistas = ObtenerPeriodistasSeleccionados()
             };
         }
         catch (Exception ex)
@@ -360,12 +360,9 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             servicio.AltaNoticia(N);
 
-            lblMensaje.Text = "Alta con Exito";
+            LimpioControles();
 
-            txtCodigo.Text = "";
-            txtCuerpo.Text = "";
-            txtTitulo.Text = "";
-            InhabilitarCalendario();
+            lblMensaje.Text = "Alta con Exito";
 
             btnCrear.Enabled = false;
             btnModificar.Enabled = false;
@@ -378,5 +375,19 @@ public partial class AltaModificacionNacionales : System.Web.UI.Page
         {
             lblMensaje.Text = ex.Message;
         }
+    }
+
+    private Secciones ObtenerSeccionSeleccionada()
+    {
+        List<Secciones> listaSecciones = (List<Secciones>)Session["Secciones"];
+
+        Secciones seccionSeleccionada = listaSecciones.Where(seccion => seccion.CodigoSeccion == ddlSecciones.SelectedItem.Value).FirstOrDefault();
+
+        if (seccionSeleccionada == null)
+        {
+            throw new Exception("Falta seleccionar una sección para la noticia");
+        }
+
+        return seccionSeleccionada;
     }
 }
