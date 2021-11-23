@@ -21,6 +21,8 @@ public partial class _Default : System.Web.UI.Page
                 CargarDdlFiltroSeccion(servicio);
 
                 CargarNoticiasEnGrilla(servicio);
+
+                CargarFechasEnFiltro();
             }
         }
         catch (SoapException ex)
@@ -30,6 +32,19 @@ public partial class _Default : System.Web.UI.Page
         catch (Exception ex)
         {
             lblMensaje.Text = ex.Message;
+        }
+    }
+
+    private void CargarFechasEnFiltro()
+    {
+        ListItem item;
+        DateTime fecha;
+
+        for (int i = 0; i < 5; i++)
+        {
+            fecha = DateTime.Today.AddDays(-i); 
+            item = new ListItem(fecha.ToShortDateString(), fecha.ToShortDateString());
+            ddlFiltroFecha.Items.Add(item);
         }
     }
 
@@ -89,8 +104,7 @@ public partial class _Default : System.Web.UI.Page
 
             if (codigoSeccionSeleccionada.ToLower() == "sin filtro")
             {
-                grdNoticias.DataSource = noticias;
-                lblMensaje.Text = "";
+                LimpiarFiltros();
             }
             else
             {
@@ -111,5 +125,25 @@ public partial class _Default : System.Web.UI.Page
         {
             lblMensaje.Text = ex.Message;
         }
+    }
+
+    protected void ddlFiltroFecha_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnLimpiar_Click(object sender, EventArgs e)
+    {
+        LimpiarFiltros();
+    }
+
+    private void LimpiarFiltros()
+    {
+        List<Noticias> noticias = (List<Noticias>)Session["noticias"];
+
+        lblMensaje.Text = "";
+        
+        grdNoticias.DataSource = noticias;
+        grdNoticias.DataBind();
     }
 }

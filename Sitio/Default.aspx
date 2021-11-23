@@ -49,13 +49,13 @@
             <asp:DropDownList ID="ddlFiltroSeccion" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlFiltroSeccion_SelectedIndexChanged">
                 <asp:ListItem Selected="True">Sin filtro</asp:ListItem>
             </asp:DropDownList>
-                 <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar filtros" />
+                 <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar filtros" OnClick="btnLimpiar_Click" />
             </div>
             <div>
                 <p class="instrucciones-filtro">
                 Filtra las noticias por fecha usando este menú desplegable: 
             </p>
-            <asp:DropDownList ID="ddlFiltroFecha" runat="server" AutoPostBack="True">
+            <asp:DropDownList ID="ddlFiltroFecha" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlFiltroFecha_SelectedIndexChanged">
                 <asp:ListItem Selected="True">Sin filtro</asp:ListItem>
                 </asp:DropDownList>
             </div>
