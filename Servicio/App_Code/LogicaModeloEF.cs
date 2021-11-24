@@ -228,6 +228,16 @@ public class LogicaModeloEF
                 throw new Exception("La sección ingresada no existe");
             if ((int)_retorno.Value == -2)
                 throw new Exception("Hubo un error y no se pudo eliminar la seccion de la base de datos");
+            if ((int)_retorno.Value == 1)
+            {
+                OEcontext.SaveChanges();
+                throw new Exception("La sección tiene noticias publicadas, se realiza una baja lógica");
+            }
+            if ((int)_retorno.Value == 2)
+            {
+                OEcontext.SaveChanges();
+                throw new Exception("La sección se elimino correctamente.");
+            }
             else
                 OEcontext.SaveChanges();
         }

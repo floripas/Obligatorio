@@ -137,12 +137,15 @@ BEGIN
 		SET Activo = 0
 		WHERE CodigoSeccion = @CodigoSeccion
 		
+		SET @ret = 1
 		SET @Error = @@ERROR
 	END
 	ELSE 
 	BEGIN
 		-- Si la sección no tiene noticias publicadas, se realiza una baja física
 		DELETE Secciones WHERE CodigoSeccion = @CodigoSeccion
+		
+		SET @ret = 2
 		SET @Error = @@ERROR
 	END
 	
@@ -151,7 +154,7 @@ BEGIN
 		SET @ret = -2 -- No se pudo eliminar la sección de la base de datos.
 	END
 	
-	SET @ret = 1
+	--SET @ret = 1
 END
 GO
 

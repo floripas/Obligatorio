@@ -45,7 +45,7 @@
           <Key>
             <PropertyRef Name="CodigoSeccion" />
           </Key>
-          <Property Name="CodigoSeccion" Type="varchar" MaxLength="5" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="CodigoSeccion" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
