@@ -79,7 +79,7 @@ public partial class ABMPeriodistas : System.Web.UI.Page
             {
                 Nombre = txtNombre.Text.Trim(),
                 Cedula = txtCedula.Text.Trim(),
-                Email = txtEmail.Text.Trim(),
+                Email = txtEmail.Text.Trim()
             };
         }
         catch (Exception ex)

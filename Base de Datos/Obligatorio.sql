@@ -410,9 +410,9 @@ GO
 SELECT * FROM Empleados
 SELECT * FROM Secciones
 SELECT * FROM Periodistas
-SELECT * FROM Noticias
 SELECT * FROM Escriben
-
+SELECT * FROM Noticias
+--EXEC EliminarSeccion 'inter',''
 /*
 ALTER TABLE Noticias WITH NOCHECK
 	ADD CONSTRAINT VerificarAño

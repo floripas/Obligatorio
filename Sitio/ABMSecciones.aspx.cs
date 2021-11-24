@@ -22,9 +22,10 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             if (_unaSeccion == null)
             {
-                txtCodigoSeccion.Text = "";
                 txtNombreSeccion.Text = "";
 
+                txtNombreSeccion.Enabled = true;
+                txtCodigoSeccion.Enabled = false;
                 btnCrear.Enabled = true;
                 btnEliminar.Enabled = true;
                 btnModificar.Enabled = false;
@@ -34,6 +35,7 @@ public partial class ABMSecciones : System.Web.UI.Page
                 txtNombreSeccion.Text = _unaSeccion.Nombre;
                 txtCodigoSeccion.Text = _unaSeccion.CodigoSeccion;
 
+                txtCodigoSeccion.Enabled = false;
                 btnCrear.Enabled = false;
                 btnEliminar.Enabled = true;
                 btnEliminar.Visible = true;
@@ -87,6 +89,7 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             txtCodigoSeccion.Text = "";
             txtNombreSeccion.Text = "";
+            txtCodigoSeccion.Enabled = true;
 
             btnCrear.Enabled = false;
             btnEliminar.Enabled = false;
@@ -167,6 +170,7 @@ public partial class ABMSecciones : System.Web.UI.Page
         txtNombreSeccion.Text = "";
 
         txtNombreSeccion.Enabled = false;
+        txtCodigoSeccion.Enabled = true;
 
         btnBuscar.Visible = true;
         btnCrear.Visible = false;

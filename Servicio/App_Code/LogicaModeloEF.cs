@@ -92,7 +92,8 @@ public class LogicaModeloEF
             {
                 Nombre = unP.Nombre,
                 Email = unP.Email,
-                Cedula = unP.Cedula
+                Cedula = unP.Cedula,
+                Activo = unP.Activo
             };
 
             new Validaciones().Validar(P);
@@ -200,7 +201,6 @@ public class LogicaModeloEF
         {
             Secciones S = OEcontext.Secciones.Where(s => s.CodigoSeccion == unaS.CodigoSeccion).FirstOrDefault();
 
-            S.CodigoSeccion = unaS.CodigoSeccion;
             S.Nombre = unaS.Nombre;
 
             OEcontext.SaveChanges();
@@ -222,16 +222,14 @@ public class LogicaModeloEF
 
             _retorno.Direction = System.Data.ParameterDirection.Output;
 
-            OEcontext.Database.ExecuteSqlCommand("exec EliminarPeriodista @CodigoSeccion, @ret output", _codigo, _retorno);
+            OEcontext.Database.ExecuteSqlCommand("exec EliminarSeccion @CodigoSeccion, @ret output", _codigo, _retorno);
 
             if ((int)_retorno.Value == -1)
                 throw new Exception("La sección ingresada no existe");
             if ((int)_retorno.Value == -2)
                 throw new Exception("Hubo un error y no se pudo eliminar la seccion de la base de datos");
             else
-            {
                 OEcontext.SaveChanges();
-            }
         }
         catch (Exception ex)
         {
