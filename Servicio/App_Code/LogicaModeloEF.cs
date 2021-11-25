@@ -186,11 +186,10 @@ public class LogicaModeloEF
 
             OEcontext.Secciones.Add(S);
             OEcontext.SaveChanges();
-            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
         }
         catch (Exception ex)
         {
-            OEcontext.Entry(S).State = System.Data.Entity.EntityState.Detached;
+            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
         }
@@ -229,23 +228,11 @@ public class LogicaModeloEF
                 throw new Exception("La sección ingresada no existe");
             if ((int)_retorno.Value == -2)
                 throw new Exception("Hubo un error y no se pudo eliminar la seccion de la base de datos");
-            if ((int)_retorno.Value == 1)
+            if ((int)_retorno.Value == 1 || (int)_retorno.Value == 2)
             {
                 OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
-                throw new Exception("La sección tiene noticias publicadas, se realiza una baja lógica");
             }
-            if ((int)_retorno.Value == 2)
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
-                throw new Exception("La sección se elimino correctamente.");
-            }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
-            }
+            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
         }
         catch (Exception ex)
         {

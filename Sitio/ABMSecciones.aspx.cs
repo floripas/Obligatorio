@@ -20,6 +20,12 @@ public partial class ABMSecciones : System.Web.UI.Page
         {
             Secciones _unaSeccion = new ServicioEF().BuscarSeccion(txtCodigoSeccion.Text.Trim());
 
+            if (txtCodigoSeccion.Text.Trim() == "")
+            {
+                lblMensaje.Text = "El codigo no puede ser vacio.";
+                return;
+            }
+
             if (_unaSeccion == null)
             {
                 txtNombreSeccion.Text = "";
@@ -27,7 +33,6 @@ public partial class ABMSecciones : System.Web.UI.Page
                 txtNombreSeccion.Enabled = true;
                 txtCodigoSeccion.Enabled = false;
                 btnCrear.Enabled = true;
-                btnEliminar.Enabled = true;
                 btnModificar.Enabled = false;
             }
             else
@@ -90,6 +95,7 @@ public partial class ABMSecciones : System.Web.UI.Page
             txtCodigoSeccion.Text = "";
             txtNombreSeccion.Text = "";
             txtCodigoSeccion.Enabled = true;
+            txtNombreSeccion.Enabled = false;
 
             btnCrear.Enabled = false;
             btnEliminar.Enabled = false;
@@ -113,14 +119,14 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             new ServicioEF().EliminarSeccion(_unaS);
 
+            PonerFormularioEnEstadoInicial();
+
             lblMensaje.Text = "Baja con Exito";
 
-            txtCodigoSeccion.Text = "";
-            txtNombreSeccion.Text = "";
+            //txtCodigoSeccion.Text = "";
+            //txtNombreSeccion.Text = "";
 
-            btnCrear.Enabled = false;
-            btnEliminar.Enabled = false;
-            btnModificar.Enabled = false;
+            //PonerFormularioEnEstadoInicial();
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -173,8 +179,8 @@ public partial class ABMSecciones : System.Web.UI.Page
         txtCodigoSeccion.Enabled = true;
 
         btnBuscar.Visible = true;
-        btnCrear.Visible = false;
-        btnModificar.Visible = false;
-        btnEliminar.Visible = false;
+        btnCrear.Enabled = false;
+        btnModificar.Enabled = false;
+        btnEliminar.Enabled = false;
     }
 }
