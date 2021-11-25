@@ -186,10 +186,11 @@ public class LogicaModeloEF
 
             OEcontext.Secciones.Add(S);
             OEcontext.SaveChanges();
+            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
         }
         catch (Exception ex)
         {
-            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+            OEcontext.Entry(S).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
         }
@@ -231,15 +232,20 @@ public class LogicaModeloEF
             if ((int)_retorno.Value == 1)
             {
                 OEcontext.SaveChanges();
+                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
                 throw new Exception("La sección tiene noticias publicadas, se realiza una baja lógica");
             }
             if ((int)_retorno.Value == 2)
             {
                 OEcontext.SaveChanges();
+                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
                 throw new Exception("La sección se elimino correctamente.");
             }
             else
+            {
                 OEcontext.SaveChanges();
+                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+            }
         }
         catch (Exception ex)
         {
