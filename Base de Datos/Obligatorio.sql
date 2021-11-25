@@ -374,12 +374,12 @@ GO
 -- para actualizar automáticamente las fechas de las noticias a mostrar
 INSERT INTO Noticias(Codigo, Titulo, Cuerpo, Importancia, FechaPublicacion, CodigoSeccion, NombreUsuario)
 Values ('codnot10', 'Titulo Noticia 10','Cuerpo Noticia 10', 3,DATEADD(DAY, -5, GETDATE()), 'inter', 'Empleado40'),
-('codnot11', 'Titulo Noticia 11','Cuerpo Noticia 11', 4,DATEADD(DAY, -5, GETDATE()), 'inter', 'Empleado20'),
+('codnot11', 'Titulo Noticia 11','Cuerpo Noticia 11', 4,DATEADD(DAY, -5, GETDATE()), 'depor', 'Empleado20'),
 ('codnot12', 'Titulo Noticia 12','Cuerpo Noticia 12', 3,DATEADD(DAY, -3, GETDATE()), 'inter', 'Empleado10'),
-('codnot13', 'Titulo Noticia 13','Cuerpo Noticia 13', 1,DATEADD(DAY, -1, GETDATE()), 'inter', 'Empleado30'),
-('codnot14', 'Titulo Noticia 14','Cuerpo Noticia 14', 3,DATEADD(DAY, -1, GETDATE()), 'inter', 'Empleado20'),
-('codnot15', 'Titulo Noticia 15','Cuerpo Noticia 15', 3,GETDATE(), 'inter', 'Empleado10'),
-('codnot16', 'Titulo Noticia 16','Cuerpo Noticia 16', 3,GETDATE(), 'inter', 'Empleado40')
+('codnot13', 'Titulo Noticia 13','Cuerpo Noticia 13', 1,DATEADD(DAY, -1, GETDATE()), 'cultu', 'Empleado30'),
+('codnot14', 'Titulo Noticia 14','Cuerpo Noticia 14', 3,DATEADD(DAY, -1, GETDATE()), 'econo', 'Empleado20'),
+('codnot15', 'Titulo Noticia 15','Cuerpo Noticia 15', 3,GETDATE(), 'econo', 'Empleado10'),
+('codnot16', 'Titulo Noticia 16','Cuerpo Noticia 16', 3,GETDATE(), 'cultu', 'Empleado40')
 GO
 
 INSERT INTO Escriben(Codigo, Cedula)
