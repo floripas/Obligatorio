@@ -59,7 +59,7 @@ public partial class ABMSecciones : System.Web.UI.Page
             lblMensaje.Text = ex.Message;
         }
     }
-
+    
     protected void btnLimpiar_Click(object sender, EventArgs e)
     {
         txtCodigoSeccion.Text = "";
@@ -121,12 +121,12 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             PonerFormularioEnEstadoInicial();
 
+            txtCodigoSeccion.Text = "";
+            txtNombreSeccion.Text = "";
+
+            PonerFormularioEnEstadoInicial();
+
             lblMensaje.Text = "Baja con Exito";
-
-            //txtCodigoSeccion.Text = "";
-            //txtNombreSeccion.Text = "";
-
-            //PonerFormularioEnEstadoInicial();
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -148,14 +148,9 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             new ServicioEF().ModificarSeccion(_unaS);
 
+            PonerFormularioEnEstadoInicial();
+
             lblMensaje.Text = "Modificación con Exito";
-
-            txtNombreSeccion.Text = "";
-            txtCodigoSeccion.Text = "";
-
-            btnCrear.Enabled = false;
-            btnEliminar.Enabled = false;
-            btnModificar.Enabled = false;
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -167,6 +162,14 @@ public partial class ABMSecciones : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Devuelve el formulario a su estado inicial, en el que 
+    /// el usuario puede hacer una búsqueda de sección.
+    /// 
+    /// Debe invocarse **ANTES** de mostrar un mensaje de éxito,
+    /// pues la operación vacía el contenido de la label
+    /// de mensajes
+    /// </summary>
     private void PonerFormularioEnEstadoInicial()
     {
         lblMensaje.ForeColor = System.Drawing.Color.Black;
