@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +10,7 @@ public class LogicaModeloEF
 {
     private static ObligatorioEntities _OEcontext = null;
 
-    public static ObligatorioEntities OEcontext
+    private static ObligatorioEntities OEcontext
     {
         get
         {
@@ -21,13 +21,19 @@ public class LogicaModeloEF
             }
             return _OEcontext;
         }
+        // para poder anular el contexto y reinstanciarlo otra vez
+        set
+        {
+            _OEcontext = value;
+        }
     }
+
 
     #region OperacionesEmpleados
     public static Empleados Logueo(string usu, string pass)
     {
         Empleados emp = OEcontext.Empleados.Where(e => e.NombreUsuario == usu.Trim() && e.Contraseña == pass.Trim()).FirstOrDefault();
-
+        
         if (emp != null)
         {
             return emp;
@@ -232,13 +238,44 @@ public class LogicaModeloEF
             {
                 OEcontext.SaveChanges();
             }
-            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
         }
         catch (Exception ex)
         {
             OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
+        }
+        finally
+        {
+            /**
+             * Si se intenta insertar un objeto con una clave 
+             * primaria idéntica al objeto eliminado, 
+             * DbContext.SaveChanges puede lanzar la excepción 
+             * "Saving or accepting changes failed because more 
+             * than one entity of type  have the same 
+             * primary key value".
+             * 
+             * La razón es que, al eliminar un objeto del contexto, 
+             * e invocar DbContext.SaveChanges, el objeto es eliminado 
+             * de la base de datos, pero **puede sobrevivir** 
+             * en el contexto con un estado Detached, tal como se 
+             * insinúa en la definición de los estados 
+             * Deleted y Detached.
+             * 
+             * @see https://docs.microsoft.com/en-us/dotnet/api/system.data.entitystate?view=netframework-4.8&viewFallbackFrom=netframework-6.4#fields
+             * 
+             * Para que el contexto esté sincronizado con la base de datos
+             * (y el objeto eliminado sea efectivamente dereferenciado), 
+             * hay que reinstanciar el contexto. 
+             * 
+             * @see https://stackoverflow.com/a/49561627/6951887
+             * 
+             * Hay que anular el DbContext actual para reinstanciar uno 
+             * nuevo cuando sea necesario
+             * 
+             * Rafael 26/11/2021
+             */
+            OEcontext = null;
         }
     }
 
