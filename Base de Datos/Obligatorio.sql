@@ -82,38 +82,40 @@ GO
 
 -- ===============================================
 CREATE PROCEDURE EliminarPeriodista
---ALTER PROCEDURE EliminarPeriodista
+--ALTER PROC EliminarPeriodista
 	@Cedula varchar(8),
 	@ret int output
 AS
-BEGIN
-    -- Caso periodista no existe
-	IF (NOT EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula))
-		SET @ret = -1 --No existe un periodista con la cedula ingresada
+BEGIN 
+	-- Verifica que la sección exista
+	IF (NOT EXISTS (SELECT Cedula FROM Periodistas WHERE Cedula = @Cedula))
+		SET @ret = -1; -- El periodista no existe
 	
 	DECLARE @Error INT
 	
-	-- Si el periodista publicó al menos una noticia, se realiza una baja lógica
-	IF EXISTS(SELECT * FROM Escriben WHERE Cedula = @Cedula)
+	-- Si el periodista tiene noticias publicadas, se realiza una baja lógica
+	IF (EXISTS (SELECT * FROM Escriben WHERE Cedula = @Cedula ))
 	BEGIN
 		UPDATE Periodistas
 		SET Activo = 0
 		WHERE Cedula = @Cedula
 		
+		SET @ret = 1
 		SET @Error = @@ERROR
 	END
-	ELSE
+	ELSE 
 	BEGIN
-	-- Si el periodista no publicó nada, se realiza una baja física
+		-- Si el periodista tiene noticias publicadas, se realiza una baja física
 		DELETE Periodistas WHERE Cedula = @Cedula
 		
+		SET @ret = 2
 		SET @Error = @@ERROR
 	END
 	
-	IF(@Error = 0)
-		SET @ret = 1
-	ELSE
-		SET @ret = -2 -- Hubo un error y no se pudo eliminar el periodista de la base de datos
+	IF(@Error != 0)
+	BEGIN
+		SET @ret = -2 -- No se pudo eliminar al periodista de la base de datos.
+	END
 END
 GO
 

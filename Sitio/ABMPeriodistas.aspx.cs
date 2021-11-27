@@ -14,48 +14,62 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 
     }
 
-    private void DesactivoBotones()
+    private void PonerFormularioEnEstadoInicial()
     {
-        btnAlta.Enabled = false;
-        btnBaja.Enabled = false;
-        btnModificar.Enabled = false;
-    }
+        LblError.ForeColor = System.Drawing.Color.Black;
+        LblError.Text = "";
 
-    private void LimpioControles()
-    {
         txtCedula.Text = "";
         txtNombre.Text = "";
         txtEmail.Text = "";
-        LblError.Text = "";
 
-        txtCedula.Enabled = false;
-        txtCedula.ReadOnly = true;
+        txtEmail.Enabled = false;
+        txtNombre.Enabled = false;
+        txtCedula.Enabled = true;
+
+        btnBuscar.Visible = true;
+        btnAlta.Enabled = false;
+        btnModificar.Enabled = false;
+        btnBaja.Enabled = false;
     }
 
     protected void btnBuscar_Click(object sender, EventArgs e)
     {
         try
         {
-            Periodistas _unPeriodista = new ServicioEF().BuscarPeriodista(txtCedula.Text);
+            Periodistas _unPeriodista = new ServicioEF().BuscarPeriodista(txtCedula.Text.Trim());
+
+            if (txtCedula.Text.Trim() == "")
+            {
+                LblError.Text = "La cedula ingresada no puede ser vacia.";
+                return;
+            }
 
             if (_unPeriodista == null)
             {
                 txtNombre.Text = "";
                 txtEmail.Text = "";
 
+                txtNombre.Enabled = true;
+                txtEmail.Enabled = true;
+                txtCedula.Enabled = false;
                 btnAlta.Enabled = true;
-                btnBaja.Enabled = true;
                 btnModificar.Enabled = false;
             }
             else
             {
                 txtNombre.Text = _unPeriodista.Nombre;
-                txtCedula.Text = _unPeriodista.Cedula;
                 txtEmail.Text = _unPeriodista.Email;
+                txtCedula.Text = _unPeriodista.Cedula;
 
+                txtCedula.Enabled = false;
                 btnAlta.Enabled = false;
                 btnBaja.Enabled = true;
+                btnBaja.Visible = true;
                 btnModificar.Enabled = true;
+                btnModificar.Visible = true;
+                txtNombre.Enabled = true;
+                txtEmail.Enabled = true;
                 Session["Periodista"] = _unPeriodista;
             }
         }
@@ -98,6 +112,10 @@ public partial class ABMPeriodistas : System.Web.UI.Page
             txtCedula.Text = "";
             txtEmail.Text = "";
 
+            txtCedula.Enabled = true;
+            txtNombre.Enabled = false;
+            txtEmail.Enabled = false;
+
             btnAlta.Enabled = false;
             btnBaja.Enabled = false;
             btnModificar.Enabled = false;
@@ -120,15 +138,15 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 
             new ServicioEF().EliminarPeriodista(_unPer);
 
-            LblError.Text = "Baja con Exito";
+            PonerFormularioEnEstadoInicial();
 
-            txtNombre.Text = "";
             txtCedula.Text = "";
+            txtNombre.Text = "";
             txtEmail.Text = "";
 
-            btnAlta.Enabled = false;
-            btnBaja.Enabled = false;
-            btnModificar.Enabled = false;
+            PonerFormularioEnEstadoInicial();
+
+            LblError.Text = "Baja con Exito";
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -151,15 +169,9 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 
             new ServicioEF().ModificarPeriodista(_unP);
 
+            PonerFormularioEnEstadoInicial();
+
             LblError.Text = "Modificación con Exito";
-
-            txtNombre.Text = "";
-            txtCedula.Text = "";
-            txtEmail.Text = "";
-
-            btnAlta.Enabled = false;
-            btnBaja.Enabled = false;
-            btnModificar.Enabled = false;
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -173,17 +185,10 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 
     protected void btnRefresh_Click(object sender, EventArgs e)
     {
-        try
-        {
-            Session["Periodista"] = null;
-            DesactivoBotones();
-            LimpioControles();
-            txtCedula.Enabled = true;
-            txtCedula.ReadOnly = false;
-        }
-        catch(Exception ex)
-        {
-            LblError.Text = ex.Message;
-        }
+        txtCedula.Text = "";
+        txtNombre.Text = "";
+        txtEmail.Text = "";
+
+        PonerFormularioEnEstadoInicial();
     }
 }

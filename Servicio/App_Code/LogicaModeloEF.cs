@@ -145,15 +145,34 @@ public class LogicaModeloEF
             OEcontext.Database.ExecuteSqlCommand("exec EliminarPeriodista @Cedula, @ret output", _cedula, _retorno);
 
             if ((int)_retorno.Value == -1)
-                throw new Exception("No existe un periodista con la cedula ingresada");
+                throw new Exception("El periodista ingresado no existe");
             if ((int)_retorno.Value == -2)
-                throw new Exception("Hubo un error y no se pudo eliminar el periodista de la base de datos");
-            else
+                throw new Exception("Hubo un error y no se pudo eliminar al periodista de la base de datos");
+            if ((int)_retorno.Value == 1)
+            {
                 OEcontext.SaveChanges();
+                throw new Exception("El periodista tiene noticias publicadas, se realiza una baja lógica");
+            }
+            if ((int)_retorno.Value == 2)
+            {
+                OEcontext.SaveChanges();
+                throw new Exception("El periodista se elimino correctamente.");
+            }
+            else
+            {
+                OEcontext.SaveChanges();
+                OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
+            }
         }
         catch (Exception ex)
         {
+            OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
+
             throw ex;
+        }
+        finally
+        {
+            OEcontext = null;
         }
     }
 
@@ -255,6 +274,10 @@ public class LogicaModeloEF
             OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
+        }
+        finally
+        {
+            OEcontext = null;
         }
     }
 
