@@ -59,7 +59,7 @@ public partial class ABMSecciones : System.Web.UI.Page
             lblMensaje.Text = ex.Message;
         }
     }
-
+    
     protected void btnLimpiar_Click(object sender, EventArgs e)
     {
         txtCodigoSeccion.Text = "";

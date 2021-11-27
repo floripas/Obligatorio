@@ -91,7 +91,7 @@
         <td class="auto-style32" style="border-style: none;"></td>
     </tr>
     <tr>
-        <td class="auto-style28">Tipo: <asp:Label ID="lblTipo" runat="server"></asp:Label>
+        <td class="auto-style28">
         </td>
         <td class="auto-style29"></td>
         <td class="auto-style27">Redactado por:</td>

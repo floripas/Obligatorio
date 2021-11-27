@@ -10,7 +10,7 @@ public class LogicaModeloEF
 {
     private static ObligatorioEntities _OEcontext = null;
 
-    public static ObligatorioEntities OEcontext
+    private static ObligatorioEntities OEcontext
     {
         get
         {
