@@ -20,6 +20,12 @@ public partial class ABMSecciones : System.Web.UI.Page
         {
             Secciones _unaSeccion = new ServicioEF().BuscarSeccion(txtCodigoSeccion.Text.Trim());
 
+            if (txtCodigoSeccion.Text.Trim() == "")
+            {
+                lblMensaje.Text = "El codigo no puede ser vacio.";
+                return;
+            }
+
             if (_unaSeccion == null)
             {
                 txtNombreSeccion.Text = "";
@@ -27,7 +33,6 @@ public partial class ABMSecciones : System.Web.UI.Page
                 txtNombreSeccion.Enabled = true;
                 txtCodigoSeccion.Enabled = false;
                 btnCrear.Enabled = true;
-                btnEliminar.Enabled = true;
                 btnModificar.Enabled = false;
             }
             else
@@ -90,6 +95,7 @@ public partial class ABMSecciones : System.Web.UI.Page
             txtCodigoSeccion.Text = "";
             txtNombreSeccion.Text = "";
             txtCodigoSeccion.Enabled = true;
+            txtNombreSeccion.Enabled = false;
 
             btnCrear.Enabled = false;
             btnEliminar.Enabled = false;
@@ -113,14 +119,14 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             new ServicioEF().EliminarSeccion(_unaS);
 
-            lblMensaje.Text = "Baja con Exito";
+            PonerFormularioEnEstadoInicial();
 
             txtCodigoSeccion.Text = "";
             txtNombreSeccion.Text = "";
 
-            btnCrear.Enabled = false;
-            btnEliminar.Enabled = false;
-            btnModificar.Enabled = false;
+            PonerFormularioEnEstadoInicial();
+
+            lblMensaje.Text = "Baja con Exito";
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -142,14 +148,9 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             new ServicioEF().ModificarSeccion(_unaS);
 
+            PonerFormularioEnEstadoInicial();
+
             lblMensaje.Text = "Modificación con Exito";
-
-            txtNombreSeccion.Text = "";
-            txtCodigoSeccion.Text = "";
-
-            btnCrear.Enabled = false;
-            btnEliminar.Enabled = false;
-            btnModificar.Enabled = false;
         }
         catch (System.Web.Services.Protocols.SoapException ex)
         {
@@ -161,6 +162,14 @@ public partial class ABMSecciones : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Devuelve el formulario a su estado inicial, en el que 
+    /// el usuario puede hacer una búsqueda de sección.
+    /// 
+    /// Debe invocarse **ANTES** de mostrar un mensaje de éxito,
+    /// pues la operación vacía el contenido de la label
+    /// de mensajes
+    /// </summary>
     private void PonerFormularioEnEstadoInicial()
     {
         lblMensaje.ForeColor = System.Drawing.Color.Black;
@@ -173,8 +182,8 @@ public partial class ABMSecciones : System.Web.UI.Page
         txtCodigoSeccion.Enabled = true;
 
         btnBuscar.Visible = true;
-        btnCrear.Visible = false;
-        btnModificar.Visible = false;
-        btnEliminar.Visible = false;
+        btnCrear.Enabled = false;
+        btnModificar.Enabled = false;
+        btnEliminar.Enabled = false;
     }
 }
