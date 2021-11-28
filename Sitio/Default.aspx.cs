@@ -87,7 +87,21 @@ public partial class _Default : System.Web.UI.Page
 
             Session["noticiaSeleccionada"] = noticiaSeleccionada;
             Response.Redirect("~/ConsultaNoticia.aspx");
+
+            return;
         }
+        /**
+         * Response.Redirect lanza una excepción ThreadAbortException
+         * para detener la ejecución del hilo actual y proceder
+         * a realizar la redirección
+         *
+         * @see https://stackoverflow.com/a/12957854/6951887
+         * 
+         * Este catch sirve para capturar e ignorar esta excepción
+         * 
+         * Rafael 28/11/2021
+         */
+        catch (System.Threading.ThreadAbortException ex) { }
         catch (SoapException ex)
         {
             lblMensaje.Text = ex.Detail.InnerText;
