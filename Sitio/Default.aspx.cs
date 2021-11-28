@@ -19,6 +19,7 @@ public partial class _Default : System.Web.UI.Page
                 Session["secciones"] = null;
                 Session["noticias"] = null;
                 Session["noticiaSeleccionada"] = null;
+                Session["noticiasFiltradas"] = null;
 
                 ServicioEF servicio = new ServicioEF();
 
@@ -46,7 +47,7 @@ public partial class _Default : System.Web.UI.Page
 
         for (int i = 0; i < 5; i++)
         {
-            fecha = DateTime.Today.AddDays(-i); 
+            fecha = DateTime.Today.AddDays(-i);
             item = new ListItem(fecha.ToShortDateString(), fecha.ToShortDateString());
             ddlFiltroFecha.Items.Add(item);
         }
@@ -72,6 +73,7 @@ public partial class _Default : System.Web.UI.Page
         List<Noticias> noticias = servicio.MostrarNoticiasUltimosCincoDias().ToList<Noticias>();
 
         Session["noticias"] = noticias;
+        Session["noticiasFiltradas"] = noticias;
 
         grdNoticias.DataSource = noticias;
         grdNoticias.DataBind();
@@ -81,13 +83,31 @@ public partial class _Default : System.Web.UI.Page
     {
         try
         {
-            List<Noticias> noticias = (List<Noticias>)Session["noticias"];
+            // si hay noticias filtradas, se carga noticias con ellas;
+            // de lo contrario, se carga con las noticias sin filtrar
+            List<Noticias> noticias = (List<Noticias>)Session["noticiasFiltradas"] != null && ((List<Noticias>)Session["noticiasFiltradas"]).Count > 0 
+                ? (List<Noticias>)Session["noticiasFiltradas"] 
+                : (List<Noticias>)Session["noticias"];
 
             Noticias noticiaSeleccionada = noticias[grdNoticias.SelectedIndex];
 
             Session["noticiaSeleccionada"] = noticiaSeleccionada;
             Response.Redirect("~/ConsultaNoticia.aspx");
+
+            return;
         }
+        /**
+         * Response.Redirect lanza una excepción ThreadAbortException
+         * para detener la ejecución del hilo actual y proceder
+         * a realizar la redirección
+         *
+         * @see https://stackoverflow.com/a/12957854/6951887
+         * 
+         * Este catch sirve para capturar e ignorar esta excepción
+         * 
+         * Rafael 28/11/2021
+         */
+        catch (System.Threading.ThreadAbortException ex) { }
         catch (SoapException ex)
         {
             lblMensaje.Text = ex.Detail.InnerText;
@@ -122,6 +142,8 @@ public partial class _Default : System.Web.UI.Page
         grdNoticias.DataSource = noticiasFiltradas;
         grdNoticias.DataBind();
 
+        Session["noticiasFiltradas"] = noticiasFiltradas;
+
         lblMensaje.Text = noticiasFiltradas.Count > 0
             ? ""
             : "Ninguna noticia reciente se publicó en la sección " + codigoSeccion + " el día " + fecha;
@@ -135,6 +157,8 @@ public partial class _Default : System.Web.UI.Page
 
         grdNoticias.DataSource = noticiasFiltradas;
         grdNoticias.DataBind();
+
+        Session["noticiasFiltradas"] = noticiasFiltradas;
 
         lblMensaje.Text = noticiasFiltradas.Count > 0
                     ? ""
@@ -150,6 +174,8 @@ public partial class _Default : System.Web.UI.Page
         grdNoticias.DataSource = noticiasFiltradas;
         grdNoticias.DataBind();
 
+        Session["noticiasFiltradas"] = noticiasFiltradas;
+
         lblMensaje.Text = noticiasFiltradas.Count > 0
             ? ""
             : "Ninguna noticia reciente se publicó en la sección " + codigoSeccion;
@@ -160,7 +186,7 @@ public partial class _Default : System.Web.UI.Page
         try
         {
             List<Noticias> noticias = (List<Noticias>)Session["noticias"];
-            
+
             FiltrarNoticias(noticias, ddlFiltroFecha.SelectedValue, ddlFiltroSeccion.SelectedValue);
         }
         catch (Exception ex)
@@ -204,12 +230,13 @@ public partial class _Default : System.Web.UI.Page
     private void LimpiarFiltros()
     {
         List<Noticias> noticias = (List<Noticias>)Session["noticias"];
+        Session["noticiasFiltradas"] = noticias;
 
         ddlFiltroFecha.SelectedIndex = 0;
         ddlFiltroSeccion.SelectedIndex = 0;
 
         lblMensaje.Text = "";
-        
+
         grdNoticias.DataSource = noticias;
         grdNoticias.DataBind();
     }
