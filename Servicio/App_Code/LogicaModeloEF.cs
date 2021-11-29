@@ -272,7 +272,7 @@ public class LogicaModeloEF
     {
         try
         {
-            Secciones S = OEcontext.Secciones.Where(s => s.CodigoSeccion == unaS.CodigoSeccion).FirstOrDefault();
+            Secciones S = OEcontext.Secciones.Where(s => s.CodigoSeccion == unaS.CodigoSeccion && s.Activo).FirstOrDefault();
 
             S.Nombre = unaS.Nombre;
 
@@ -352,7 +352,7 @@ public class LogicaModeloEF
             else
             {
                 OEcontext.SaveChanges();
-                //OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
             }
         }
         catch (Exception ex)
