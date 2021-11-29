@@ -35,6 +35,19 @@ public partial class ABMSecciones : System.Web.UI.Page
                 btnCrear.Enabled = true;
                 btnModificar.Enabled = false;
             }
+
+            else if (_unaSeccion.Activo == false)
+            {
+                lblMensaje.Text = "Existe la seccion pero se encuentra inactiva.";
+                txtNombreSeccion.Text = _unaSeccion.Nombre;
+                txtCodigoSeccion.Text = _unaSeccion.CodigoSeccion;
+
+                txtCodigoSeccion.Enabled = false;
+                txtNombreSeccion.Enabled = false;
+                btnActivar.Enabled = true;
+                btnActivar.Visible = true;
+                Session["Seccion"] = _unaSeccion;
+            }
             else
             {
                 txtNombreSeccion.Text = _unaSeccion.Nombre;
@@ -185,5 +198,32 @@ public partial class ABMSecciones : System.Web.UI.Page
         btnCrear.Enabled = false;
         btnModificar.Enabled = false;
         btnEliminar.Enabled = false;
+        btnActivar.Enabled = false;
+        btnActivar.Visible = false;
+    }
+
+    protected void btnActivar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Secciones _unaS = (Secciones)Session["Seccion"];
+            _unaS.CodigoSeccion = txtCodigoSeccion.Text.Trim();
+            _unaS.Nombre = txtNombreSeccion.Text.Trim();
+            _unaS.Activo = true;
+
+            new ServicioEF().ActivarSeccion(_unaS);
+
+            PonerFormularioEnEstadoInicial();
+
+            lblMensaje.Text = "Activación con Exito";
+        }
+        catch (System.Web.Services.Protocols.SoapException ex)
+        {
+            lblMensaje.Text = ex.Detail.InnerText;
+        }
+        catch (Exception ex)
+        {
+            lblMensaje.Text = ex.Message;
+        }
     }
 }

@@ -238,6 +238,44 @@ public class LogicaModeloEF
         }
     }
 
+    public static void ActivarSeccion(Secciones unaS)
+    {
+        try
+        {
+            SqlParameter _codigo = new SqlParameter("@CodigoSeccion", unaS.CodigoSeccion);
+            SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
+
+            _retorno.Direction = System.Data.ParameterDirection.Output;
+
+            OEcontext.Database.ExecuteSqlCommand("exec ActivarSeccion @CodigoSeccion, @ret output", _codigo, _retorno);
+
+            if ((int)_retorno.Value == -1)
+                throw new Exception("La sección ingresada no existe");
+            if ((int)_retorno.Value == -2)
+                throw new Exception("No se pudo actualizar la sección");
+            if ((int)_retorno.Value == 1)
+            {
+                OEcontext.SaveChanges();
+                throw new Exception("La sección ahora se encuentra activa.");
+            }
+            else
+            {
+                OEcontext.SaveChanges();
+                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+            }
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+        finally
+        {
+            OEcontext = null;
+        }
+    }
+
     public static void EliminarSeccion(Secciones unaS)
     {
         try

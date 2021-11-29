@@ -336,6 +336,31 @@ BEGIN
 END
 GO
 
+-- ===============================================
+CREATE PROCEDURE ActivarSeccion
+  @codigoSeccion VARCHAR(5),
+  @ret int output
+AS
+BEGIN
+	-- Verifica si la seccion existe.
+	IF (NOT EXISTS(SELECT * FROM Secciones WHERE CodigoSeccion = @codigoSeccion))
+	BEGIN
+		set @ret = -1 --No existe una seccion con ese codigo
+	END
+	
+	UPDATE Secciones 
+	SET Activo = 1 
+	WHERE CodigoSeccion = @codigoSeccion
+	
+	IF @@ERROR != 0
+	BEGIN
+		set @ret = -2 -- No se pudo actualizar la sección
+	END
+	
+	set @ret = 1
+END
+GO
+
 --INSERTS
 
 EXEC AltaEmpleado 'Empleado10', 'empl123'

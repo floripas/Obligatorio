@@ -186,6 +186,19 @@ public class ServicioEF : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public void ActivarSeccion(Secciones unaS)
+    {
+        try
+        {
+            LogicaModeloEF.ActivarSeccion(unaS);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    [WebMethod]
     public List<Secciones> ListarSecciones()
     {
         List<Secciones> _lista = null;
