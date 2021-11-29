@@ -369,7 +369,7 @@ public class LogicaModeloEF
 
     public static List<Secciones> ListarSecciones()
     {
-        return (OEcontext.Secciones.ToList());
+        return (OEcontext.Secciones.Where(seccion => seccion.Activo).ToList());
     }
     #endregion
 
