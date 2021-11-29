@@ -176,6 +176,44 @@ public class LogicaModeloEF
         }
     }
 
+    public static void ActivarPeriodista(Periodistas unP)
+    {
+        try
+        {
+            SqlParameter _cedula = new SqlParameter("@Cedula", unP.Cedula);
+            SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
+
+            _retorno.Direction = System.Data.ParameterDirection.Output;
+
+            OEcontext.Database.ExecuteSqlCommand("exec ActivarPeriodista @Cedula, @ret output", _cedula, _retorno);
+
+            if ((int)_retorno.Value == -1)
+                throw new Exception("El periodista ingresado no existe");
+            if ((int)_retorno.Value == -2)
+                throw new Exception("No se pudo actualizar el periodista");
+            if ((int)_retorno.Value == 1)
+            {
+                OEcontext.SaveChanges();
+                throw new Exception("El periodista ahora se encuentra activo.");
+            }
+            else
+            {
+                OEcontext.SaveChanges();
+                OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
+            }
+        }
+        catch (Exception ex)
+        {
+            OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
+
+            throw ex;
+        }
+        finally
+        {
+            OEcontext = null;
+        }
+    }
+
     public static List<Periodistas> ListarPeriodistas()
     {
         return (OEcontext.Periodistas.ToList());

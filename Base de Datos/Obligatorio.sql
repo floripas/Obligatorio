@@ -360,6 +360,30 @@ BEGIN
 	set @ret = 1
 END
 GO
+-- ===============================================
+CREATE PROCEDURE ActivarPeriodista
+  @Cedula varchar(8),
+  @ret int output
+AS
+BEGIN
+	-- Verifica si el periodista existe.
+	IF (NOT EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula))
+	BEGIN
+		set @ret = -1 --No existe un periodista con esa cedula.
+	END
+	
+	UPDATE Periodistas
+	SET Activo = 1 
+	WHERE Cedula = @Cedula
+	
+	IF @@ERROR != 0
+	BEGIN
+		set @ret = -2 -- No se pudo actualizar el periodista.
+	END
+	
+	set @ret = 1
+END
+GO
 
 --INSERTS
 

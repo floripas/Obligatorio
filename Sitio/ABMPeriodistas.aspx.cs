@@ -31,6 +31,8 @@ public partial class ABMPeriodistas : System.Web.UI.Page
         btnAlta.Enabled = false;
         btnModificar.Enabled = false;
         btnBaja.Enabled = false;
+        btnActivar.Enabled = false;
+        btnActivar.Visible = false;
     }
 
     protected void btnBuscar_Click(object sender, EventArgs e)
@@ -55,6 +57,20 @@ public partial class ABMPeriodistas : System.Web.UI.Page
                 txtCedula.Enabled = false;
                 btnAlta.Enabled = true;
                 btnModificar.Enabled = false;
+            }
+            else if (_unPeriodista.Activo == false)
+            {
+                LblError.Text = "Existe el periodista pero se encuentra inactivo.";
+                txtCedula.Text = _unPeriodista.Cedula;
+                txtNombre.Text = _unPeriodista.Nombre;
+                txtEmail.Text = _unPeriodista.Email;
+
+                txtCedula.Enabled = false;
+                txtNombre.Enabled = false;
+                txtEmail.Enabled = false;
+                btnActivar.Enabled = true;
+                btnActivar.Visible = true;
+                Session["Periodista"] = _unPeriodista;
             }
             else
             {
@@ -190,5 +206,31 @@ public partial class ABMPeriodistas : System.Web.UI.Page
         txtEmail.Text = "";
 
         PonerFormularioEnEstadoInicial();
+    }
+
+    protected void btnActivar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Periodistas _unP = (Periodistas)Session["Periodista"];
+            _unP.Cedula = txtCedula.Text.Trim();
+            _unP.Nombre = txtNombre.Text.Trim();
+            _unP.Email = txtEmail.Text.Trim();
+            _unP.Activo = true;
+
+            new ServicioEF().ActivarPeriodista(_unP);
+
+            PonerFormularioEnEstadoInicial();
+
+            LblError.Text = "Activación con Exito";
+        }
+        catch (System.Web.Services.Protocols.SoapException ex)
+        {
+            LblError.Text = ex.Detail.InnerText;
+        }
+        catch (Exception ex)
+        {
+            LblError.Text = ex.Message;
+        }
     }
 }

@@ -45,6 +45,7 @@
             <td class="style8">&nbsp;</td>
             <td class="style1">
                 <asp:Button ID="btnAlta" runat="server" Enabled="False" onclick="btnAlta_Click" Text="Alta" />
+                <asp:Button ID="btnActivar" runat="server" Enabled="False" Text="Activar" Visible="False" OnClick="btnActivar_Click" />
             </td>
             <td class="style1">
                 <asp:Button ID="btnBaja" runat="server" Enabled="False" onclick="btnBaja_Click" Text="Baja" />

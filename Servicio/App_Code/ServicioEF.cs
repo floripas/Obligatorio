@@ -114,6 +114,19 @@ public class ServicioEF : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public void ActivarPeriodista(Periodistas unP)
+    {
+        try
+        {
+            LogicaModeloEF.ActivarPeriodista(unP);
+        }
+        catch (Exception ex)
+        {
+            this.GeneroSoapException(ex);
+        }
+    }
+
+    [WebMethod]
     public List<Periodistas> ListarPeriodistas()
     {
         List<Periodistas> _lista = null;
