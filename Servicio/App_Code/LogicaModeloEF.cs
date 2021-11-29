@@ -248,7 +248,6 @@ public class LogicaModeloEF
 
             OEcontext.Secciones.Add(S);
             OEcontext.SaveChanges();
-            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
         }
         catch (Exception ex)
         {
