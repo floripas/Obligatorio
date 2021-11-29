@@ -151,6 +151,16 @@
       <s:element name="EliminarSeccionResponse">
         <s:complexType />
       </s:element>
+      <s:element name="ActivarSeccion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="unaS" type="tns:Secciones" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActivarSeccionResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="ListarSecciones">
         <s:complexType />
       </s:element>
@@ -297,6 +307,12 @@
   <wsdl:message name="EliminarSeccionSoapOut">
     <wsdl:part name="parameters" element="tns:EliminarSeccionResponse" />
   </wsdl:message>
+  <wsdl:message name="ActivarSeccionSoapIn">
+    <wsdl:part name="parameters" element="tns:ActivarSeccion" />
+  </wsdl:message>
+  <wsdl:message name="ActivarSeccionSoapOut">
+    <wsdl:part name="parameters" element="tns:ActivarSeccionResponse" />
+  </wsdl:message>
   <wsdl:message name="ListarSeccionesSoapIn">
     <wsdl:part name="parameters" element="tns:ListarSecciones" />
   </wsdl:message>
@@ -371,6 +387,10 @@
     <wsdl:operation name="EliminarSeccion">
       <wsdl:input message="tns:EliminarSeccionSoapIn" />
       <wsdl:output message="tns:EliminarSeccionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActivarSeccion">
+      <wsdl:input message="tns:ActivarSeccionSoapIn" />
+      <wsdl:output message="tns:ActivarSeccionSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ListarSecciones">
       <wsdl:input message="tns:ListarSeccionesSoapIn" />
@@ -487,6 +507,15 @@
     </wsdl:operation>
     <wsdl:operation name="EliminarSeccion">
       <soap:operation soapAction="http://tempuri.org/EliminarSeccion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActivarSeccion">
+      <soap:operation soapAction="http://tempuri.org/ActivarSeccion" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -634,6 +663,15 @@
     </wsdl:operation>
     <wsdl:operation name="EliminarSeccion">
       <soap12:operation soapAction="http://tempuri.org/EliminarSeccion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActivarSeccion">
+      <soap12:operation soapAction="http://tempuri.org/ActivarSeccion" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
