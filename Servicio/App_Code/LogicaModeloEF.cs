@@ -223,7 +223,7 @@ public class LogicaModeloEF
     #region Operaciones Secciones
     public static Secciones BuscarSeccion(string cod)
     {
-        return (OEcontext.Secciones.Where(s => s.CodigoSeccion == cod).FirstOrDefault());
+        return (OEcontext.Secciones.Where(s => s.CodigoSeccion == cod && s.Activo).FirstOrDefault());
     }
 
     public static void AltaSeccion(Secciones unaS)
