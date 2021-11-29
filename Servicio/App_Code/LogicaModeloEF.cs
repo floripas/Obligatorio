@@ -233,21 +233,32 @@ public class LogicaModeloEF
         {
             S = OEcontext.Secciones.Where(s => s.CodigoSeccion == unaS.CodigoSeccion).FirstOrDefault();
 
-            if (S != null)
+            // caso sección existe y está activa
+            if (S != null && S.Activo)
             {
                 throw new Exception("Ya existe una seccion con ese codigo.");
             }
-
-            S = new Secciones()
+            // caso sección existe pero está inactiva
+            else if (S != null && !S.Activo)
             {
-                Nombre = unaS.Nombre,
-                CodigoSeccion = unaS.CodigoSeccion
-            };
+                // no se actualiza el código, porque es inmodificable
+                S.Nombre = unaS.Nombre;
+                S.Activo = true;
+            }
+            // caso sección no existe físicamente en la base de datos
+            else
+            {
+                S = new Secciones()
+                {
+                    Nombre = unaS.Nombre,
+                    CodigoSeccion = unaS.CodigoSeccion
+                };
 
-            new Validaciones().Validar(S);
+                new Validaciones().Validar(S);
 
-            OEcontext.Secciones.Add(S);
-            OEcontext.SaveChanges();
+                OEcontext.Secciones.Add(S);
+                OEcontext.SaveChanges();
+            }
         }
         catch (Exception ex)
         {
@@ -341,7 +352,7 @@ public class LogicaModeloEF
             else
             {
                 OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
+                //OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
             }
         }
         catch (Exception ex)
