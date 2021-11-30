@@ -34,7 +34,6 @@
             <td class="auto-style1" style="text-align: right">
             </td>
             <td>
-                <asp:Button ID="btnActivar" runat="server" Enabled="False" OnClick="btnActivar_Click" Text="Activar" Visible="False" />
                 <asp:Button ID="btnCrear" runat="server" Text="Crear" CssClass="boton" OnClick="btnCrear_Click" Enabled="False" />
                 <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="boton" OnClick="btnModificar_Click" Enabled="False" />
                 <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="boton" OnClick="btnEliminar_Click" Enabled="False" />
