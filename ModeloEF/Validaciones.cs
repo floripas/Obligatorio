@@ -6,8 +6,6 @@ using System.Text.RegularExpressions;
 
 using ModeloEF;
 
-
-
 public class Validaciones
 {
     public void Validar(Empleados E)
@@ -44,6 +42,10 @@ public class Validaciones
         {
             throw new Exception("No se puede agregar noticias con fechas futuras.");
         }
+        if (N.Codigo.Trim().Length > 20)
+        {
+            throw new Exception("El codigo ingresado debe ser menor a 20 caracteres.");
+        }
     }
 
     public void Validar(Secciones S)
@@ -51,6 +53,10 @@ public class Validaciones
         if (S.CodigoSeccion.Trim().Length != 5)
         {
             throw new Exception("El código de la sección debe tener 5 caracteres de extensión.");
+        }
+        if (S.Nombre.Trim().Length > 20)
+        {
+            throw new Exception("El nombre ingresado debe ser menor a 20 caracteres.");
         }
     }
 
@@ -63,6 +69,14 @@ public class Validaciones
         if (P.Cedula.Trim().Length != 8)
         {
             throw new Exception("La cédula ingresada no tiene un formato válido.");
+        }
+        if (P.Nombre.Trim().Length > 20)
+        {
+            throw new Exception("El nombre ingresado debe ser menor a 20 caracteres.");
+        }
+        if (P.Email.Trim().Length > 20)
+        {
+            throw new Exception("El email ingresado debe ser menor a 20 caracteres.");
         }
         try
         {
