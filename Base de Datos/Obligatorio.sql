@@ -32,8 +32,7 @@ GO
 CREATE TABLE Secciones
 (
 	CodigoSeccion varchar(5) PRIMARY KEY CHECK(LEN(LTRIM(RTRIM(CodigoSeccion))) = 5),
-	Nombre varchar(20)NOT NULL,
-	Activo bit Not Null Default (1)
+	Nombre varchar(20)NOT NULL
 )
 GO
 
@@ -41,8 +40,7 @@ CREATE TABLE Periodistas
 (
 	Cedula varchar(8) PRIMARY KEY,
 	Nombre varchar(20) NOT NULL,
-	Email varchar (20) NOT NULL CHECK(Email LIKE '%[a-zA-Z0-9][@][a-zA-Z0-9]%[.][a-zA-Z0-9]%'),
-	Activo bit Not Null Default (1)
+	Email varchar (20) NOT NULL CHECK(Email LIKE '%[a-zA-Z0-9][@][a-zA-Z0-9]%[.][a-zA-Z0-9]%')
 )
 GO
 
@@ -93,28 +91,24 @@ BEGIN
 	
 	DECLARE @Error INT
 	
-	-- Si el periodista tiene noticias publicadas, se realiza una baja lógica
+	-- Si el periodista tiene noticias publicadas, no se realiza la eliminacion
 	IF (EXISTS (SELECT * FROM Escriben WHERE Cedula = @Cedula ))
 	BEGIN
-		UPDATE Periodistas
-		SET Activo = 0
-		WHERE Cedula = @Cedula
-		
-		SET @ret = 1
+		SET @ret = -2
 		SET @Error = @@ERROR
 	END
 	ELSE 
 	BEGIN
-		-- Si el periodista tiene noticias publicadas, se realiza una baja física
+		-- Si el periodista no tiene noticias publicadas, se realiza la eliminacion
 		DELETE Periodistas WHERE Cedula = @Cedula
 		
-		SET @ret = 2
+		SET @ret = 1
 		SET @Error = @@ERROR
 	END
 	
 	IF(@Error != 0)
 	BEGIN
-		SET @ret = -2 -- No se pudo eliminar al periodista de la base de datos.
+		SET @ret = -3 -- No se pudo eliminar al periodista de la base de datos.
 	END
 END
 GO
@@ -132,31 +126,25 @@ BEGIN
 	
 	DECLARE @Error INT
 	
-	-- Si la sección tiene noticias publicadas, se realiza una baja lógica
+	-- Si la sección tiene noticias publicadas, no se realiza la eliminacion
 	IF (EXISTS (SELECT * FROM Noticias WHERE CodigoSeccion = @CodigoSeccion ))
 	BEGIN
-		UPDATE Secciones
-		SET Activo = 0
-		WHERE CodigoSeccion = @CodigoSeccion
-		
-		SET @ret = 1
+		SET @ret = -2
 		SET @Error = @@ERROR
 	END
 	ELSE 
 	BEGIN
-		-- Si la sección no tiene noticias publicadas, se realiza una baja física
+		-- Si la sección no tiene noticias publicadas, se realiza la eliminacion
 		DELETE Secciones WHERE CodigoSeccion = @CodigoSeccion
 		
-		SET @ret = 2
+		SET @ret = 1
 		SET @Error = @@ERROR
 	END
 	
 	IF(@Error != 0)
 	BEGIN
-		SET @ret = -2 -- No se pudo eliminar la sección de la base de datos.
+		SET @ret = -3 -- No se pudo eliminar la sección de la base de datos.
 	END
-	
-	--SET @ret = 1
 END
 GO
 
@@ -168,18 +156,8 @@ CREATE PROCEDURE AltaPeriodista
 	@Email varchar(20)
 AS
 BEGIN
-	--Caso periodista inactivo
-	IF (EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula AND Activo = 0))	
-	BEGIN
-		UPDATE Periodistas
-		SET Nombre = @Nombre, Email = @Email, Activo = 1
-		WHERE Cedula = @Cedula
-		
-		RETURN 1
-	END
-	
 	-- Caso periodista activo
-	IF (EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula AND Activo = 1))
+	IF (EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula))
 	BEGIN
 		RETURN -1 --Ya existe un periodista con esa cedula en el sistema
 	END
@@ -202,14 +180,14 @@ CREATE PROCEDURE ModificarPeriodista
 	@Email varchar(20)
 AS
 BEGIN
-	--Caso si el periodista no está activo
-	IF (NOT EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula AND Activo = 1))
+	--Caso si el periodista no existe
+	IF (NOT EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula))
 		BEGIN
 			RETURN -1 --No existe un periodista con la cedula ingresada
 		END
 	ELSE
 	BEGIN
-	--Caso si el periodista está activo
+	--Caso si el periodista existe
 		UPDATE Periodistas
 		SET Nombre = @Nombre, Email = @Email
 		WHERE Cedula = @Cedula
@@ -278,25 +256,10 @@ CREATE PROCEDURE AltaSeccion
   @nombre VARCHAR(20)
 AS
 BEGIN
-	-- Verifica si la seccion existe y está activa.
-	IF (EXISTS(SELECT * FROM Secciones WHERE CodigoSeccion = @codigoSeccion AND Activo = 1))
+	-- Verifica si la seccion existe
+	IF (EXISTS(SELECT * FROM Secciones WHERE CodigoSeccion = @codigoSeccion))
 	BEGIN
 		RETURN -1 --Ya existe una seccion con ese codigo en el sistema.
-	END
-	
-	--Verifica si la seccion existe en la base de datos pero está inactiva.
-	IF (EXISTS(SELECT * FROM Secciones WHERE CodigoSeccion = @codigoSeccion AND Activo = 0))	
-	BEGIN
-		UPDATE Secciones
-		SET Nombre = @Nombre, Activo = 1
-		WHERE CodigoSeccion = @codigoSeccion
-		
-		IF @@ERROR != 0
-		BEGIN
-			RETURN -2 -- No se pudo crear la sección en la base de datos
-		END
-		
-		RETURN 1
 	END
 	
 	-- Si no existe la seccion, se le da de alta.
@@ -317,8 +280,8 @@ CREATE PROCEDURE ModificarSeccion
   @nuevoNombre VARCHAR(20)
 AS
 BEGIN
-	-- Verifica si la seccion existe y está activa.
-	IF (NOT EXISTS(SELECT * FROM Secciones WHERE CodigoSeccion = @codigoSeccion AND Activo = 1))
+	-- Verifica si la seccion existe.
+	IF (NOT EXISTS(SELECT * FROM Secciones WHERE CodigoSeccion = @codigoSeccion))
 	BEGIN
 		RETURN -1 --No existe una seccion con ese codigo
 	END
@@ -337,53 +300,6 @@ END
 GO
 
 -- ===============================================
-CREATE PROCEDURE ActivarSeccion
-  @codigoSeccion VARCHAR(5),
-  @ret int output
-AS
-BEGIN
-	-- Verifica si la seccion existe.
-	IF (NOT EXISTS(SELECT * FROM Secciones WHERE CodigoSeccion = @codigoSeccion))
-	BEGIN
-		set @ret = -1 --No existe una seccion con ese codigo
-	END
-	
-	UPDATE Secciones 
-	SET Activo = 1 
-	WHERE CodigoSeccion = @codigoSeccion
-	
-	IF @@ERROR != 0
-	BEGIN
-		set @ret = -2 -- No se pudo actualizar la sección
-	END
-	
-	set @ret = 1
-END
-GO
--- ===============================================
-CREATE PROCEDURE ActivarPeriodista
-  @Cedula varchar(8),
-  @ret int output
-AS
-BEGIN
-	-- Verifica si el periodista existe.
-	IF (NOT EXISTS(SELECT * FROM Periodistas WHERE Cedula = @Cedula))
-	BEGIN
-		set @ret = -1 --No existe un periodista con esa cedula.
-	END
-	
-	UPDATE Periodistas
-	SET Activo = 1 
-	WHERE Cedula = @Cedula
-	
-	IF @@ERROR != 0
-	BEGIN
-		set @ret = -2 -- No se pudo actualizar el periodista.
-	END
-	
-	set @ret = 1
-END
-GO
 
 --INSERTS
 
