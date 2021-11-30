@@ -28,6 +28,7 @@ public class LogicaModeloEF
         }
     }
 
+
     #region OperacionesEmpleados
     public static Empleados Logueo(string usu, string pass)
     {
@@ -97,8 +98,7 @@ public class LogicaModeloEF
             {
                 Nombre = unP.Nombre,
                 Email = unP.Email,
-                Cedula = unP.Cedula,
-                Activo = unP.Activo
+                Cedula = unP.Cedula
             };
 
             new Validaciones().Validar(P);
@@ -147,54 +147,15 @@ public class LogicaModeloEF
             if ((int)_retorno.Value == -1)
                 throw new Exception("El periodista ingresado no existe");
             if ((int)_retorno.Value == -2)
+            {
+                throw new Exception("El periodista tiene noticias publicadas, no se puede eliminar");
+            }
+            if ((int)_retorno.Value == -3)
                 throw new Exception("Hubo un error y no se pudo eliminar al periodista de la base de datos");
+
             if ((int)_retorno.Value == 1)
             {
                 OEcontext.SaveChanges();
-                throw new Exception("El periodista tiene noticias publicadas, se realiza una baja lógica");
-            }
-            if ((int)_retorno.Value == 2)
-            {
-                OEcontext.SaveChanges();
-                throw new Exception("El periodista se elimino correctamente.");
-            }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
-            }
-        }
-        catch (Exception ex)
-        {
-            OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
-
-            throw ex;
-        }
-        finally
-        {
-            OEcontext = null;
-        }
-    }
-
-    public static void ActivarPeriodista(Periodistas unP)
-    {
-        try
-        {
-            SqlParameter _cedula = new SqlParameter("@Cedula", unP.Cedula);
-            SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
-
-            _retorno.Direction = System.Data.ParameterDirection.Output;
-
-            OEcontext.Database.ExecuteSqlCommand("exec ActivarPeriodista @Cedula, @ret output", _cedula, _retorno);
-
-            if ((int)_retorno.Value == -1)
-                throw new Exception("El periodista ingresado no existe");
-            if ((int)_retorno.Value == -2)
-                throw new Exception("No se pudo actualizar el periodista");
-            if ((int)_retorno.Value == 1)
-            {
-                OEcontext.SaveChanges();
-                throw new Exception("El periodista ahora se encuentra activo.");
             }
             else
             {
@@ -235,7 +196,7 @@ public class LogicaModeloEF
 
             if (S != null)
             {
-                throw new Exception("Ya existe una seccion con ese codigo.");
+                throw new Exception("Ya existe una seccion con el código ingresado.");
             }
 
             S = new Secciones()
@@ -248,7 +209,6 @@ public class LogicaModeloEF
 
             OEcontext.Secciones.Add(S);
             OEcontext.SaveChanges();
-            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
         }
         catch (Exception ex)
         {
@@ -276,44 +236,6 @@ public class LogicaModeloEF
         }
     }
 
-    public static void ActivarSeccion(Secciones unaS)
-    {
-        try
-        {
-            SqlParameter _codigo = new SqlParameter("@CodigoSeccion", unaS.CodigoSeccion);
-            SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
-
-            _retorno.Direction = System.Data.ParameterDirection.Output;
-
-            OEcontext.Database.ExecuteSqlCommand("exec ActivarSeccion @CodigoSeccion, @ret output", _codigo, _retorno);
-
-            if ((int)_retorno.Value == -1)
-                throw new Exception("La sección ingresada no existe");
-            if ((int)_retorno.Value == -2)
-                throw new Exception("No se pudo actualizar la sección");
-            if ((int)_retorno.Value == 1)
-            {
-                OEcontext.SaveChanges();
-                throw new Exception("La sección ahora se encuentra activa.");
-            }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
-            }
-        }
-        catch (Exception ex)
-        {
-            OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
-
-            throw ex;
-        }
-        finally
-        {
-            OEcontext = null;
-        }
-    }
-
     public static void EliminarSeccion(Secciones unaS)
     {
         try
@@ -328,16 +250,16 @@ public class LogicaModeloEF
             if ((int)_retorno.Value == -1)
                 throw new Exception("La sección ingresada no existe");
             if ((int)_retorno.Value == -2)
+            {
+                throw new Exception("La sección tiene noticias publicadas, no se puede eliminar.");
+            }
+            if ((int)_retorno.Value == -3)
                 throw new Exception("Hubo un error y no se pudo eliminar la seccion de la base de datos");
+
             if ((int)_retorno.Value == 1)
             {
                 OEcontext.SaveChanges();
-                throw new Exception("La sección tiene noticias publicadas, se realiza una baja lógica");
-            }
-            if ((int)_retorno.Value == 2)
-            {
-                OEcontext.SaveChanges();
-                throw new Exception("La sección se elimino correctamente.");
+                throw new Exception("La sección se eliminó correctamente.");
             }
             else
             {

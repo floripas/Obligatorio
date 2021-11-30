@@ -39,7 +39,6 @@
           <Property Name="Cedula" Type="varchar" MaxLength="8" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Secciones">
           <Key>
@@ -47,9 +46,8 @@
           </Key>
           <Property Name="CodigoSeccion" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Escriben__Cedula__1A14E395">
+        <Association Name="FK__Escriben__Cedula__182C9B23">
           <End Role="Periodistas" Type="Self.Periodistas" Multiplicity="1" />
           <End Role="Escriben" Type="Self.Escriben" Multiplicity="*" />
           <ReferentialConstraint>
@@ -61,7 +59,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Escriben__Codigo__1920BF5C">
+        <Association Name="FK__Escriben__Codigo__173876EA">
           <End Role="Noticias" Type="Self.Noticias" Multiplicity="1" />
           <End Role="Escriben" Type="Self.Escriben" Multiplicity="*" />
           <ReferentialConstraint>
@@ -73,7 +71,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Noticias__Codigo__1367E606">
+        <Association Name="FK__Noticias__Codigo__117F9D94">
           <End Role="Secciones" Type="Self.Secciones" Multiplicity="1" />
           <End Role="Noticias" Type="Self.Noticias" Multiplicity="*" />
           <ReferentialConstraint>
@@ -85,7 +83,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Noticias__Nombre__1273C1CD">
+        <Association Name="FK__Noticias__Nombre__108B795B">
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
           <End Role="Noticias" Type="Self.Noticias" Multiplicity="*" />
           <ReferentialConstraint>
@@ -145,19 +143,19 @@
           <EntitySet Name="Noticias" EntityType="Self.Noticias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Periodistas" EntityType="Self.Periodistas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Secciones" EntityType="Self.Secciones" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Escriben__Cedula__1A14E395" Association="Self.FK__Escriben__Cedula__1A14E395">
+          <AssociationSet Name="FK__Escriben__Cedula__182C9B23" Association="Self.FK__Escriben__Cedula__182C9B23">
             <End Role="Periodistas" EntitySet="Periodistas" />
             <End Role="Escriben" EntitySet="Escriben" />
           </AssociationSet>
-          <AssociationSet Name="FK__Escriben__Codigo__1920BF5C" Association="Self.FK__Escriben__Codigo__1920BF5C">
+          <AssociationSet Name="FK__Escriben__Codigo__173876EA" Association="Self.FK__Escriben__Codigo__173876EA">
             <End Role="Noticias" EntitySet="Noticias" />
             <End Role="Escriben" EntitySet="Escriben" />
           </AssociationSet>
-          <AssociationSet Name="FK__Noticias__Codigo__1367E606" Association="Self.FK__Noticias__Codigo__1367E606">
+          <AssociationSet Name="FK__Noticias__Codigo__117F9D94" Association="Self.FK__Noticias__Codigo__117F9D94">
             <End Role="Secciones" EntitySet="Secciones" />
             <End Role="Noticias" EntitySet="Noticias" />
           </AssociationSet>
-          <AssociationSet Name="FK__Noticias__Nombre__1273C1CD" Association="Self.FK__Noticias__Nombre__1273C1CD">
+          <AssociationSet Name="FK__Noticias__Nombre__108B795B" Association="Self.FK__Noticias__Nombre__108B795B">
             <End Role="Empleados" EntitySet="Empleados" />
             <End Role="Noticias" EntitySet="Noticias" />
           </AssociationSet>
@@ -195,7 +193,6 @@
           <Property Name="Cedula" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Activo" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Secciones">
           <Key>
@@ -203,7 +200,6 @@
           </Key>
           <Property Name="CodigoSeccion" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Activo" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK__Noticias__Nombre__1273C1CD">
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
@@ -342,7 +338,6 @@
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
               </MappingFragment>
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="ObligatorioModel.Periodistas">
@@ -365,7 +360,6 @@
               <MappingFragment StoreEntitySet="Secciones">
                 <ScalarProperty Name="CodigoSeccion" ColumnName="CodigoSeccion" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
               </MappingFragment>
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="ObligatorioModel.Secciones">
