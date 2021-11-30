@@ -259,7 +259,6 @@ public class LogicaModeloEF
             if ((int)_retorno.Value == 1)
             {
                 OEcontext.SaveChanges();
-                throw new Exception("La sección se eliminó correctamente.");
             }
             else
             {
