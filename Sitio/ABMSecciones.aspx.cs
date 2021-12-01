@@ -62,9 +62,6 @@ public partial class ABMSecciones : System.Web.UI.Page
     
     protected void btnLimpiar_Click(object sender, EventArgs e)
     {
-        txtCodigoSeccion.Text = "";
-        txtNombreSeccion.Text = "";
-
         PonerFormularioEnEstadoInicial();
     }
 
