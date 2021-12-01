@@ -52,7 +52,6 @@
           <s:element minOccurs="0" maxOccurs="1" name="Cedula" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:element name="AltaPeriodista">
@@ -83,16 +82,6 @@
         </s:complexType>
       </s:element>
       <s:element name="EliminarPeriodistaResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="ActivarPeriodista">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="unP" type="tns:Periodistas" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ActivarPeriodistaResponse">
         <s:complexType />
       </s:element>
       <s:element name="ListarPeriodistas">
@@ -128,7 +117,6 @@
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="1" name="CodigoSeccion" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="Activo" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:element name="AltaSeccion">
@@ -159,16 +147,6 @@
         </s:complexType>
       </s:element>
       <s:element name="EliminarSeccionResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="ActivarSeccion">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="unaS" type="tns:Secciones" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ActivarSeccionResponse">
         <s:complexType />
       </s:element>
       <s:element name="ListarSecciones">
@@ -287,12 +265,6 @@
   <wsdl:message name="EliminarPeriodistaSoapOut">
     <wsdl:part name="parameters" element="tns:EliminarPeriodistaResponse" />
   </wsdl:message>
-  <wsdl:message name="ActivarPeriodistaSoapIn">
-    <wsdl:part name="parameters" element="tns:ActivarPeriodista" />
-  </wsdl:message>
-  <wsdl:message name="ActivarPeriodistaSoapOut">
-    <wsdl:part name="parameters" element="tns:ActivarPeriodistaResponse" />
-  </wsdl:message>
   <wsdl:message name="ListarPeriodistasSoapIn">
     <wsdl:part name="parameters" element="tns:ListarPeriodistas" />
   </wsdl:message>
@@ -322,12 +294,6 @@
   </wsdl:message>
   <wsdl:message name="EliminarSeccionSoapOut">
     <wsdl:part name="parameters" element="tns:EliminarSeccionResponse" />
-  </wsdl:message>
-  <wsdl:message name="ActivarSeccionSoapIn">
-    <wsdl:part name="parameters" element="tns:ActivarSeccion" />
-  </wsdl:message>
-  <wsdl:message name="ActivarSeccionSoapOut">
-    <wsdl:part name="parameters" element="tns:ActivarSeccionResponse" />
   </wsdl:message>
   <wsdl:message name="ListarSeccionesSoapIn">
     <wsdl:part name="parameters" element="tns:ListarSecciones" />
@@ -384,10 +350,6 @@
       <wsdl:input message="tns:EliminarPeriodistaSoapIn" />
       <wsdl:output message="tns:EliminarPeriodistaSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="ActivarPeriodista">
-      <wsdl:input message="tns:ActivarPeriodistaSoapIn" />
-      <wsdl:output message="tns:ActivarPeriodistaSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="ListarPeriodistas">
       <wsdl:input message="tns:ListarPeriodistasSoapIn" />
       <wsdl:output message="tns:ListarPeriodistasSoapOut" />
@@ -407,10 +369,6 @@
     <wsdl:operation name="EliminarSeccion">
       <wsdl:input message="tns:EliminarSeccionSoapIn" />
       <wsdl:output message="tns:EliminarSeccionSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="ActivarSeccion">
-      <wsdl:input message="tns:ActivarSeccionSoapIn" />
-      <wsdl:output message="tns:ActivarSeccionSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ListarSecciones">
       <wsdl:input message="tns:ListarSeccionesSoapIn" />
@@ -489,15 +447,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ActivarPeriodista">
-      <soap:operation soapAction="http://tempuri.org/ActivarPeriodista" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="ListarPeriodistas">
       <soap:operation soapAction="http://tempuri.org/ListarPeriodistas" style="document" />
       <wsdl:input>
@@ -536,15 +485,6 @@
     </wsdl:operation>
     <wsdl:operation name="EliminarSeccion">
       <soap:operation soapAction="http://tempuri.org/EliminarSeccion" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ActivarSeccion">
-      <soap:operation soapAction="http://tempuri.org/ActivarSeccion" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -654,15 +594,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ActivarPeriodista">
-      <soap12:operation soapAction="http://tempuri.org/ActivarPeriodista" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="ListarPeriodistas">
       <soap12:operation soapAction="http://tempuri.org/ListarPeriodistas" style="document" />
       <wsdl:input>
@@ -701,15 +632,6 @@
     </wsdl:operation>
     <wsdl:operation name="EliminarSeccion">
       <soap12:operation soapAction="http://tempuri.org/EliminarSeccion" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ActivarSeccion">
-      <soap12:operation soapAction="http://tempuri.org/ActivarSeccion" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

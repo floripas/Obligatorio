@@ -123,6 +123,8 @@ public class LogicaModeloEF
             P.Email = unP.Email;
             P.Nombre = unP.Nombre;
 
+            new Validaciones().Validar(P);
+
             OEcontext.SaveChanges();
         }
         catch (Exception ex)
@@ -226,6 +228,7 @@ public class LogicaModeloEF
 
             S.Nombre = unaS.Nombre;
 
+            new Validaciones().Validar(S);
             OEcontext.SaveChanges();
         }
         catch (Exception ex)
@@ -328,6 +331,8 @@ public class LogicaModeloEF
             N.Empleados = RecuperarEmpleadoDesdeContexto(unaN);
             N.Secciones = RecuperarSeccionDesdeContexto(unaN);
             N.Periodistas = RecuperarPeriodistasDesdeContexto(unaN);
+
+            new Validaciones().Validar(N);
 
             OEcontext.SaveChanges();
         }
