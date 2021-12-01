@@ -118,12 +118,11 @@ public class LogicaModeloEF
     {
         try
         {
+            new Validaciones().Validar(unP);
             Periodistas P = OEcontext.Periodistas.Where(p => p.Cedula == unP.Cedula).FirstOrDefault();
 
             P.Email = unP.Email;
             P.Nombre = unP.Nombre;
-
-            new Validaciones().Validar(P);
 
             OEcontext.SaveChanges();
         }
@@ -224,11 +223,11 @@ public class LogicaModeloEF
     {
         try
         {
+            new Validaciones().Validar(unaS);
             Secciones S = OEcontext.Secciones.Where(s => s.CodigoSeccion == unaS.CodigoSeccion).FirstOrDefault();
 
             S.Nombre = unaS.Nombre;
 
-            new Validaciones().Validar(S);
             OEcontext.SaveChanges();
         }
         catch (Exception ex)
@@ -303,7 +302,7 @@ public class LogicaModeloEF
     {
         try
         {
-
+            new Validaciones().Validar(unaN);
             Noticias N = OEcontext.Noticias.Where(n => n.Codigo == unaN.Codigo).FirstOrDefault();
 
             // no se debe modificar el código de la noticia
@@ -331,8 +330,6 @@ public class LogicaModeloEF
             N.Empleados = RecuperarEmpleadoDesdeContexto(unaN);
             N.Secciones = RecuperarSeccionDesdeContexto(unaN);
             N.Periodistas = RecuperarPeriodistasDesdeContexto(unaN);
-
-            new Validaciones().Validar(N);
 
             OEcontext.SaveChanges();
         }
