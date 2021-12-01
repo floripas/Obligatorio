@@ -118,11 +118,6 @@ public partial class ABMSecciones : System.Web.UI.Page
 
             PonerFormularioEnEstadoInicial();
 
-            txtCodigoSeccion.Text = "";
-            txtNombreSeccion.Text = "";
-
-            PonerFormularioEnEstadoInicial();
-
             lblMensaje.Text = "Baja con Exito";
         }
         catch (System.Web.Services.Protocols.SoapException ex)
