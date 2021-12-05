@@ -158,11 +158,6 @@ public class LogicaModeloEF
             {
                 OEcontext.SaveChanges();
             }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
-            }
         }
         catch (Exception ex)
         {
@@ -270,11 +265,6 @@ public class LogicaModeloEF
             if ((int)_retorno.Value == 1)
             {
                 OEcontext.SaveChanges();
-            }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
             }
         }
         catch (Exception ex)
