@@ -21,11 +21,6 @@ public class LogicaModeloEF
             }
             return _OEcontext;
         }
-        //para poder anular el contexto y reinstanciarlo otra vez
-        set
-        {
-            _OEcontext = value;
-        }
     }
 
 
@@ -138,6 +133,13 @@ public class LogicaModeloEF
     {
         try
         {
+            Periodistas periodistaAEliminar = OEcontext.Periodistas.Where(periodista => periodista.Cedula == unP.Cedula).FirstOrDefault();
+
+            if (periodistaAEliminar == null)
+            {
+                throw new Exception("El periodista ingresado no existe");
+            }
+
             SqlParameter _cedula = new SqlParameter("@Cedula", unP.Cedula);
             SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
 
@@ -156,12 +158,15 @@ public class LogicaModeloEF
 
             if ((int)_retorno.Value == 1)
             {
+                /**
+                 * Acá se pasa el objeto periodistaAEliminar (y no unP)
+                 * porque periodistaAEliminar proviene del contexto
+                 * * de la base de datos.
+                 *
+                 * Rafael, 5/12/2021
+                 */
+                OEcontext.Periodistas.Remove(periodistaAEliminar);
                 OEcontext.SaveChanges();
-            }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
             }
         }
         catch (Exception ex)
@@ -169,10 +174,6 @@ public class LogicaModeloEF
             OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
-        }
-        finally
-        {
-            OEcontext = null;
         }
     }
 
