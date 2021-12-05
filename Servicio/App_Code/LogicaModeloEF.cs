@@ -158,11 +158,6 @@ public class LogicaModeloEF
             {
                 OEcontext.SaveChanges();
             }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
-            }
         }
         catch (Exception ex)
         {
@@ -172,6 +167,15 @@ public class LogicaModeloEF
         }
         finally
         {
+            /**
+             * Aquí el contexto se anula porque eliminó el registro en la base de datos
+             * pero el objeto correspondiente todavía persiste en el contexto.
+             * 
+             * Para eliminar el objeto del contexto, es posible anular el contexto,
+             * tal como se indica en esta respuesta de StackOverflow:
+             * 
+             * https://stackoverflow.com/questions/27423059/how-do-i-clear-tracked-entities-in-entity-framework/49561627#49561627
+             */
             OEcontext = null;
         }
     }
@@ -262,11 +266,6 @@ public class LogicaModeloEF
             {
                 OEcontext.SaveChanges();
             }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
-            }
         }
         catch (Exception ex)
         {
@@ -276,7 +275,15 @@ public class LogicaModeloEF
         }
         finally
         {
-            OEcontext = null;
+            /**
+             * Aquí el contexto se anula porque eliminó el registro en la base de datos
+             * pero el objeto correspondiente todavía persiste en el contexto.
+             * 
+             * Para eliminar el objeto del contexto, es posible anular el contexto,
+             * tal como se indica en esta respuesta de StackOverflow:
+             * 
+             * https://stackoverflow.com/questions/27423059/how-do-i-clear-tracked-entities-in-entity-framework/49561627#49561627
+             */
         }
     }
 
