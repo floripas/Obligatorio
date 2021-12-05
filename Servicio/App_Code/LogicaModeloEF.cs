@@ -242,6 +242,13 @@ public class LogicaModeloEF
     {
         try
         {
+            Secciones seccionAEliminar = OEcontext.Secciones.Where(seccion => seccion.Nombre == unaS.Nombre).FirstOrDefault();
+
+            if (seccionAEliminar == null)
+            {
+                throw new Exception("La sección ingresada no existe");
+            }
+
             SqlParameter _codigo = new SqlParameter("@CodigoSeccion", unaS.CodigoSeccion);
             SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
 
@@ -260,12 +267,15 @@ public class LogicaModeloEF
 
             if ((int)_retorno.Value == 1)
             {
+                /**
+                 * Acá se pasa el objeto seccionAEliminar (y no unaS)
+                 * porque seccionAEliminar proviene del contexto
+                 * * de la base de datos.
+                 *
+                 * Rafael, 5/12/2021
+                 */
+                OEcontext.Secciones.Remove(seccionAEliminar);
                 OEcontext.SaveChanges();
-            }
-            else
-            {
-                OEcontext.SaveChanges();
-                OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
             }
         }
         catch (Exception ex)
@@ -273,10 +283,6 @@ public class LogicaModeloEF
             OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
-        }
-        finally
-        {
-            OEcontext = null;
         }
     }
 
@@ -400,6 +406,14 @@ public class LogicaModeloEF
              * que viven en el contexto para cargarlos con la nueva noticia.
              * De lo contrario, EF producirá un error, tal como se documenta
              * en LogicaModelo.ModificarNoticia
+             * 
+             * No tomar esta precaución producirá una excepción al ejecutar
+             * la operación DbContext.SaveChanges: EF detectará que en el contexto
+             * ya hay un objeto con una cierta clave primaria y que se
+             * intenta agregar un objeto diferente con la misma clave primaria
+             * que el objeto anterior
+             * 
+             * Rafael 20/11/2021
              */
             Empleados empleado = RecuperarEmpleadoDesdeContexto(unaN);
 
