@@ -140,12 +140,6 @@ public partial class ABMPeriodistas : System.Web.UI.Page
 
             PonerFormularioEnEstadoInicial();
 
-            txtCedula.Text = "";
-            txtNombre.Text = "";
-            txtEmail.Text = "";
-
-            PonerFormularioEnEstadoInicial();
-
             LblError.Text = "Baja con Exito";
         }
         catch (System.Web.Services.Protocols.SoapException ex)

@@ -21,11 +21,6 @@ public class LogicaModeloEF
             }
             return _OEcontext;
         }
-        //para poder anular el contexto y reinstanciarlo otra vez
-        set
-        {
-            _OEcontext = value;
-        }
     }
 
 
@@ -138,6 +133,13 @@ public class LogicaModeloEF
     {
         try
         {
+            Periodistas periodistaAEliminar = OEcontext.Periodistas.Where(periodista => periodista.Cedula == unP.Cedula).FirstOrDefault();
+
+            if (periodistaAEliminar == null)
+            {
+                throw new Exception("El periodista ingresado no existe");
+            }
+
             SqlParameter _cedula = new SqlParameter("@Cedula", unP.Cedula);
             SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
 
@@ -156,6 +158,14 @@ public class LogicaModeloEF
 
             if ((int)_retorno.Value == 1)
             {
+                /**
+                 * Acá se pasa el objeto periodistaAEliminar (y no unP)
+                 * porque periodistaAEliminar proviene del contexto
+                 * de la base de datos.
+                 *
+                 * Rafael, 5/12/2021
+                 */
+                OEcontext.Entry(periodistaAEliminar).State = System.Data.Entity.EntityState.Detached;
                 OEcontext.SaveChanges();
             }
         }
@@ -164,19 +174,6 @@ public class LogicaModeloEF
             OEcontext.Entry(unP).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
-        }
-        finally
-        {
-            /**
-             * Aquí el contexto se anula porque eliminó el registro en la base de datos
-             * pero el objeto correspondiente todavía persiste en el contexto.
-             * 
-             * Para eliminar el objeto del contexto, es posible anular el contexto,
-             * tal como se indica en esta respuesta de StackOverflow:
-             * 
-             * https://stackoverflow.com/questions/27423059/how-do-i-clear-tracked-entities-in-entity-framework/49561627#49561627
-             */
-            OEcontext = null;
         }
     }
 
@@ -246,6 +243,13 @@ public class LogicaModeloEF
     {
         try
         {
+            Secciones seccionAEliminar = OEcontext.Secciones.Where(seccion => seccion.Nombre == unaS.Nombre).FirstOrDefault();
+
+            if (seccionAEliminar == null)
+            {
+                throw new Exception("La sección ingresada no existe");
+            }
+
             SqlParameter _codigo = new SqlParameter("@CodigoSeccion", unaS.CodigoSeccion);
             SqlParameter _retorno = new SqlParameter("@ret", System.Data.SqlDbType.Int);
 
@@ -264,6 +268,14 @@ public class LogicaModeloEF
 
             if ((int)_retorno.Value == 1)
             {
+                /**
+                 * Acá se pasa el objeto seccionAEliminar (y no unaS)
+                 * porque seccionAEliminar proviene del contexto
+                 * de la base de datos.
+                 *
+                 * Rafael, 5/12/2021
+                 */
+                OEcontext.Entry(seccionAEliminar).State = System.Data.Entity.EntityState.Detached;
                 OEcontext.SaveChanges();
             }
         }
@@ -272,18 +284,6 @@ public class LogicaModeloEF
             OEcontext.Entry(unaS).State = System.Data.Entity.EntityState.Detached;
 
             throw ex;
-        }
-        finally
-        {
-            /**
-             * Aquí el contexto se anula porque eliminó el registro en la base de datos
-             * pero el objeto correspondiente todavía persiste en el contexto.
-             * 
-             * Para eliminar el objeto del contexto, es posible anular el contexto,
-             * tal como se indica en esta respuesta de StackOverflow:
-             * 
-             * https://stackoverflow.com/questions/27423059/how-do-i-clear-tracked-entities-in-entity-framework/49561627#49561627
-             */
         }
     }
 
@@ -407,6 +407,14 @@ public class LogicaModeloEF
              * que viven en el contexto para cargarlos con la nueva noticia.
              * De lo contrario, EF producirá un error, tal como se documenta
              * en LogicaModelo.ModificarNoticia
+             * 
+             * No tomar esta precaución producirá una excepción al ejecutar
+             * la operación DbContext.SaveChanges: EF detectará que en el contexto
+             * ya hay un objeto con una cierta clave primaria y que se
+             * intenta agregar un objeto diferente con la misma clave primaria
+             * que el objeto anterior
+             * 
+             * Rafael 20/11/2021
              */
             Empleados empleado = RecuperarEmpleadoDesdeContexto(unaN);
 
