@@ -161,11 +161,11 @@ public class LogicaModeloEF
                 /**
                  * Acá se pasa el objeto periodistaAEliminar (y no unP)
                  * porque periodistaAEliminar proviene del contexto
-                 * * de la base de datos.
+                 * de la base de datos.
                  *
                  * Rafael, 5/12/2021
                  */
-                OEcontext.Periodistas.Remove(periodistaAEliminar);
+                OEcontext.Entry(periodistaAEliminar).State = System.Data.Entity.EntityState.Detached;
                 OEcontext.SaveChanges();
             }
         }
