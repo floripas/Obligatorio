@@ -352,9 +352,6 @@
                   <ScalarProperty Name="Nombre" ParameterName="Nombre" Version="Current" />
                   <ScalarProperty Name="Cedula" ParameterName="Cedula" Version="Current" />
                 </UpdateFunction>
-                <DeleteFunction FunctionName="ObligatorioModel.Store.EliminarPeriodista" RowsAffectedParameter="ret">
-                  <ScalarProperty Name="Cedula" ParameterName="Cedula" />
-                </DeleteFunction>
               </ModificationFunctionMapping>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -375,9 +372,6 @@
                   <ScalarProperty Name="Nombre" ParameterName="nuevoNombre" Version="Current" />
                   <ScalarProperty Name="CodigoSeccion" ParameterName="codigoSeccion" Version="Current" />
                 </UpdateFunction>
-                <DeleteFunction FunctionName="ObligatorioModel.Store.EliminarSeccion" RowsAffectedParameter="ret">
-                  <ScalarProperty Name="CodigoSeccion" ParameterName="CodigoSeccion" />
-                </DeleteFunction>
               </ModificationFunctionMapping>
             </EntityTypeMapping>
           </EntitySetMapping>
