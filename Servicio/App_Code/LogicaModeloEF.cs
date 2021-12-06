@@ -271,11 +271,11 @@ public class LogicaModeloEF
                 /**
                  * Acá se pasa el objeto seccionAEliminar (y no unaS)
                  * porque seccionAEliminar proviene del contexto
-                 * * de la base de datos.
+                 * de la base de datos.
                  *
                  * Rafael, 5/12/2021
                  */
-                OEcontext.Secciones.Remove(seccionAEliminar);
+                OEcontext.Entry(seccionAEliminar).State = System.Data.Entity.EntityState.Detached;
                 OEcontext.SaveChanges();
             }
         }
